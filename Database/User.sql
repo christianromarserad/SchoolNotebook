@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[User]
+(
+	[Email] VARCHAR(50) NOT NULL PRIMARY KEY
+)
