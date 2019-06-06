@@ -28,4 +28,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="NotebookId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c205d094-17f1-4621-9cbd-fa3540a43abe" ChangeDateTime="06/06/2019 20:46:58">
+    <Property Name="ElementName" Value="[dbo].[NotebookShare].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NotebookShare]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="User" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="553f2c34-e4fb-4b45-8ffc-1f4616d2c41a" ChangeDateTime="06/06/2019 20:47:30">
+    <Property Name="ElementName" Value="[dbo].[NotebookShare].[CanEdit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NotebookShare]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EditPage" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f2593acb-bd2a-4fc7-8bdb-334ac1962712" ChangeDateTime="06/06/2019 20:48:05">
+    <Property Name="ElementName" Value="[dbo].[NotebookShare].[DatePage]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NotebookShare]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DeletePage" />
+  </Operation>
 </Operations>
