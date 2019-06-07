@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SchoolNotebook.Models;
 
 namespace SchoolNotebook
 {
@@ -21,6 +23,9 @@ namespace SchoolNotebook
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<SchoolNotebookContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("SchoolNotebookContext")));
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
