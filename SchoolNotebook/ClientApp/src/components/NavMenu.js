@@ -1,7 +1,9 @@
 import React from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import './NavMenu.css';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 export default class NavMenu extends React.Component {
   constructor (props) {
@@ -19,27 +21,14 @@ export default class NavMenu extends React.Component {
   }
   render () {
     return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light >
-          <Container>
-            <NavbarBrand tag={Link} to="/">SchoolNotebook</NavbarBrand>
-            <NavbarToggler onClick={this.toggle} className="mr-2" />
-            <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
-              <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-                </NavItem>
-              </ul>
-            </Collapse>
-          </Container>
-        </Navbar>
-      </header>
+        <AppBar position="static">
+            <Toolbar>
+                <Typography className={{ flexGrow: 1 }} variant="h6" color="inherit">
+                    News
+                </Typography>
+                <Button style={{ flexGrow: 1 }} color="inherit" component={Link} to="/counter">Login</Button>
+            </Toolbar>
+        </AppBar>
     );
   }
 }
