@@ -8,7 +8,7 @@ const initialState = {
     name: ''
 };
 
-function loginActionCreator(token) {
+export function loginActionCreator(token) {
     localStorage.setItem('jwtToken', token);
     setHttpAuthorizationToken(token);
     let jwtDecoded = jwt_decode(token);
