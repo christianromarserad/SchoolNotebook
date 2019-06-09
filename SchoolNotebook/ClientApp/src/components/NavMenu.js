@@ -23,10 +23,10 @@ export default class NavMenu extends React.Component {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography className={{ flexGrow: 1 }} variant="h6" color="inherit">
+                <Typography style={{ flexGrow: 1 }} variant="h6" color="inherit">
                     News
                 </Typography>
-                <Button style={{ flexGrow: 1 }} color="inherit" component={Link} to="/counter">Login</Button>
+                <Button color="inherit" component={Link} to="/counter">Logout</Button>
             </Toolbar>
         </AppBar>
     );
