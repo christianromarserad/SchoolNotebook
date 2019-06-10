@@ -5,7 +5,9 @@ const loginType = 'LOGIN';
 
 const initialState = {
     isAuthenticated: false,
-    name: ''
+    email: '',
+    givenName: '',
+    familyName: ''
 };
 
 export function loginActionCreator(token) {
@@ -13,7 +15,15 @@ export function loginActionCreator(token) {
     setHttpAuthorizationToken(token);
     let jwtDecoded = jwt_decode(token);
 
-    return { type: loginType, payload: { name: jwtDecoded.username, isAuthenticated: true } };
+    return {
+        type: loginType,
+        payload: {
+            isAuthenticated: true,
+            email: jwtDecoded.email,
+            givenName: jwtDecoded.givenName,
+            familyName: jwtDecoded.familyName
+        }
+    };
 }
 
 export const reducer = (state = initialState, action) => {
