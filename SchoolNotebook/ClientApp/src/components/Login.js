@@ -8,9 +8,17 @@ import axios from 'axios';
 import config from '../config.json';
 
 class Login extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.googleResponse = this.googleResponse.bind(this);
+    }
+
     googleResponse = (response) => {
+        let props = this.props;
         axios.post(config.GOOGLE_AUTH_CALLBACK_URL, { tokenId: response.tokenId }).then(function (res) {
-            this.props.login(res.data.token);
+            props.login(res.data.token);
         })
     };
 
