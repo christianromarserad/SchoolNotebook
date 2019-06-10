@@ -2,6 +2,7 @@
 import jwt_decode from 'jwt-decode';
 
 const loginType = 'LOGIN';
+const logoutType = 'LOGOUT';
 
 const initialState = {
     isAuthenticated: false,
@@ -26,8 +27,26 @@ export function loginActionCreator(token) {
     };
 }
 
+export function logoutActionCreator() {
+    localStorage.removeItem('jwtToken');
+    setHttpAuthorizationToken(false);
+
+    return {
+        type: logoutType,
+        payload: {
+            isAuthenticated: false,
+            email: '',
+            givenName: '',
+            familyName: ''
+        }
+    };
+}
+
 export const reducer = (state = initialState, action) => {
     if (action.type === loginType) {
+        return action.payload;
+    }
+    else if (action.type === logoutType) {
         return action.payload;
     }
 
