@@ -7,6 +7,7 @@ import configureStore from './store/configureStore';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { loginActionCreator } from './store/User';
 import 'typeface-roboto';
 
 // Create browser history to use in the Redux store
@@ -18,6 +19,10 @@ const initialState = window.initialReduxState;
 const store = configureStore(history, initialState);
 
 const rootElement = document.getElementById('root');
+
+if (localStorage.jwtToken) {
+    store.dispatch(loginActionCreator(localStorage.jwtToken))
+}
 
 ReactDOM.render(
     <div>
