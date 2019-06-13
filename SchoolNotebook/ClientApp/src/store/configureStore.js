@@ -5,13 +5,15 @@ import * as Counter from './Counter';
 import * as WeatherForecasts from './WeatherForecasts';
 import * as User from './User';
 import * as Bookmark from './Bookmark';
+import * as ReminderNote from './ReminderNote';
 
 export default function configureStore (history, initialState) {
   const reducers = {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer,
     user: User.reducer,
-    bookmark: Bookmark.reducer
+    bookmark: Bookmark.reducer,
+    reminderNote: ReminderNote.reducer
   };
 
   const middleware = [

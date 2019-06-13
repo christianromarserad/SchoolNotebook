@@ -60,8 +60,8 @@ export function createBookmarkActionCreator() {
     return function (dispatch, getState) {
         let bookmarkFormData = getState().bookmark.bookmarkForm;
         axios.post('https://localhost:44388/api/Bookmark', bookmarkFormData).then(function (res) {
-            dispatch(getBookmarksActionCreator());
             dispatch(closeBookmarkModalActionCreator());
+            dispatch(getBookmarksActionCreator());
         });
     }
 }
