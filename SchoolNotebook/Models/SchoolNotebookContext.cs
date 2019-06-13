@@ -164,8 +164,6 @@ namespace SchoolNotebook.Models
 
             modelBuilder.Entity<ReminderNote>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Notes)
                     .IsRequired()
                     .HasMaxLength(50)

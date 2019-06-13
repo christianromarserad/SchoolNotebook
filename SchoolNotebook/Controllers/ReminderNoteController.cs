@@ -14,41 +14,40 @@ namespace SchoolNotebook.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class BookmarkController : ControllerBase
+    public class ReminderNoteController : ControllerBase
     {
         private SchoolNotebookContext _context;
 
-        public BookmarkController(SchoolNotebookContext context)
+        public ReminderNoteController(SchoolNotebookContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bookmark
+        // GET: api/ReminderNote
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Bookmark.ToList());
+            return Ok(_context.ReminderNote.ToList());
         }
 
-        // GET: api/Bookmark/5
+        // GET: api/ReminderNote/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Bookmark
+        // POST: api/ReminderNote
         [HttpPost]
-        public IActionResult Post([FromBody] BookmarkViewModel bookmarkViewModel)
+        public IActionResult Post([FromBody] ReminderNoteViewModel reminderNoteViewModel)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
-                _context.Bookmark.Add(new Bookmark
+                _context.ReminderNote.Add(new ReminderNote
                 {
-                    Name = bookmarkViewModel.Name,
-                    Url = bookmarkViewModel.Url,
+                    Notes = reminderNoteViewModel.Notes,
                     User = currentUser
                 });
 
@@ -62,7 +61,7 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // PUT: api/Bookmark/5
+        // PUT: api/ReminderNote/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
