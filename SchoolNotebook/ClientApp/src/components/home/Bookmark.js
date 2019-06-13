@@ -20,7 +20,7 @@ class Bookmark extends Component {
             <div>
                 <Button variant="contained" color="primary" onClick={this.props.openBookmarkModalActionCreator}>Create Bookmark</Button>
                 <div>
-                    {this.props.isLoading ? <h1>loading</h1> : this.props.bookmarks.map((item) => {
+                    {this.props.bookmarks.map((item) => {
                         return <Button variant="contained" color="default">{item.name}</Button>
                     })}
                 </div>
@@ -46,7 +46,6 @@ class Bookmark extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.bookmark.isLoading,
         bookmarks: state.bookmark.bookmarks,
         isModalOpen: state.bookmark.isModalOpen,
         url: state.bookmark.bookmarkForm.url,
