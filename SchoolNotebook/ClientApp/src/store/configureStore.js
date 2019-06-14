@@ -6,6 +6,7 @@ import * as WeatherForecasts from './WeatherForecasts';
 import * as User from './User';
 import * as Bookmark from './Bookmark';
 import * as ReminderNote from './ReminderNote';
+import * as Notebook from './Notebook';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -13,7 +14,8 @@ export default function configureStore (history, initialState) {
     weatherForecasts: WeatherForecasts.reducer,
     user: User.reducer,
     bookmark: Bookmark.reducer,
-    reminderNote: ReminderNote.reducer
+    reminderNote: ReminderNote.reducer,
+    notebook: Notebook.reducer
   };
 
   const middleware = [
