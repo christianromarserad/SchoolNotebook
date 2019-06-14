@@ -66,6 +66,14 @@ export function createBookmarkActionCreator() {
     }
 }
 
+export function deleteBookmarkActionCreator(id) {
+    return function (dispatch) {
+        axios.delete('https://localhost:44388/api/Bookmark/' + id).then(function (res) {
+            dispatch(getBookmarksActionCreator());
+        });
+    }
+}
+
 export const reducer = (state = initialState, action) => {
     if (action.type === getBookmarksType) {
         return {
