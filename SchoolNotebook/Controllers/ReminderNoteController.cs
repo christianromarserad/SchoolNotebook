@@ -69,8 +69,20 @@ namespace SchoolNotebook.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var reminderNote = _context.ReminderNote.SingleOrDefault(b => b.Id == id);
+
+            if (reminderNote == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _context.ReminderNote.Remove(reminderNote);
+                _context.SaveChanges();
+                return Ok();
+            }
         }
     }
 }

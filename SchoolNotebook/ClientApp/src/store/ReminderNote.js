@@ -64,6 +64,14 @@ export function createReminderNoteActionCreator() {
     }
 }
 
+export function deleteReminderNoteActionCreator(id) {
+    return function (dispatch) {
+        axios.delete('https://localhost:44388/api/ReminderNote/' + id).then(function (res) {
+            dispatch(getReminderNotesActionCreator());
+        });
+    }
+}
+
 export const reducer = (state = initialState, action) => {
     if (action.type === getReminderNotesType) {
         return {
