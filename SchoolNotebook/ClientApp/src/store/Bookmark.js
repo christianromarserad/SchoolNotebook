@@ -7,17 +7,43 @@ const openCreateModalType = 'OPEN_CREATE_BOOKMARK_MODAL';
 const closeCreateModalType = 'OPEN_CREATE_BOOKMARK_MODAL';
 const openEditModalType = 'OPEN_EDIT_BOOKMARK_MODAL';
 const closeEditModalType = 'OPEN_EDIT_BOOKMARK_MODAL';
+const openMenuType = 'OPEN_EDIT_BOOKMARK_MODAL';
+const closeMenuType = 'OPEN_EDIT_BOOKMARK_MODAL';
 
 const initialState = {
+    isMenuOpen: false,
+    anchorEl: '',
     isCreateModalOpen: false,
     isEditModalOpen: false,
     bookmarks: [],
+    selectedBookmarkId: '',
     bookmarkForm: {
-        id: '',
         url: '',
         name: ''
     }
 };
+
+export function openMenuActionCreator(id, event) {
+    console.log(event);
+    return {
+        type: openMenuType,
+        payload: {
+            isMenuOpen: true,
+            anchorEl: event.currentTarget,
+            selectedBookmarkId: id
+        }
+    };
+}
+
+export function closeMenuActionCreator() {
+    return {
+        type: closeMenuType,
+        payload: {
+            isMenuOpen: false,
+            selectedBookmarkId: ''
+        }
+    };
+}
 
 export function openCreateModalActionCreator() {
     return {
@@ -32,7 +58,6 @@ export function closeCreateModalActionCreator() {
         payload: {
             isCreateModalOpen: false,
             bookmarkForm: {
-                id: '',
                 url: '',
                 name: ''
             }
@@ -48,7 +73,6 @@ export function openEditModalActionCreator(id) {
                 payload: {
                     isEditModalOpen: true,
                     bookmarkForm: {
-                        id: res.data.id,
                         url: res.data.url,
                         name: res.data.name
                     }
@@ -64,7 +88,6 @@ export function closeEditModalActionCreator() {
         payload: {
             isEditModalOpen: false,
             bookmarkForm: {
-                id: '',
                 url: '',
                 name: ''
             }
@@ -95,11 +118,7 @@ export function updateTextFieldsActionCreator(event) {
 
 export function createBookmarkActionCreator() {
     return function (dispatch, getState) {
-        let state = getState();
-        let bookmarkFormData = {
-            url: state.bookmark.bookmarkForm.url,
-            name: state.bookmark.bookmarkForm.name
-        }
+        let bookmarkFormData = getState().bookmark.bookmarkForm;
         axios.post('https://localhost:44388/api/Bookmark', bookmarkFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getBookmarksActionCreator());
@@ -111,18 +130,15 @@ export function deleteBookmarkActionCreator(id) {
     return function (dispatch) {
         axios.delete('https://localhost:44388/api/Bookmark/' + id).then(function (res) {
             dispatch(getBookmarksActionCreator());
+            dispatch(closeMenuActionCreator());
         });
     }
 }
 
-export function updateBookmarkActionCreator() {
+export function updateBookmarkActionCreator(id) {
     return function (dispatch, getState) {
-        let state = getState();
-        let bookmarkFormData = {
-            url: state.bookmark.bookmarkForm.url,
-            name: state.bookmark.bookmarkForm.name
-        }
-        axios.put('https://localhost:44388/api/Bookmark/' + state.bookmark.bookmarkForm.id, bookmarkFormData).then(function (res) {
+        let bookmarkFormData = getState().bookmark.bookmarkForm;
+        axios.put('https://localhost:44388/api/Bookmark/' + id, bookmarkFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getBookmarksActionCreator());
         });
@@ -164,6 +180,18 @@ export const reducer = (state = initialState, action) => {
         };
     }
     else if (action.type === closeEditModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === openMenuType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === closeMenuType) {
         return {
             ...state,
             ...action.payload

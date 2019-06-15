@@ -4,14 +4,19 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -23,6 +28,8 @@ import {
     deleteBookmarkActionCreator,
     openEditModalActionCreator,
     closeEditModalActionCreator,
+    openMenuActionCreator,
+    closeMenuActionCreator,
     updateBookmarkActionCreator
 } from '../../store/Bookmark';
 
@@ -45,11 +52,8 @@ class Bookmark extends Component {
                                         <Typography style={{ flexGrow: 1 }}>
                                             {item.name}
                                         </Typography>
-                                        <IconButton aria-label="Delete">
-                                            <EditIcon fontSize="small" onClick={this.props.openEditModalActionCreator.bind(this, item.id)} />
-                                        </IconButton>
-                                        <IconButton aria-label="Delete" onClick={this.props.deleteBookmarkActionCreator.bind(this,item.id)}>
-                                            <DeleteIcon fontSize="small" />
+                                        <IconButton aria-label="More" aria-controls="long-menu" aria-haspopup="true">
+                                            <MoreVertIcon fontSize="small" aria-haspopup="true" onClick={this.props.openMenuActionCreator.bind(this, item.id)} />
                                         </IconButton>
                                     </Toolbar>
                                 </Paper>
@@ -57,6 +61,21 @@ class Bookmark extends Component {
                         )
                     })}
                 </Grid>
+
+                <Menu id="fade-menu" anchorEl={this.props.anchorEl} keepMounted open={this.props.isMenuOpen} onClose={this.props.closeMenuActionCreator}>
+                    <MenuItem onClick={this.props.deleteBookmarkActionCreator.bind(this, this.props.selectedBookmarkId)}>
+                        <ListItemIcon>
+                            <DeleteIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Delete" />
+                    </MenuItem>
+                    <MenuItem onClick={this.props.openEditModalActionCreator.bind(this, this.props.selectedBookmarkId)}>
+                        <ListItemIcon>
+                            <EditIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Edit" />
+                    </MenuItem>
+                </Menu>
 
                 <Dialog open={this.props.isCreateModalOpen} onClose={this.props.closeCreateModalActionCreator} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Create Bookmark</DialogTitle>
@@ -84,7 +103,7 @@ class Bookmark extends Component {
                         <Button onClick={this.props.closeEditModalActionCreator} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.props.updateBookmarkActionCreator} color="primary">
+                        <Button onClick={this.props.updateBookmarkActionCreator.bind(this, this.props.selectedBookmarkId)} color="primary">
                             Submit
                         </Button>
                     </DialogActions>
@@ -99,6 +118,9 @@ function mapStateToProps(state) {
         bookmarks: state.bookmark.bookmarks,
         isCreateModalOpen: state.bookmark.isCreateModalOpen,
         isEditModalOpen: state.bookmark.isEditModalOpen,
+        isMenuOpen: state.bookmark.isMenuOpen,
+        anchorEl: state.bookmark.anchorEl,
+        selectedBookmarkId: state.bookmark.selectedBookmarkId,
         url: state.bookmark.bookmarkForm.url,
         name: state.bookmark.bookmarkForm.name
     };
@@ -114,7 +136,9 @@ function mapDispatchToProps(dispatch) {
         deleteBookmarkActionCreator: deleteBookmarkActionCreator,
         openEditModalActionCreator: openEditModalActionCreator,
         closeEditModalActionCreator: closeEditModalActionCreator,
-        updateBookmarkActionCreator: updateBookmarkActionCreator
+        updateBookmarkActionCreator: updateBookmarkActionCreator,
+        openMenuActionCreator: openMenuActionCreator,
+        closeMenuActionCreator: closeMenuActionCreator
     }, dispatch);
 }
 
