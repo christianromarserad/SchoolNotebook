@@ -14,7 +14,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getBookmarksActionCreator, closeBookmarkModalActionCreator, openBookmarkModalActionCreator, createBookmarkActionCreator, updateTextFieldsActionCreator, deleteBookmarkActionCreator } from '../../store/Bookmark';
+import {
+    getBookmarksActionCreator,
+    closeCreateModalActionCreator,
+    openCreateModalActionCreator,
+    createBookmarkActionCreator,
+    updateTextFieldsActionCreator,
+    deleteBookmarkActionCreator,
+    openEditModalActionCreator,
+    closeEditModalActionCreator,
+    updateBookmarkActionCreator
+} from '../../store/Bookmark';
 
 class Bookmark extends Component {
 
@@ -25,7 +35,7 @@ class Bookmark extends Component {
     render() {
         return (
             <div>
-                <Button variant="contained" color="primary" onClick={this.props.openBookmarkModalActionCreator}>Create Bookmark</Button>
+                <Button variant="contained" color="primary" onClick={this.props.openCreateModalActionCreator}>Create Bookmark</Button>
                 <Grid container>
                     {this.props.bookmarks.map((item) => {
                         return (
@@ -36,7 +46,7 @@ class Bookmark extends Component {
                                             {item.name}
                                         </Typography>
                                         <IconButton aria-label="Delete">
-                                            <EditIcon fontSize="small" />
+                                            <EditIcon fontSize="small" onClick={this.props.openEditModalActionCreator.bind(this, item.id)} />
                                         </IconButton>
                                         <IconButton aria-label="Delete" onClick={this.props.deleteBookmarkActionCreator.bind(this,item.id)}>
                                             <DeleteIcon fontSize="small" />
@@ -47,17 +57,34 @@ class Bookmark extends Component {
                         )
                     })}
                 </Grid>
-                <Dialog open={this.props.isModalOpen} onClose={this.props.closeBookmarkModalActionCreator} aria-labelledby="form-dialog-title">
+
+                <Dialog open={this.props.isCreateModalOpen} onClose={this.props.closeCreateModalActionCreator} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Create Bookmark</DialogTitle>
                     <DialogContent>
                         <TextField margin="normal" label="URL" value={this.props.url} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='url' />
                         <TextField margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.props.closeBookmarkModalActionCreator} color="primary">
+                        <Button onClick={this.props.closeCreateModalActionCreator} color="primary">
                             Cancel
                         </Button>
                         <Button onClick={this.props.createBookmarkActionCreator} color="primary">
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog open={this.props.isEditModalOpen} onClose={this.props.closeEditModalActionCreator} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Edit Bookmark</DialogTitle>
+                    <DialogContent>
+                        <TextField margin="normal" label="URL" value={this.props.url} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='url' />
+                        <TextField margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.props.closeEditModalActionCreator} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={this.props.updateBookmarkActionCreator} color="primary">
                             Submit
                         </Button>
                     </DialogActions>
@@ -70,7 +97,8 @@ class Bookmark extends Component {
 function mapStateToProps(state) {
     return {
         bookmarks: state.bookmark.bookmarks,
-        isModalOpen: state.bookmark.isModalOpen,
+        isCreateModalOpen: state.bookmark.isCreateModalOpen,
+        isEditModalOpen: state.bookmark.isEditModalOpen,
         url: state.bookmark.bookmarkForm.url,
         name: state.bookmark.bookmarkForm.name
     };
@@ -79,11 +107,14 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getBookmarksActionCreator: getBookmarksActionCreator,
-        openBookmarkModalActionCreator: openBookmarkModalActionCreator,
-        closeBookmarkModalActionCreator: closeBookmarkModalActionCreator,
+        openCreateModalActionCreator: openCreateModalActionCreator,
+        closeCreateModalActionCreator: closeCreateModalActionCreator,
         createBookmarkActionCreator: createBookmarkActionCreator,
         updateTextFieldsActionCreator: updateTextFieldsActionCreator,
-        deleteBookmarkActionCreator: deleteBookmarkActionCreator
+        deleteBookmarkActionCreator: deleteBookmarkActionCreator,
+        openEditModalActionCreator: openEditModalActionCreator,
+        closeEditModalActionCreator: closeEditModalActionCreator,
+        updateBookmarkActionCreator: updateBookmarkActionCreator
     }, dispatch);
 }
 

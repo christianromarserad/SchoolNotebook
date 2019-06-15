@@ -32,9 +32,18 @@ namespace SchoolNotebook.Controllers
 
         // GET: api/Bookmark/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var bookmark = _context.Bookmark.SingleOrDefault(b => b.Id == id);
+
+            if (bookmark == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(bookmark);
+            }
         }
 
         // POST: api/Bookmark
@@ -64,8 +73,23 @@ namespace SchoolNotebook.Controllers
 
         // PUT: api/Bookmark/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] BookmarkViewModel bookmarkViewModel)
         {
+            var bookmark = _context.Bookmark.SingleOrDefault(b => b.Id == id);
+
+            if (bookmark == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                bookmark.Name = bookmarkViewModel.Name;
+                bookmark.Url = bookmarkViewModel.Url;
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
         }
 
         // DELETE: api/ApiWithActions/5
