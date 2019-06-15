@@ -70,8 +70,20 @@ namespace SchoolNotebook.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _context.Notebook.Remove(notebook);
+                _context.SaveChanges();
+                return Ok();
+            }
         }
     }
 }

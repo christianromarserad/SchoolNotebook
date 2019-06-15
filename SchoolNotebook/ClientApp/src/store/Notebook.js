@@ -66,6 +66,14 @@ export function createNotebookActionCreator() {
     }
 }
 
+export function deleteNotebookActionCreator(id) {
+    return function (dispatch) {
+        axios.delete('https://localhost:44388/api/Notebook/' + id).then(function (res) {
+            dispatch(getNotebooksActionCreator());
+        });
+    }
+}
+
 export const reducer = (state = initialState, action) => {
     if (action.type === getNotebooksType) {
         return {
