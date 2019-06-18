@@ -4,11 +4,11 @@ const getBookmarksType = 'GET_BOOKMARKS';
 const updateTextFieldsType = 'UPDATE_BOOKMARK_TEXTFIELDS';
 const createBookmarkType = 'CREATE_BOOKMARK';
 const openCreateModalType = 'OPEN_CREATE_BOOKMARK_MODAL';
-const closeCreateModalType = 'OPEN_CREATE_BOOKMARK_MODAL';
+const closeCreateModalType = 'CLOSE_CREATE_BOOKMARK_MODAL';
 const openEditModalType = 'OPEN_EDIT_BOOKMARK_MODAL';
-const closeEditModalType = 'OPEN_EDIT_BOOKMARK_MODAL';
-const openMenuType = 'OPEN_EDIT_BOOKMARK_MODAL';
-const closeMenuType = 'OPEN_EDIT_BOOKMARK_MODAL';
+const closeEditModalType = 'CLOSE_EDIT_BOOKMARK_MODAL';
+const openMenuType = 'OPEN_BOOKMARK_MENU';
+const closeMenuType = 'CLOSE_BOOKMARK_MENU';
 
 const initialState = {
     isMenuOpen: false,
@@ -24,7 +24,6 @@ const initialState = {
 };
 
 export function openMenuActionCreator(id, event) {
-    console.log(event);
     return {
         type: openMenuType,
         payload: {
