@@ -32,9 +32,18 @@ namespace SchoolNotebook.Controllers
 
         // GET: api/ReminderNote/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var reminderNote = _context.ReminderNote.SingleOrDefault(b => b.Id == id);
+
+            if (reminderNote == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(reminderNote);
+            }
         }
 
         // POST: api/ReminderNote
@@ -63,8 +72,22 @@ namespace SchoolNotebook.Controllers
 
         // PUT: api/ReminderNote/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] ReminderNoteViewModel reminderNoteViewModel)
         {
+            var reminderNote = _context.ReminderNote.SingleOrDefault(b => b.Id == id);
+
+            if (reminderNote == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                reminderNote.Notes = reminderNoteViewModel.Notes;
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
         }
 
         // DELETE: api/ApiWithActions/5
