@@ -32,9 +32,18 @@ namespace SchoolNotebook.Controllers
 
         // GET: api/Notebook/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(notebook);
+            }
         }
 
         // POST: api/Notebook
@@ -48,7 +57,7 @@ namespace SchoolNotebook.Controllers
                 _context.Notebook.Add(new Notebook
                 {
                     Name = notebookViewModel.Name,
-                    Public = false,
+                    Public = notebookViewModel.Public,
                     User = currentUser
                 });
 
@@ -64,8 +73,23 @@ namespace SchoolNotebook.Controllers
 
         // PUT: api/Notebook/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] NotebookViewModel notebookViewModel)
         {
+            var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
+
+            if (notebook == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                notebook.Name = notebookViewModel.Name;
+                notebook.Public = notebookViewModel.Public;
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
         }
 
         // DELETE: api/ApiWithActions/5
