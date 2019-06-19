@@ -12,7 +12,7 @@ const closeMenuType = 'CLOSE_REMINDER_NOTE_MENU';
 
 const initialState = {
     isMenuOpen: false,
-    anchorEl: '',
+    anchorEl: null,
     selectedReminderNoteId: '',
     isEditModalOpen: false,
     isCreateModalOpen: false,

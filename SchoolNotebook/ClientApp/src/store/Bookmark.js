@@ -12,7 +12,7 @@ const closeMenuType = 'CLOSE_BOOKMARK_MENU';
 
 const initialState = {
     isMenuOpen: false,
-    anchorEl: '',
+    anchorEl: null,
     isCreateModalOpen: false,
     isEditModalOpen: false,
     bookmarks: [],
