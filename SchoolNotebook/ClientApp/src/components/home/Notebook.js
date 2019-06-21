@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,6 +19,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -34,9 +37,20 @@ import {
 } from '../../store/Notebook';
 
 class Bookmark extends Component {
+    constructor(props) {
+        super(props);
+        this.openMenu = this.openMenu.bind(this);
+    }
 
     componentDidMount() {
         this.props.getNotebooksActionCreator();
+    }
+
+    openMenu(id, event) {
+        event.preventDefault();
+        if (event.target.getAttribute('name') === 'moreButton') {
+            this.props.openMenuActionCreator(id, event);
+        }
     }
 
     render() {
@@ -46,17 +60,19 @@ class Bookmark extends Component {
                 <Grid container>
                     {this.props.notebooks.map((item) => {
                         return (
-                            <Grid item lg={3}>
-                                <Paper style={{ margin: '5px' }}>
-                                    <Toolbar>
-                                        <Typography style={{ flexGrow: 1 }}>
-                                            {item.name}
-                                        </Typography>
-                                        <IconButton aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-                                            <MoreVertIcon fontSize="small" aria-haspopup="true" onClick={this.props.openMenuActionCreator.bind(this, item.id)} />
-                                        </IconButton>
-                                    </Toolbar>
-                                </Paper>
+                            <Grid key={item.id} item lg={3}>
+                                <Card style={{ margin: '5px' }}>
+                                    <CardActionArea centerRipple='true' disableRipple='true' component={Link} to={"/notebook/content/" + item.id}>
+                                        <Toolbar>
+                                            <Typography style={{ flexGrow: 1 }}>
+                                                {item.name}
+                                            </Typography>
+                                            <IconButton aria-label="More" aria-controls="long-menu" aria-haspopup="true">
+                                                <MoreVertIcon style={{ backgroundColor: 'transparent' }} name="moreButton" fontSize="small" aria-haspopup="true" onClick={this.openMenu.bind(this, item.id)} />
+                                            </IconButton>
+                                        </Toolbar>
+                                    </CardActionArea>
+                                </Card>
                             </Grid>
                         );
                     })}

@@ -46,7 +46,7 @@ class Bookmark extends Component {
                 <Grid container>
                     {this.props.bookmarks.map((item) => {
                         return (
-                            <Grid item lg={3}>
+                            <Grid key={item.id} item lg={3}>
                                 <Paper style={{ margin: '5px' }}>
                                     <Toolbar>
                                         <Typography style={{ flexGrow: 1 }}>
