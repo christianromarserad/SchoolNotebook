@@ -104,6 +104,11 @@ namespace SchoolNotebook.Models
                     .IsRequired()
                     .IsUnicode(false);
 
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.Notebook)
                     .WithMany(p => p.NotebookPage)
                     .HasForeignKey(d => d.NotebookId)
