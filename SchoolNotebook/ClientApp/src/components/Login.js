@@ -11,7 +11,6 @@ class Login extends Component {
 
     constructor(props) {
         super(props);
-
         this.googleResponse = this.googleResponse.bind(this);
     }
 
