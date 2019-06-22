@@ -1,9 +1,11 @@
 ﻿import axios from 'axios';
 
+const updateTextFieldsType = 'UPDATE_NOTEBOOK_PAGE_TEXTFIELDS';
 const getNotebookPagesType = 'GET_NOTEBOOK_PAGES';
 const getNotebookPageType = 'GET_NOTEBOOK_PAGE';
 const getDefaultNotebookPageType = 'GET_DEFAULT_NOTEBOOK_PAGE';
 const createNotebookPageType = 'CREATE_NOTEBOOK_PAGE';
+const updateNotebookPageType = 'UPDATE_NOTEBOOK_PAGE';
 
 const initialState = {
     notebookId: null,
@@ -14,6 +16,13 @@ const initialState = {
         notes: null
     },
 };
+
+export function updateTextFieldsActionCreator(event) {
+    return {
+        type: updateTextFieldsType,
+        payload: { [event.target.name]: event.target.value }
+    };
+}
 
 export function getNotebookPagesActionCreator(id) {
     return function (dispatch) {
@@ -82,6 +91,31 @@ export function createNotebookPageActionCreator() {
     }
 }
 
+export function updateNotebookPageActionCreator() {
+    return function (dispatch, getState) {
+        let state = getState();
+        let notebookId = state.notebookContent.notebookId;
+        let notebookPageFormData = {
+            notebookId: notebookId,
+            ...state.notebookContent.notebookPage
+        }
+        console.log(notebookPageFormData);
+        axios.put('https://localhost:44388/api/NotebookPage/', notebookPageFormData).then(function (res) {
+            dispatch({
+                type: updateNotebookPageType,
+                payload: {
+                    notebookPage: {
+                        title: res.data.title,
+                        pageNumber: res.data.pageNumber,
+                        notes: res.data.notes
+                    }
+                }
+            });
+            dispatch(getNotebookPagesActionCreator(res.data.notebookId));
+        });
+    }
+}
+
 export const reducer = (state = initialState, action) => {
     if (action.type === getNotebookPagesType) {
         return {
@@ -105,6 +139,21 @@ export const reducer = (state = initialState, action) => {
         return {
             ...state,
             ...action.payload
+        }
+    }
+    else if (action.type === updateNotebookPageType) {
+        return {
+            ...state,
+            ...action.payload
+        }
+    }
+    else if (action.type === updateTextFieldsType) {
+        return {
+            ...state,
+            notebookPage: {
+                ...state.notebookPage,
+                ...action.payload
+            }
         }
     }
 

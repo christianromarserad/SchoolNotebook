@@ -13,7 +13,9 @@ import {
     getNotebookPagesActionCreator,
     getNotebookPageActionCreator,
     getDefaultNotebookPageActionCreator,
-    createNotebookPageActionCreator
+    createNotebookPageActionCreator,
+    updateTextFieldsActionCreator,
+    updateNotebookPageActionCreator
 } from '../../store/NotebookContent';
 
 class NotebookContent extends Component {
@@ -54,8 +56,9 @@ class NotebookContent extends Component {
                         })}
                     </Grid>
                     <Grid item lg={8}>
-                        <TextField margin="normal" label="Title" value={this.props.notebookPage.title} fullWidth name='title' />
-                        <TextField margin="normal" label="Notes" value={this.props.notebookPage.notes} fullWidth name='notes' />
+                        <TextField margin="normal" label="Title" value={this.props.notebookPage.title} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='title' />
+                        <TextField margin="normal" label="Notes" value={this.props.notebookPage.notes} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='notes' />
+                        <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.updateNotebookPageActionCreator}>Update Page</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -67,7 +70,7 @@ function mapStateToProps(state) {
     return {
         notebookId: state.notebookContent.notebookId,
         notebookPages: state.notebookContent.notebookPages,
-        notebookPage: state.notebookContent.notebookPage,
+        notebookPage: state.notebookContent.notebookPage
     };
 }
 
@@ -76,7 +79,9 @@ function mapDispatchToProps(dispatch) {
         getNotebookPagesActionCreator: getNotebookPagesActionCreator,
         getNotebookPageActionCreator: getNotebookPageActionCreator,
         getDefaultNotebookPageActionCreator: getDefaultNotebookPageActionCreator,
-        createNotebookPageActionCreator: createNotebookPageActionCreator
+        createNotebookPageActionCreator: createNotebookPageActionCreator,
+        updateTextFieldsActionCreator: updateTextFieldsActionCreator,
+        updateNotebookPageActionCreator: updateNotebookPageActionCreator
     }, dispatch);
 }
 

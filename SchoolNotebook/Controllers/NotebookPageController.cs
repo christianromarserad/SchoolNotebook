@@ -77,10 +77,25 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // PUT: api/NotebookPage/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT: api/NotebookPage/
+        [HttpPut]
+        public IActionResult Put([FromBody] NotebookPageViewModel notebookPageViewModel)
         {
+            var notebookPage = _context.NotebookPage.SingleOrDefault(np => np.NotebookId == notebookPageViewModel.NotebookId && np.PageNumber == notebookPageViewModel.PageNumber);
+
+            if (notebookPage == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                notebookPage.Title = notebookPageViewModel.Title;
+                notebookPage.Notes = notebookPageViewModel.Notes;
+
+                _context.SaveChanges();
+
+                return Ok(notebookPage);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
