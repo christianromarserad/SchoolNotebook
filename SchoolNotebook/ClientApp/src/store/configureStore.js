@@ -7,6 +7,7 @@ import * as User from './User';
 import * as Bookmark from './Bookmark';
 import * as ReminderNote from './ReminderNote';
 import * as Notebook from './Notebook';
+import * as NotebookContent from './NotebookContent';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -15,7 +16,8 @@ export default function configureStore (history, initialState) {
     user: User.reducer,
     bookmark: Bookmark.reducer,
     reminderNote: ReminderNote.reducer,
-    notebook: Notebook.reducer
+    notebook: Notebook.reducer,
+    notebookContent: NotebookContent.reducer
   };
 
   const middleware = [
