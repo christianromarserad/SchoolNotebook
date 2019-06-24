@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,10 +17,15 @@ import {
     getDefaultNotebookPageActionCreator,
     createNotebookPageActionCreator,
     updateTextFieldsActionCreator,
-    updateNotebookPageActionCreator
+    updateNotebookPageActionCreator,
+    deleteNotebookPageActionCreator
 } from '../../store/NotebookContent';
 
 class NotebookContent extends Component {
+    constructor(props) {
+        super(props);
+        this.deleteNotebookPage = this.deleteNotebookPage.bind(this);
+    }
 
     componentDidMount() {
         this.props.getNotebookPagesActionCreator(this.props.match.params.id);
@@ -29,6 +36,11 @@ class NotebookContent extends Component {
         else {
             this.props.getDefaultNotebookPageActionCreator(this.props.match.params.id);
         }
+    }
+
+    deleteNotebookPage(notebookId, pageNumber, event) {
+        this.props.deleteNotebookPageActionCreator(notebookId, pageNumber);
+        event.stopPropagation();
     }
 
     render() {
@@ -48,6 +60,9 @@ class NotebookContent extends Component {
                                                 <Typography style={{ flexGrow: 1 }}>
                                                     {item.title}
                                                 </Typography>
+                                                <IconButton aria-label="Delete" name="deleteButton" onClick={this.deleteNotebookPage.bind(this, item.notebookId, item.pageNumber)}>
+                                                    <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                </IconButton>
                                             </Toolbar>
                                         </CardActionArea>
                                     </Card>
@@ -81,7 +96,8 @@ function mapDispatchToProps(dispatch) {
         getDefaultNotebookPageActionCreator: getDefaultNotebookPageActionCreator,
         createNotebookPageActionCreator: createNotebookPageActionCreator,
         updateTextFieldsActionCreator: updateTextFieldsActionCreator,
-        updateNotebookPageActionCreator: updateNotebookPageActionCreator
+        updateNotebookPageActionCreator: updateNotebookPageActionCreator,
+        deleteNotebookPageActionCreator: deleteNotebookPageActionCreator
     }, dispatch);
 }
 

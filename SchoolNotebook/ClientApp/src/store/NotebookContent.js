@@ -60,9 +60,9 @@ export function getDefaultNotebookPageActionCreator(notebookId) {
         type: getDefaultNotebookPageType,
         payload: {
             notebookPage: {
-                title: null,
-                pageNumber: null,
-                notes: null
+                title: '',
+                pageNumber: '',
+                notes: ''
             }
         }
     };
@@ -112,6 +112,18 @@ export function updateNotebookPageActionCreator() {
                 }
             });
             dispatch(getNotebookPagesActionCreator(res.data.notebookId));
+        });
+    }
+}
+
+export function deleteNotebookPageActionCreator(notebookId, pageNumber) {
+    return function (dispatch, getState) {
+        axios.delete('https://localhost:44388/api/NotebookPage?notebookId=' + notebookId + '&pageNumber=' + pageNumber).then(function (res) {
+            dispatch(getNotebookPagesActionCreator(notebookId));
+            if (pageNumber == getState().notebookContent.notebookPage.pageNumber) {
+                console.log('it matches');
+                dispatch(getDefaultNotebookPageActionCreator(notebookId));
+            }
         });
     }
 }

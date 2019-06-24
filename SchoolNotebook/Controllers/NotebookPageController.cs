@@ -98,10 +98,22 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE: api/ApiWithActions?notebookId=5&pageNumber=5
+        [HttpDelete]
+        public IActionResult Delete(int notebookId, int pageNumber)
         {
+            var notebookPage = _context.NotebookPage.SingleOrDefault(np => np.NotebookId == notebookId && np.PageNumber == pageNumber);
+
+            if (notebookPage == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _context.NotebookPage.Remove(notebookPage);
+                _context.SaveChanges();
+                return Ok();
+            }
         }
     }
 }
