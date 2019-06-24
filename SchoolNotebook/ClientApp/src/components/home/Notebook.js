@@ -47,10 +47,8 @@ class Bookmark extends Component {
     }
 
     openMenu(id, event) {
+        this.props.openMenuActionCreator(id, event);
         event.preventDefault();
-        if (event.target.getAttribute('name') === 'moreButton') {
-            this.props.openMenuActionCreator(id, event);
-        }
     }
 
     render() {
@@ -67,8 +65,8 @@ class Bookmark extends Component {
                                             <Typography style={{ flexGrow: 1 }}>
                                                 {item.name}
                                             </Typography>
-                                            <IconButton aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-                                                <MoreVertIcon style={{ backgroundColor: 'transparent' }} name="moreButton" fontSize="small" aria-haspopup="true" onClick={this.openMenu.bind(this, item.id)} />
+                                            <IconButton onClick={this.openMenu.bind(this, item.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
+                                                <MoreVertIcon style={{ backgroundColor: 'transparent' }} fontSize="small" aria-haspopup="true" />
                                             </IconButton>
                                         </Toolbar>
                                     </CardActionArea>

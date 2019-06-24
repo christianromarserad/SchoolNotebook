@@ -52,8 +52,8 @@ class Bookmark extends Component {
                                         <Typography style={{ flexGrow: 1 }}>
                                             {item.name}
                                         </Typography>
-                                        <IconButton aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-                                            <MoreVertIcon fontSize="small" aria-haspopup="true" onClick={this.props.openMenuActionCreator.bind(this, item.id)} />
+                                        <IconButton onClick={this.props.openMenuActionCreator.bind(this, item.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
+                                            <MoreVertIcon fontSize="small" aria-haspopup="true" />
                                         </IconButton>
                                     </Toolbar>
                                 </Paper>
