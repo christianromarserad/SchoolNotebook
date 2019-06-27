@@ -9,6 +9,7 @@ import * as ReminderNote from './ReminderNote';
 import * as Notebook from './Notebook';
 import * as NotebookContent from './NotebookContent';
 import * as NotebookPage from './NotebookPage';
+import * as NotebookComment from './NotebookComment';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -18,8 +19,9 @@ export default function configureStore (history, initialState) {
     bookmark: Bookmark.reducer,
     reminderNote: ReminderNote.reducer,
     notebook: Notebook.reducer,
+    notebookPage: NotebookPage.reducer,
     notebookContent: NotebookContent.reducer,
-    notebookPage: NotebookPage.reducer
+    notebookComment: NotebookComment.reducer
   };
 
   const middleware = [
