@@ -69,8 +69,6 @@ namespace SchoolNotebook.Models
 
             modelBuilder.Entity<NotebookComment>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Comment)
                     .IsRequired()
                     .HasMaxLength(50)

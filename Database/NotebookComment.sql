@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[NotebookComment]
 (
-	[Id] INT NOT NULL, 
+	[Id] INT NOT NULL IDENTITY, 
     [NotebookId] INT NOT NULL, 
     [User] VARCHAR(50) NOT NULL, 
     [Comment] VARCHAR(50) NOT NULL, 
