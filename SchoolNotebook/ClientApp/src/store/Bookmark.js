@@ -117,7 +117,7 @@ export function updateTextFieldsActionCreator(event) {
 
 export function createBookmarkActionCreator() {
     return function (dispatch, getState) {
-        let bookmarkFormData = getState().bookmark.bookmarkForm;
+        let bookmarkFormData = getState().homePage.bookmark.bookmarkForm;
         axios.post('https://localhost:44388/api/Bookmark', bookmarkFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getBookmarksActionCreator());
@@ -136,7 +136,7 @@ export function deleteBookmarkActionCreator(id) {
 
 export function updateBookmarkActionCreator(id) {
     return function (dispatch, getState) {
-        let bookmarkFormData = getState().bookmark.bookmarkForm;
+        let bookmarkFormData = getState().homePage.bookmark.bookmarkForm;
         axios.put('https://localhost:44388/api/Bookmark/' + id, bookmarkFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getBookmarksActionCreator());

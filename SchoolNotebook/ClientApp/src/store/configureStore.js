@@ -13,15 +13,19 @@ import * as NotebookComment from './NotebookComment';
 
 export default function configureStore (history, initialState) {
   const reducers = {
-    counter: Counter.reducer,
-    weatherForecasts: WeatherForecasts.reducer,
     user: User.reducer,
-    bookmark: Bookmark.reducer,
-    reminderNote: ReminderNote.reducer,
-    notebook: Notebook.reducer,
-    notebookPage: NotebookPage.reducer,
-    notebookContent: NotebookContent.reducer,
-    notebookComment: NotebookComment.reducer
+    homePage: combineReducers({
+        bookmark: Bookmark.reducer,
+        reminderNote: ReminderNote.reducer,
+        notebook: Notebook.reducer
+    }),
+    notebookPage: combineReducers({
+        selectedNotebook: NotebookPage.reducer,
+        notebookContent: NotebookContent.reducer,
+        notebookComment: NotebookComment.reducer
+    }),
+    counter: Counter.reducer,
+    weatherForecasts: WeatherForecasts.reducer
   };
 
   const middleware = [

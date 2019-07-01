@@ -55,8 +55,8 @@ class NotebookComment extends Component {
 
 function mapStateToProps(state) {
     return {
-        comment: state.notebookComment.comment,
-        notebookComments: state.notebookComment.notebookComments
+        comment: state.notebookPage.notebookComment.comment,
+        notebookComments: state.notebookPage.notebookComment.notebookComments
     };
 }
 

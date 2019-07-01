@@ -128,14 +128,14 @@ class Bookmark extends Component {
 
 function mapStateToProps(state) {
     return {
-        isMenuOpen: state.notebook.isMenuOpen,
-        anchorEl: state.notebook.anchorEl,
-        selectedNotebookId: state.notebook.selectedNotebookId,
-        notebooks: state.notebook.notebooks,
-        isCreateModalOpen: state.notebook.isCreateModalOpen,
-        isEditModalOpen: state.notebook.isEditModalOpen,
-        name: state.notebook.notebookForm.name,
-        public: state.notebook.notebookForm.public
+        isMenuOpen: state.homePage.notebook.isMenuOpen,
+        anchorEl: state.homePage.notebook.anchorEl,
+        selectedNotebookId: state.homePage.notebook.selectedNotebookId,
+        notebooks: state.homePage.notebook.notebooks,
+        isCreateModalOpen: state.homePage.notebook.isCreateModalOpen,
+        isEditModalOpen: state.homePage.notebook.isEditModalOpen,
+        name: state.homePage.notebook.notebookForm.name,
+        public: state.homePage.notebook.notebookForm.public
     };
 }
 

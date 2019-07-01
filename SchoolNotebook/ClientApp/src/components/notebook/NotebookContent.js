@@ -31,7 +31,7 @@ class NotebookContent extends Component {
         this.props.getNotebookPagesActionCreator(this.props.match.params.id);
 
         if (this.props.match.params.id == this.props.notebookId && this.props.notebookPage.pageNumber != null) {
-            this.props.getNotebookPageActionCreator(this.props.match.params.id, this.props.notebookPageNumberSelected);
+            this.props.getNotebookPageActionCreator(this.props.notebookId, this.props.notebookPageNumberSelected);
         }
         else {
             this.props.getDefaultNotebookPageActionCreator(this.props.match.params.id);
@@ -83,9 +83,9 @@ class NotebookContent extends Component {
 
 function mapStateToProps(state) {
     return {
-        notebookId: state.notebookContent.notebookId,
-        notebookPages: state.notebookContent.notebookPages,
-        notebookPage: state.notebookContent.notebookPage
+        notebookId: state.notebookPage.selectedNotebook.notebookId,
+        notebookPages: state.notebookPage.notebookContent.notebookPages,
+        notebookPage: state.notebookPage.notebookContent.notebookPage
     };
 }
 

@@ -8,7 +8,6 @@ const createNotebookPageType = 'CREATE_NOTEBOOK_PAGE';
 const updateNotebookPageType = 'UPDATE_NOTEBOOK_PAGE';
 
 const initialState = {
-    notebookId: null,
     notebookPages: [],
     notebookPage: {
         title: null,
@@ -24,13 +23,12 @@ export function updateTextFieldsActionCreator(event) {
     };
 }
 
-export function getNotebookPagesActionCreator(id) {
+export function getNotebookPagesActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookPage/' + id).then(function (res) {
+        axios.get('https://localhost:44388/api/NotebookPage/' + notebookId).then(function (res) {
             dispatch({
                 type: getNotebookPagesType,
                 payload: {
-                    notebookId: id,
                     notebookPages: res.data
                 }
             });
@@ -71,7 +69,7 @@ export function getDefaultNotebookPageActionCreator(notebookId) {
 export function createNotebookPageActionCreator() {
     return function (dispatch, getState) {
         let notebookPageFormData = {
-            notebookId: getState().notebookContent.notebookId,
+            notebookId: getState().notebookPage.selectedNotebook.notebookId,
             title: 'untitled',
             notes: 'Put your notes in here',
         };
@@ -94,10 +92,10 @@ export function createNotebookPageActionCreator() {
 export function updateNotebookPageActionCreator() {
     return function (dispatch, getState) {
         let state = getState();
-        let notebookId = state.notebookContent.notebookId;
+        let notebookId = state.notebookPage.selectedNotebook.notebookId;
         let notebookPageFormData = {
             notebookId: notebookId,
-            ...state.notebookContent.notebookPage
+            ...state.notebookPage.notebookContent.notebookPage
         }
         console.log(notebookPageFormData);
         axios.put('https://localhost:44388/api/NotebookPage/', notebookPageFormData).then(function (res) {
@@ -120,8 +118,7 @@ export function deleteNotebookPageActionCreator(notebookId, pageNumber) {
     return function (dispatch, getState) {
         axios.delete('https://localhost:44388/api/NotebookPage?notebookId=' + notebookId + '&pageNumber=' + pageNumber).then(function (res) {
             dispatch(getNotebookPagesActionCreator(notebookId));
-            if (pageNumber == getState().notebookContent.notebookPage.pageNumber) {
-                console.log('it matches');
+            if (pageNumber == getState().notebookPage.notebookContent.notebookPage.pageNumber) {
                 dispatch(getDefaultNotebookPageActionCreator(notebookId));
             }
         });

@@ -57,8 +57,8 @@ class Notebook extends Component {
 
 function mapStateToProps(state) {
     return {
-        notebookId: state.notebookPage.notebookId,
-        name: state.notebookPage.name
+        notebookId: state.notebookPage.selectedNotebook.notebookId,
+        name: state.notebookPage.selectedNotebook.name
     };
 }
 

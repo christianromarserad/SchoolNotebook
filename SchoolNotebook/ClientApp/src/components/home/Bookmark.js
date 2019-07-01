@@ -115,14 +115,14 @@ class Bookmark extends Component {
 
 function mapStateToProps(state) {
     return {
-        bookmarks: state.bookmark.bookmarks,
-        isCreateModalOpen: state.bookmark.isCreateModalOpen,
-        isEditModalOpen: state.bookmark.isEditModalOpen,
-        isMenuOpen: state.bookmark.isMenuOpen,
-        anchorEl: state.bookmark.anchorEl,
-        selectedBookmarkId: state.bookmark.selectedBookmarkId,
-        url: state.bookmark.bookmarkForm.url,
-        name: state.bookmark.bookmarkForm.name
+        bookmarks: state.homePage.bookmark.bookmarks,
+        isCreateModalOpen: state.homePage.bookmark.isCreateModalOpen,
+        isEditModalOpen: state.homePage.bookmark.isEditModalOpen,
+        isMenuOpen: state.homePage.bookmark.isMenuOpen,
+        anchorEl: state.homePage.bookmark.anchorEl,
+        selectedBookmarkId: state.homePage.bookmark.selectedBookmarkId,
+        url: state.homePage.bookmark.bookmarkForm.url,
+        name: state.homePage.bookmark.bookmarkForm.name
     };
 }
 

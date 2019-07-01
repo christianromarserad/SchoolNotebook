@@ -113,13 +113,13 @@ class ReminderNote extends Component {
 
 function mapStateToProps(state) {
     return {
-        anchorEl: state.reminderNote.anchorEl,
-        isMenuOpen: state.reminderNote.isMenuOpen,
-        selectedReminderNoteId: state.reminderNote.selectedReminderNoteId,
-        reminderNotes: state.reminderNote.reminderNotes,
-        isCreateModalOpen: state.reminderNote.isCreateModalOpen,
-        isEditModalOpen: state.reminderNote.isEditModalOpen,
-        notes: state.reminderNote.reminderNoteForm.notes
+        anchorEl: state.homePage.reminderNote.anchorEl,
+        isMenuOpen: state.homePage.reminderNote.isMenuOpen,
+        selectedReminderNoteId: state.homePage.reminderNote.selectedReminderNoteId,
+        reminderNotes: state.homePage.reminderNote.reminderNotes,
+        isCreateModalOpen: state.homePage.reminderNote.isCreateModalOpen,
+        isEditModalOpen: state.homePage.reminderNote.isEditModalOpen,
+        notes: state.homePage.reminderNote.reminderNoteForm.notes
     };
 }
 

@@ -117,7 +117,7 @@ export function updateTextFieldsActionCreator(event) {
 
 export function createNotebookActionCreator() {
     return function (dispatch, getState) {
-        let notebookFormData = getState().notebook.notebookForm;
+        let notebookFormData = getState().homePage.notebook.notebookForm;
         axios.post('https://localhost:44388/api/Notebook', notebookFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getNotebooksActionCreator());
@@ -136,7 +136,7 @@ export function deleteNotebookActionCreator(id) {
 
 export function updateNotebookActionCreator(id) {
     return function (dispatch, getState) {
-        let notebookFormData = getState().notebook.notebookForm;
+        let notebookFormData = getState().homePage.notebook.notebookForm;
         axios.put('https://localhost:44388/api/Notebook/' + id, notebookFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getNotebooksActionCreator());
