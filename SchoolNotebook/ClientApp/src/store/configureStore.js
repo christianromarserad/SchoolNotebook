@@ -8,9 +8,9 @@ import * as Bookmark from './Bookmark';
 import * as ReminderNote from './ReminderNote';
 import * as Notebook from './Notebook';
 import * as NotebookContent from './NotebookContent';
-import * as NotebookPage from './NotebookPage';
 import * as NotebookComment from './NotebookComment';
 import * as NotebookNavbar from './NotebookNavbar';
+import * as NotebookSettings from './NotebookSettings';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -22,9 +22,9 @@ export default function configureStore (history, initialState) {
     }),
     notebookPage: combineReducers({
         notebookNavbar: NotebookNavbar.reducer,
-        selectedNotebook: NotebookPage.reducer,
         notebookContent: NotebookContent.reducer,
-        notebookComment: NotebookComment.reducer
+        notebookComment: NotebookComment.reducer,
+        notebookSettings: NotebookSettings.reducer
     }),
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer

@@ -1,4 +1,5 @@
 ﻿import axios from 'axios';
+import { updateNotebookSettingsType } from './NotebookSettings';
 
 const getNotebookNameType = 'GET_NOTEBOOK_NAME';
 const getNotebookRatingType = 'GET_NOTEBOOK_RATING';
@@ -32,6 +33,12 @@ export const reducer = (state = initialState, action) => {
         return {
             ...state,
             ...action.payload
+        }
+    }
+    else if (action.type === updateNotebookSettingsType) {
+        return {
+            ...state,
+            notebookName: action.payload.name
         }
     }
 

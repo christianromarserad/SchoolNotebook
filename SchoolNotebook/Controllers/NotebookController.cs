@@ -88,7 +88,7 @@ namespace SchoolNotebook.Controllers
 
                 _context.SaveChanges();
 
-                return Ok();
+                return Ok(notebook);
             }
         }
 
