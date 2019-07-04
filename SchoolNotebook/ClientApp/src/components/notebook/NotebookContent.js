@@ -29,9 +29,9 @@ class NotebookContent extends Component {
 
     componentDidMount() {
         this.props.getNotebookPagesActionCreator(this.props.match.params.id);
-
-        if (this.props.match.params.id == this.props.notebookId && this.props.notebookPage.pageNumber != null) {
-            this.props.getNotebookPageActionCreator(this.props.notebookId, this.props.notebookPageNumberSelected);
+        if (this.props.match.params.id == this.props.notebookPage.notebookId && this.props.notebookPage.pageNumber != null) {
+            
+            this.props.getNotebookPageActionCreator(this.props.match.params.id, this.props.notebookPage.pageNumber);
         }
         else {
             this.props.getDefaultNotebookPageActionCreator(this.props.match.params.id);
@@ -49,7 +49,7 @@ class NotebookContent extends Component {
                 <Grid container>
                     <Grid item container lg={4}>
                         <Grid item lg={12}>
-                            <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookPageActionCreator}>Add Page</Button>
+                            <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Add Page</Button>
                         </Grid>
                         {this.props.notebookPages.map((item) => {
                             return (
@@ -73,7 +73,7 @@ class NotebookContent extends Component {
                     <Grid item lg={8}>
                         <TextField margin="normal" label="Title" value={this.props.notebookPage.title} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='title' />
                         <TextField margin="normal" label="Notes" value={this.props.notebookPage.notes} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='notes' />
-                        <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.updateNotebookPageActionCreator}>Update Page</Button>
+                        <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.updateNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Update Page</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -83,7 +83,6 @@ class NotebookContent extends Component {
 
 function mapStateToProps(state) {
     return {
-        notebookId: state.notebookPage.selectedNotebook.notebookId,
         notebookPages: state.notebookPage.notebookContent.notebookPages,
         notebookPage: state.notebookPage.notebookContent.notebookPage
     };

@@ -10,6 +10,7 @@ import * as Notebook from './Notebook';
 import * as NotebookContent from './NotebookContent';
 import * as NotebookPage from './NotebookPage';
 import * as NotebookComment from './NotebookComment';
+import * as NotebookNavbar from './NotebookNavbar';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -20,6 +21,7 @@ export default function configureStore (history, initialState) {
         notebook: Notebook.reducer
     }),
     notebookPage: combineReducers({
+        notebookNavbar: NotebookNavbar.reducer,
         selectedNotebook: NotebookPage.reducer,
         notebookContent: NotebookContent.reducer,
         notebookComment: NotebookComment.reducer

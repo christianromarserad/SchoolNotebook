@@ -10,6 +10,7 @@ const updateNotebookPageType = 'UPDATE_NOTEBOOK_PAGE';
 const initialState = {
     notebookPages: [],
     notebookPage: {
+        notebookId: null,
         title: null,
         pageNumber: null,
         notes: null
@@ -43,6 +44,7 @@ export function getNotebookPageActionCreator(notebookId, pageNumber) {
                 type: getNotebookPageType,
                 payload: {
                     notebookPage: {
+                        notebookId: res.data.notebookId,
                         title: res.data.title,
                         pageNumber: res.data.pageNumber,
                         notes: res.data.notes
@@ -58,6 +60,7 @@ export function getDefaultNotebookPageActionCreator(notebookId) {
         type: getDefaultNotebookPageType,
         payload: {
             notebookPage: {
+                notebookId: null,
                 title: '',
                 pageNumber: '',
                 notes: ''
@@ -66,18 +69,20 @@ export function getDefaultNotebookPageActionCreator(notebookId) {
     };
 }
 
-export function createNotebookPageActionCreator() {
+export function createNotebookPageActionCreator(notebookId) {
     return function (dispatch, getState) {
         let notebookPageFormData = {
-            notebookId: getState().notebookPage.selectedNotebook.notebookId,
+            notebookId: notebookId,
             title: 'untitled',
             notes: 'Put your notes in here',
         };
+        console.log(notebookId);
         axios.post('https://localhost:44388/api/NotebookPage', notebookPageFormData).then(function (res) {
             dispatch({
                 type: createNotebookPageType,
                 payload: {
                     notebookPage: {
+                        id: res.data.notebookId,
                         title: res.data.title,
                         pageNumber: res.data.pageNumber,
                         notes: res.data.notes
@@ -89,13 +94,12 @@ export function createNotebookPageActionCreator() {
     }
 }
 
-export function updateNotebookPageActionCreator() {
+export function updateNotebookPageActionCreator(notebookId) {
     return function (dispatch, getState) {
         let state = getState();
-        let notebookId = state.notebookPage.selectedNotebook.notebookId;
         let notebookPageFormData = {
+            ...state.notebookPage.notebookContent.notebookPage,
             notebookId: notebookId,
-            ...state.notebookPage.notebookContent.notebookPage
         }
         console.log(notebookPageFormData);
         axios.put('https://localhost:44388/api/NotebookPage/', notebookPageFormData).then(function (res) {
@@ -103,6 +107,7 @@ export function updateNotebookPageActionCreator() {
                 type: updateNotebookPageType,
                 payload: {
                     notebookPage: {
+                        notebookId: res.data.notebookId,
                         title: res.data.title,
                         pageNumber: res.data.pageNumber,
                         notes: res.data.notes

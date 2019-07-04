@@ -18,7 +18,7 @@ import {
 
 class NotebookComment extends Component {
     componentDidMount() {
-        this.props.getNotebookCommentsActionCreator();
+        this.props.getNotebookCommentsActionCreator(this.props.match.params.id);
     }
 
     render() {
@@ -27,7 +27,7 @@ class NotebookComment extends Component {
                 <Grid container>
                     <Grid item lg={12}>
                         <TextField margin="normal" label="Comment" value={this.props.comment} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='comment' />
-                        <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookCommentActionCreator}>Comment</Button>
+                        <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookCommentActionCreator.bind(this, this.props.match.params.id)}>Comment</Button>
                     </Grid>
                     <Grid item container lg={12}>
                         {this.props.notebookComments.map((item) => {
