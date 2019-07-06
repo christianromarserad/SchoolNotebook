@@ -7,7 +7,7 @@ namespace SchoolNotebook.Models
     {
         public int NotebookId { get; set; }
         public int PageNumber { get; set; }
-        public string Notes { get; set; }
+        public string Content { get; set; }
         public string Title { get; set; }
 
         public virtual Notebook Notebook { get; set; }

@@ -62,7 +62,7 @@ namespace SchoolNotebook.Controllers
                     NotebookId = notebookPageViewModel.NotebookId,
                     PageNumber = newPageNumber,
                     Title = notebookPageViewModel.Title,
-                    Notes = notebookPageViewModel.Notes
+                    Content = notebookPageViewModel.Content
                 });
 
                 _context.SaveChanges();
@@ -90,7 +90,7 @@ namespace SchoolNotebook.Controllers
             else
             {
                 notebookPage.Title = notebookPageViewModel.Title;
-                notebookPage.Notes = notebookPageViewModel.Notes;
+                notebookPage.Content = notebookPageViewModel.Content;
 
                 _context.SaveChanges();
 

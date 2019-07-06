@@ -98,7 +98,7 @@ namespace SchoolNotebook.Models
             {
                 entity.HasKey(e => new { e.NotebookId, e.PageNumber });
 
-                entity.Property(e => e.Notes)
+                entity.Property(e => e.Content)
                     .IsRequired()
                     .IsUnicode(false);
 
