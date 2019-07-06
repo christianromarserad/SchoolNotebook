@@ -15,12 +15,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-    getNotebookActionCreator
-} from '../store/NotebookPage';
+    getNotebookNameActionCreator
+} from '../store/NotebookNavbar';
 
 class Notebook extends Component {
     componentDidMount() {
-        this.props.getNotebookActionCreator(this.props.match.params.id);
+        this.props.getNotebookNameActionCreator(this.props.match.params.id);
     }
 
     render() {
@@ -37,10 +37,10 @@ class Notebook extends Component {
                             </Grid>
                             <Grid item>
                                 <Tabs value={this.props.location.pathname} indicatorColor="primary" textColor="primary">
-                                    <Tab label="Content" component={Link} to={"/notebook/content/" + this.props.notebookId} value={"/notebook/content/" + this.props.notebookId} />
-                                    <Tab label="Comments" component={Link} to={"/notebook/comments/" + this.props.notebookId} value={"/notebook/comments/" + this.props.notebookId} />
-                                    <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.notebookId} value={"/notebook/share/" + this.props.notebookId} />
-                                    <Tab style={{ height: '64px'}} label="Settings" component={Link} to={"/notebook/settings/" + this.props.notebookId} value={"/notebook/settings/" + this.props.notebookId} />
+                                <Tab label="Content" component={Link} to={"/notebook/content/" + this.props.match.params.id} value={"/notebook/content/" + this.props.match.params.id} />
+                                <Tab label="Comments" component={Link} to={"/notebook/comments/" + this.props.match.params.id} value={"/notebook/comments/" + this.props.match.params.id} />
+                                <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.match.params.id} value={"/notebook/share/" + this.props.match.params.id} />
+                                <Tab style={{ height: '64px' }} label="Settings" component={Link} to={"/notebook/settings/" + this.props.match.params.id} value={"/notebook/settings/" + this.props.match.params.id} />
                                 </Tabs>
                             </Grid>
                         </Grid>
@@ -57,13 +57,12 @@ class Notebook extends Component {
 
 function mapStateToProps(state) {
     return {
-        notebookId: state.notebookPage.selectedNotebook.notebookId,
-        name: state.notebookPage.selectedNotebook.name
+        name: state.notebookPage.notebookNavbar.notebookName
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getNotebookActionCreator: getNotebookActionCreator }, dispatch);
+    return bindActionCreators({ getNotebookNameActionCreator: getNotebookNameActionCreator }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Notebook));

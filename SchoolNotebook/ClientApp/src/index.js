@@ -9,6 +9,8 @@ import registerServiceWorker from './registerServiceWorker';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { loginActionCreator } from './store/User';
 import 'typeface-roboto';
+import 'draft-js/dist/Draft.css';
+import './styles.css';
 
 // Create browser history to use in the Redux store
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');

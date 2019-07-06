@@ -1,4 +1,10 @@
 ﻿import axios from 'axios';
+import {
+    EditorState,
+    RichUtils,
+    convertToRaw,
+    convertFromRaw
+} from 'draft-js';
 
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_PAGE_TEXTFIELDS';
 const getNotebookPagesType = 'GET_NOTEBOOK_PAGES';
@@ -6,6 +12,7 @@ const getNotebookPageType = 'GET_NOTEBOOK_PAGE';
 const getDefaultNotebookPageType = 'GET_DEFAULT_NOTEBOOK_PAGE';
 const createNotebookPageType = 'CREATE_NOTEBOOK_PAGE';
 const updateNotebookPageType = 'UPDATE_NOTEBOOK_PAGE';
+const updateEditorStateType = 'UPDATE_EDITOR_STATE';
 
 const initialState = {
     notebookPages: [],
@@ -13,9 +20,16 @@ const initialState = {
         notebookId: null,
         title: null,
         pageNumber: null,
-        notes: null
+        editorState: EditorState.createEmpty()
     },
 };
+
+export function updateEditorStateActionCreator(editorState) {
+    return {
+        type: updateEditorStateType,
+        payload: { editorState: editorState }
+    };
+}
 
 export function updateTextFieldsActionCreator(event) {
     return {
@@ -47,7 +61,7 @@ export function getNotebookPageActionCreator(notebookId, pageNumber) {
                         notebookId: res.data.notebookId,
                         title: res.data.title,
                         pageNumber: res.data.pageNumber,
-                        notes: res.data.notes
+                        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.data.content)))
                     }
                 }
             });
@@ -63,7 +77,7 @@ export function getDefaultNotebookPageActionCreator(notebookId) {
                 notebookId: null,
                 title: '',
                 pageNumber: '',
-                notes: ''
+                editorState: EditorState.createEmpty()
             }
         }
     };
@@ -71,10 +85,11 @@ export function getDefaultNotebookPageActionCreator(notebookId) {
 
 export function createNotebookPageActionCreator(notebookId) {
     return function (dispatch, getState) {
+        console.log(JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent())));
         let notebookPageFormData = {
             notebookId: notebookId,
             title: 'untitled',
-            notes: 'Put your notes in here',
+            content: JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
         };
         console.log(notebookId);
         axios.post('https://localhost:44388/api/NotebookPage', notebookPageFormData).then(function (res) {
@@ -85,7 +100,7 @@ export function createNotebookPageActionCreator(notebookId) {
                         id: res.data.notebookId,
                         title: res.data.title,
                         pageNumber: res.data.pageNumber,
-                        notes: res.data.notes
+                        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.data.content)))
                     }
                 }
             });
@@ -98,10 +113,11 @@ export function updateNotebookPageActionCreator(notebookId) {
     return function (dispatch, getState) {
         let state = getState();
         let notebookPageFormData = {
-            ...state.notebookPage.notebookContent.notebookPage,
             notebookId: notebookId,
+            title: state.notebookPage.notebookContent.notebookPage.title,
+            pageNumber: state.notebookPage.notebookContent.notebookPage.pageNumber,
+            content: JSON.stringify(convertToRaw(state.notebookPage.notebookContent.notebookPage.editorState.getCurrentContent()))
         }
-        console.log(notebookPageFormData);
         axios.put('https://localhost:44388/api/NotebookPage/', notebookPageFormData).then(function (res) {
             dispatch({
                 type: updateNotebookPageType,
@@ -110,7 +126,7 @@ export function updateNotebookPageActionCreator(notebookId) {
                         notebookId: res.data.notebookId,
                         title: res.data.title,
                         pageNumber: res.data.pageNumber,
-                        notes: res.data.notes
+                        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.data.content)))
                     }
                 }
             });
@@ -162,6 +178,15 @@ export const reducer = (state = initialState, action) => {
         }
     }
     else if (action.type === updateTextFieldsType) {
+        return {
+            ...state,
+            notebookPage: {
+                ...state.notebookPage,
+                ...action.payload
+            }
+        }
+    }
+    else if (action.type === updateEditorStateType) {
         return {
             ...state,
             notebookPage: {

@@ -8,6 +8,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import NotebookEditor from './NotebookEditor';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -46,7 +47,7 @@ class NotebookContent extends Component {
     render() {
         return (
             <div>
-                <Grid container>
+                <Grid container alignItems="flex-start">
                     <Grid item container lg={4}>
                         <Grid item lg={12}>
                             <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Add Page</Button>
@@ -70,9 +71,9 @@ class NotebookContent extends Component {
                             )
                         })}
                     </Grid>
-                    <Grid item lg={8}>
+                    <Grid item container lg={8}>
                         <TextField margin="normal" label="Title" value={this.props.notebookPage.title} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='title' />
-                        <TextField margin="normal" label="Notes" value={this.props.notebookPage.notes} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='notes' />
+                        <NotebookEditor />
                         <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.updateNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Update Page</Button>
                     </Grid>
                 </Grid>
