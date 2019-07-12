@@ -11,6 +11,8 @@ import * as NotebookContent from './NotebookContent';
 import * as NotebookComment from './NotebookComment';
 import * as NotebookNavbar from './NotebookNavbar';
 import * as NotebookSettings from './NotebookSettings';
+import * as UserNotebookPermission from './UserNotebookPermission';
+import * as NotebookShare from './NotebookShare';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -21,10 +23,12 @@ export default function configureStore (history, initialState) {
         notebook: Notebook.reducer
     }),
     notebookPage: combineReducers({
+        notebookPermission: UserNotebookPermission.reducer,
         notebookNavbar: NotebookNavbar.reducer,
         notebookContent: NotebookContent.reducer,
         notebookComment: NotebookComment.reducer,
-        notebookSettings: NotebookSettings.reducer
+        notebookSettings: NotebookSettings.reducer,
+        notebookShare: NotebookShare.reducer
     }),
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer
