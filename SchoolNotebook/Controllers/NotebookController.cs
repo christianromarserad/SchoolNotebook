@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolNotebook.Models;
+using SchoolNotebook.Services;
 using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
@@ -17,23 +18,34 @@ namespace SchoolNotebook.Controllers
     public class NotebookController : ControllerBase
     {
         private SchoolNotebookContext _context;
+        private NotebookService _notebookService;
 
         public NotebookController(SchoolNotebookContext context)
         {
             _context = context;
+            _notebookService = new NotebookService(_context);
         }
 
         // GET: api/Notebook
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Notebook.ToList());
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value; 
+
+            return Ok(_context.Notebook.Where(n => n.User == currentUser).ToList());
         }
 
         // GET: api/Notebook/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            if(!_notebookService.CanUserView(id, currentUser))
+            {
+                return Forbid();
+            }
+
             var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
 
             if (notebook == null)
@@ -75,6 +87,13 @@ namespace SchoolNotebook.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] NotebookViewModel notebookViewModel)
         {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            if(!_notebookService.CanUserEdit(id, currentUser))
+            {
+                return Forbid();
+            }
+
             var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
 
             if (notebook == null)
@@ -96,6 +115,13 @@ namespace SchoolNotebook.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            if (!_notebookService.CanUserEdit(id, currentUser))
+            {
+                return Forbid();
+            }
+
             var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
 
             if (notebook == null)

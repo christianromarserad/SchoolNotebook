@@ -7,9 +7,7 @@ namespace SchoolNotebook.Models
     {
         public string User { get; set; }
         public int NotebookId { get; set; }
-        public bool EditPage { get; set; }
-        public bool AddPage { get; set; }
-        public bool DeletePage { get; set; }
+        public bool CanEdit { get; set; }
         public DateTime DateShared { get; set; }
 
         public virtual Notebook Notebook { get; set; }

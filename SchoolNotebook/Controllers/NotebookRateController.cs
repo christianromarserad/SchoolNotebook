@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolNotebook.Models;
+using SchoolNotebook.Services;
 using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
@@ -17,17 +18,26 @@ namespace SchoolNotebook.Controllers
     [ApiController]
     public class NotebookRateController : ControllerBase
     {
-        private readonly SchoolNotebookContext _context;
+        private SchoolNotebookContext _context;
+        private NotebookService _notebookService;
 
         public NotebookRateController(SchoolNotebookContext context)
         {
             _context = context;
+            _notebookService = new NotebookService(_context);
         }
 
         // GET: api/NotebookRate/5
         [HttpGet("{notebookId}")]
         public IActionResult Get(int notebookId)
         {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            if (!_notebookService.CanUserView(notebookId, currentUser))
+            {
+                return Forbid();
+            }
+
             return Ok(_context.NotebookRate.Where(nr => nr.NotebookId == notebookId));
         }
 
@@ -37,6 +47,11 @@ namespace SchoolNotebook.Controllers
         {
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
+            if (!_notebookService.CanUserView(notebookId, currentUser))
+            {
+                return Forbid();
+            }
+
             return Ok(_context.NotebookRate.SingleOrDefault(nr => nr.NotebookId == notebookId && nr.User == currentUser));
         }
 
@@ -44,10 +59,15 @@ namespace SchoolNotebook.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] NotebookRateViewModel notebookRateViewModel)
         {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            if (!_notebookService.CanUserEdit(notebookRateViewModel.NotebookId, currentUser))
+            {
+                return Forbid();
+            }
+
             if (ModelState.IsValid)
             {
-                var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
-
                 var notebookRate = _context.NotebookRate.SingleOrDefault(nr => nr.NotebookId == notebookRateViewModel.NotebookId && nr.User == currentUser);
 
                 if (notebookRate == null)
@@ -73,10 +93,15 @@ namespace SchoolNotebook.Controllers
         [HttpPost]
         public IActionResult Post(NotebookRateViewModel notebookRateViewModel)
         {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            if (!_notebookService.CanUserEdit(notebookRateViewModel.NotebookId, currentUser))
+            {
+                return Forbid();
+            }
+
             if (ModelState.IsValid)
             {
-                var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
-
                 _context.NotebookRate.Add(new NotebookRate
                 {
                     NotebookId = notebookRateViewModel.NotebookId,
