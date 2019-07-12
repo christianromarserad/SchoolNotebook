@@ -21,6 +21,7 @@ import { Route } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getUserNotebookPermissionActionCreator } from '../store/UserNotebookPermission';
 import {
     getNotebookNameActionCreator,
     getNotebookRatingActionCreator,
@@ -35,6 +36,7 @@ class Notebook extends Component {
         this.props.getNotebookNameActionCreator(this.props.match.params.id);
         this.props.getNotebookRatingActionCreator(this.props.match.params.id);
         this.props.getCurrentUserRateActionCreator(this.props.match.params.id);
+        this.props.getUserNotebookPermissionActionCreator(this.props.match.params.id);
     }
 
     render() {
@@ -67,8 +69,8 @@ class Notebook extends Component {
                             <Tabs value={this.props.location.pathname} indicatorColor="primary" textColor="primary">
                                 <Tab label="Content" component={Link} to={"/notebook/content/" + this.props.match.params.id} value={"/notebook/content/" + this.props.match.params.id} />
                                 <Tab label="Comments" component={Link} to={"/notebook/comments/" + this.props.match.params.id} value={"/notebook/comments/" + this.props.match.params.id} />
-                                <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.match.params.id} value={"/notebook/share/" + this.props.match.params.id} />
-                                <Tab style={{ height: '64px' }} label="Settings" component={Link} to={"/notebook/settings/" + this.props.match.params.id} value={"/notebook/settings/" + this.props.match.params.id} />
+                                { this.props.isOwner ? <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.match.params.id} value={"/notebook/share/" + this.props.match.params.id} /> : null }
+                                { this.props.isOwner ? <Tab style={{ height: '64px' }} label="Settings" component={Link} to={"/notebook/settings/" + this.props.match.params.id} value={"/notebook/settings/" + this.props.match.params.id} /> : null }
                             </Tabs>
                         </Grid>
                     </Grid>
@@ -112,7 +114,8 @@ function mapStateToProps(state) {
         notebookRating: state.notebookPage.notebookNavbar.notebookRating,
         numberOfRates: state.notebookPage.notebookNavbar.numberOfRates,
         userRating: state.notebookPage.notebookNavbar.userRating,
-        isRateModalOpen: state.notebookPage.notebookNavbar.isRateModalOpen
+        isRateModalOpen: state.notebookPage.notebookNavbar.isRateModalOpen,
+        isOwner: state.notebookPage.notebookPermission.isOwner
     };
 }
 
@@ -123,7 +126,8 @@ function mapDispatchToProps(dispatch) {
         getCurrentUserRateActionCreator: getCurrentUserRateActionCreator,
         rateNotebookActionCreator: rateNotebookActionCreator,
         openRateModalActionCreator: openRateModalActionCreator,
-        closeRateModalActionCreator: closeRateModalActionCreator
+        closeRateModalActionCreator: closeRateModalActionCreator,
+        getUserNotebookPermissionActionCreator: getUserNotebookPermissionActionCreator
     }, dispatch);
 }
 
