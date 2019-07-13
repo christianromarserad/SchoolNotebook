@@ -30,9 +30,17 @@ namespace SchoolNotebook.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value; 
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+            var notebooks = new List<Notebook>();
 
-            return Ok(_context.Notebook.Where(n => n.User == currentUser).ToList());
+            var ownedNotebooks = _context.Notebook.Where(n => n.User == currentUser).ToList();
+            var sharedNotebookIds = _context.NotebookShare.Where(ns => ns.User == currentUser).Select(ns => ns.NotebookId);
+            var sharedNotebooks = _context.Notebook.Where(n => sharedNotebookIds.Contains(n.Id)).ToList();
+
+            notebooks.AddRange(ownedNotebooks);
+            notebooks.AddRange(sharedNotebooks);
+
+            return Ok(notebooks.Distinct());
         }
 
         // GET: api/Notebook/5
