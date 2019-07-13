@@ -42,7 +42,7 @@ class NotebookShare extends Component {
                                             <Typography style={{ flexGrow: 1 }}>
                                                 {item.user}
                                             </Typography>
-                                            <FormControlLabel control={<Switch checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
+                                            <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
                                         </Toolbar>
                                     </Card>
                                 </Grid>
@@ -55,7 +55,7 @@ class NotebookShare extends Component {
                     <DialogTitle id="form-dialog-title">Create Bookmark</DialogTitle>
                     <DialogContent>
                         <TextField margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' />
-                        <FormControlLabel control={<Switch checked={this.props.canEdit} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'canEdit')} />} label="Can Edit" />
+                        <FormControlLabel control={<Switch color="primary" checked={this.props.canEdit} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'canEdit')} />} label="Can Edit" />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.props.closeCreateModalActionCreator} color="primary">
