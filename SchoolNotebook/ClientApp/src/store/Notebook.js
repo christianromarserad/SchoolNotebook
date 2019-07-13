@@ -2,6 +2,7 @@
 
 const getNotebooksType = 'GET_NOTEBOOKS';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_TEXTFIELDS';
+const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_HOMEPAGE_SWITCHFIELDS';
 const createNotebookType = 'CREATE_NOTEBOOK';
 const openCreateModalType = 'OPEN_CREATE_NOTEBOOK_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_NOTEBOOK_MODAL';
@@ -88,7 +89,7 @@ export function closeEditModalActionCreator() {
             isEditModalOpen: false,
             notebookForm: {
                 name: '',
-                public: ''
+                public: false
             }
         }
     };
@@ -112,6 +113,13 @@ export function updateTextFieldsActionCreator(event) {
     return {
         type: updateTextFieldsType,
         payload: { [event.target.name]: event.target.value }
+    };
+}
+
+export function updateSwitchFieldsActionCreator(name, event) {
+    return {
+        type: updateSwitchFieldsType,
+        payload: { [name]: event.target.checked }
     };
 }
 
@@ -152,6 +160,15 @@ export const reducer = (state = initialState, action) => {
         }
     }
     else if (action.type === updateTextFieldsType) {
+        return {
+            ...state,
+            notebookForm: {
+                ...state.notebookForm,
+                ...action.payload
+            }
+        }
+    }
+    else if (action.type === updateSwitchFieldsType) {
         return {
             ...state,
             notebookForm: {

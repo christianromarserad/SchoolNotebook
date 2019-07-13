@@ -19,6 +19,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,6 +30,7 @@ import {
     openCreateModalActionCreator,
     createNotebookActionCreator,
     updateTextFieldsActionCreator,
+    updateSwitchFieldsActionCreator,
     deleteNotebookActionCreator,
     openMenuActionCreator,
     closeMenuActionCreator,
@@ -110,7 +113,7 @@ class Bookmark extends Component {
                     <DialogTitle id="form-dialog-title">Edit Bookmark</DialogTitle>
                     <DialogContent>
                         <TextField margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
-                        <TextField margin="normal" label="Name" value={this.props.public} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='public' />
+                        <FormControlLabel control={<Switch color="primary" checked={this.props.public} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'public')} />} label="Public" />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.props.closeEditModalActionCreator} color="primary">
@@ -146,6 +149,7 @@ function mapDispatchToProps(dispatch) {
         closeCreateModalActionCreator: closeCreateModalActionCreator,
         createNotebookActionCreator: createNotebookActionCreator,
         updateTextFieldsActionCreator: updateTextFieldsActionCreator,
+        updateSwitchFieldsActionCreator: updateSwitchFieldsActionCreator,
         deleteNotebookActionCreator: deleteNotebookActionCreator,
         openMenuActionCreator: openMenuActionCreator,
         closeMenuActionCreator: closeMenuActionCreator,

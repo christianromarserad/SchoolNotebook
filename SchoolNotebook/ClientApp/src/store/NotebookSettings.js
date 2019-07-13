@@ -2,18 +2,26 @@
 
 const getNotebookType = 'GET_NOTEBOOK';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_TEXTFIELDS';
+const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_SWITCHFIELDS';
 export const updateNotebookSettingsType = 'UPDATE_NOTEBOOK_SETTINGS';
 
 
 const initialState = {
     name: null,
-    public: null
+    public: false
 };
 
 export function updateTextFieldsActionCreator(event) {
     return {
         type: updateTextFieldsType,
         payload: { [event.target.name]: event.target.value }
+    };
+}
+
+export function updateSwitchFieldsActionCreator(name, event) {
+    return {
+        type: updateSwitchFieldsType,
+        payload: { [name]: event.target.checked }
     };
 }
 
@@ -34,6 +42,7 @@ export function getNotebookActionCreator(notebookId) {
 export function updateNotebookSettingsActionCreator(notebookId) {
     return function (dispatch, getState) {
         let notebookFormData = getState().notebookPage.notebookSettings;
+        console.log(notebookFormData);
         axios.put('https://localhost:44388/api/Notebook/' + notebookId, notebookFormData).then(function (res) {
             dispatch({
                 type: updateNotebookSettingsType,
@@ -51,6 +60,12 @@ export const reducer = (state = initialState, action) => {
         }
     }
     else if (action.type === updateTextFieldsType) {
+        return {
+            ...state,
+            ...action.payload
+        }
+    }
+    else if (action.type === updateSwitchFieldsType) {
         return {
             ...state,
             ...action.payload
