@@ -40,7 +40,7 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // GET: api/NotebookShare/5
+        // GET: api/NotebookShare/GetCurrentUserPermission/5
         [HttpGet("[action]/{notebookId}")]
         public IActionResult GetCurrentUserPermission(int notebookId)
         {
@@ -52,7 +52,16 @@ namespace SchoolNotebook.Controllers
             }
             else
             {
-                return Ok(_context.NotebookShare.Single(ns => ns.NotebookId == notebookId && ns.User == currentUser));
+                var notebookShare = _context.NotebookShare.SingleOrDefault(ns => ns.NotebookId == notebookId && ns.User == currentUser);
+
+                if(notebookShare == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(notebookShare);
+                }
             }
         }
 
