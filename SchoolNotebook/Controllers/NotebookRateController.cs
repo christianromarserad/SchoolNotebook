@@ -61,7 +61,7 @@ namespace SchoolNotebook.Controllers
         {
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
-            if (!_notebookService.CanUserEdit(notebookRateViewModel.NotebookId, currentUser))
+            if (!_notebookService.CanUserView(notebookRateViewModel.NotebookId, currentUser))
             {
                 return Forbid();
             }
@@ -95,7 +95,7 @@ namespace SchoolNotebook.Controllers
         {
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
-            if (!_notebookService.CanUserEdit(notebookRateViewModel.NotebookId, currentUser))
+            if (!_notebookService.CanUserView(notebookRateViewModel.NotebookId, currentUser))
             {
                 return Forbid();
             }

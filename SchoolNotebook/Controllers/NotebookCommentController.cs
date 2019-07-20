@@ -46,7 +46,7 @@ namespace SchoolNotebook.Controllers
         {
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
-            if (!_notebookService.CanUserEdit(notebookCommentViewModel.NotebookId, currentUser))
+            if (!_notebookService.CanUserView(notebookCommentViewModel.NotebookId, currentUser))
             {
                 return Forbid();
             }
