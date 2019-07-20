@@ -28,7 +28,14 @@ namespace SchoolNotebook.Services
             }
             else
             {
-                return _context.NotebookShare.Any(ns => ns.NotebookId == notebookId && ns.User == user);
+                if(_context.NotebookShare.Any(ns => ns.NotebookId == notebookId && ns.User == user))
+                {
+                    return true;
+                }
+                else
+                {
+                    return _context.Notebook.Single(n => n.Id == notebookId).Public;
+                }
             }
         }
 
