@@ -27,7 +27,9 @@ namespace SchoolNotebook.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.ReminderNote.ToList());
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            return Ok(_context.ReminderNote.Where(rm => rm.User == currentUser).ToList());
         }
 
         // GET: api/ReminderNote/5
