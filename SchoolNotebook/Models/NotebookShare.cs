@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace SchoolNotebook.Models
@@ -10,7 +11,9 @@ namespace SchoolNotebook.Models
         public bool CanEdit { get; set; }
         public DateTime DateShared { get; set; }
 
+        [JsonIgnore]
         public virtual Notebook Notebook { get; set; }
+        [JsonIgnore]
         public virtual User UserNavigation { get; set; }
     }
 }

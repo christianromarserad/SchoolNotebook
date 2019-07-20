@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace SchoolNotebook.Models
@@ -10,6 +11,7 @@ namespace SchoolNotebook.Models
         public string Content { get; set; }
         public string Title { get; set; }
 
+        [JsonIgnore]
         public virtual Notebook Notebook { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace SchoolNotebook.Models
@@ -17,11 +18,17 @@ namespace SchoolNotebook.Models
 
         public string Email { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Bookmark> Bookmark { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Notebook> Notebook { get; set; }
+        [JsonIgnore]
         public virtual ICollection<NotebookComment> NotebookComment { get; set; }
+        [JsonIgnore]
         public virtual ICollection<NotebookRate> NotebookRate { get; set; }
+        [JsonIgnore]
         public virtual ICollection<NotebookShare> NotebookShare { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ReminderNote> ReminderNote { get; set; }
     }
 }

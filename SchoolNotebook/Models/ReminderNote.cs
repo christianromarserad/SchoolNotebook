@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace SchoolNotebook.Models
@@ -9,6 +10,7 @@ namespace SchoolNotebook.Models
         public string User { get; set; }
         public string Notes { get; set; }
 
+        [JsonIgnore]
         public virtual User UserNavigation { get; set; }
     }
 }
