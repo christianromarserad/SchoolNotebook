@@ -85,7 +85,6 @@ export function getDefaultNotebookPageActionCreator(notebookId) {
 
 export function createNotebookPageActionCreator(notebookId) {
     return function (dispatch, getState) {
-        console.log(JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent())));
         let notebookPageFormData = {
             notebookId: notebookId,
             title: 'untitled',

@@ -66,6 +66,23 @@ namespace SchoolNotebook.Controllers
             }
         }
 
+        // GET: api/Notebook?searchKey=notebooktitle
+        [HttpGet("Search/{searchKey}")]
+        public IActionResult Get(string searchKey)
+        {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            var sharedNotebookIds = _context.NotebookShare.Where(ns => ns.User == currentUser).Select(ns => ns.NotebookId);
+
+            var searchNotebookResults = _context.Notebook.Where(n => n.Name.Contains(searchKey) &&
+                (n.User == currentUser ||
+                n.Public ||
+                sharedNotebookIds.Contains(n.Id))
+            ).ToList();
+
+            return Ok(searchNotebookResults.Distinct());
+        }
+
         // POST: api/Notebook
         [HttpPost]
         public IActionResult Post([FromBody] NotebookViewModel notebookViewModel)

@@ -13,6 +13,7 @@ import * as NotebookNavbar from './NotebookNavbar';
 import * as NotebookSettings from './NotebookSettings';
 import * as UserNotebookPermission from './UserNotebookPermission';
 import * as NotebookShare from './NotebookShare';
+import * as NotebookSearch from './NotebookSearch';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -30,6 +31,7 @@ export default function configureStore (history, initialState) {
         notebookSettings: NotebookSettings.reducer,
         notebookShare: NotebookShare.reducer
     }),
+    notebookSearch: NotebookSearch.reducer,
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer
   };
