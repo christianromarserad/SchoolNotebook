@@ -29,5 +29,7 @@ namespace SchoolNotebook.Models
         public virtual ICollection<NotebookRate> NotebookRate { get; set; }
         [JsonIgnore]
         public virtual ICollection<NotebookShare> NotebookShare { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<NotebookCollection> NotebookCollection { get; set; }
     }
 }
