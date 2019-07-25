@@ -34,11 +34,11 @@ namespace SchoolNotebook.Controllers
             var notebooks = new List<Notebook>();
 
             var ownedNotebooks = _context.Notebook.Where(n => n.User == currentUser).ToList();
-            var sharedNotebookIds = _context.NotebookShare.Where(ns => ns.User == currentUser).Select(ns => ns.NotebookId);
-            var sharedNotebooks = _context.Notebook.Where(n => sharedNotebookIds.Contains(n.Id)).ToList();
+            var notebookCollectionIds = _context.NotebookCollection.Where(nc => nc.User == currentUser).Select(nc => nc.NotebookId);
+            var notebookCollection = _context.Notebook.Where(n => notebookCollectionIds.Contains(n.Id)).ToList();
 
             notebooks.AddRange(ownedNotebooks);
-            notebooks.AddRange(sharedNotebooks);
+            notebooks.AddRange(notebookCollection);
 
             return Ok(notebooks.Distinct());
         }

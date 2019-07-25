@@ -71,7 +71,14 @@ namespace SchoolNotebook.Controllers
         {
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
-            if (!_notebookService.CanUserEdit(notebookShareViewModel.NotebookId, currentUser))
+            var notebook = _context.Notebook.SingleOrDefault(n => n.Id == notebookShareViewModel.NotebookId);
+
+            if(notebook == null)
+            {
+                return NotFound(new { message = "Notebook not found" });
+            }
+            
+            if (!_notebookService.IsUserOwner(notebookShareViewModel.NotebookId, currentUser))
             {
                 return Forbid();
             }
@@ -84,6 +91,12 @@ namespace SchoolNotebook.Controllers
                     User = notebookShareViewModel.User,
                     CanEdit = notebookShareViewModel.CanEdit,
                     DateShared = DateTime.Now
+                });
+
+                _context.NotebookCollection.Add(new NotebookCollection
+                {
+                    NotebookId = notebookShareViewModel.NotebookId,
+                    User = notebookShareViewModel.User
                 });
 
                 _context.SaveChanges();
@@ -104,7 +117,7 @@ namespace SchoolNotebook.Controllers
         {
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
-            if (!_notebookService.CanUserEdit(notebookShareViewModel.NotebookId, currentUser))
+            if (!_notebookService.IsUserOwner(notebookShareViewModel.NotebookId, currentUser))
             {
                 return Forbid();
             }
@@ -125,10 +138,30 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE: api/ApiWithActions?notebookId=5&user=user
+        [HttpDelete]
+        public IActionResult Delete(int notebookId, string user)
         {
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            if (!_notebookService.IsUserOwner(notebookId, currentUser))
+            {
+                return Forbid();
+            }
+
+            var notebookShare = _context.NotebookShare.SingleOrDefault(ns => ns.User == user && ns.NotebookId == notebookId);
+
+            if(notebookShare == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _context.NotebookShare.Remove(notebookShare);
+                _context.SaveChanges();
+
+                return Ok();
+            }
         }
     }
 }

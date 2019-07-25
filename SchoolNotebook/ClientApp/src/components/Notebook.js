@@ -16,6 +16,7 @@ import NotebookContent from './notebook/NotebookContent';
 import NotebookComments from './notebook/NotebookComments';
 import NotebookShare from './notebook/NotebookShare';
 import NotebookSettings from './notebook/NotebookSettings';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import { Link } from 'react-router-dom';
 import { Route } from 'react-router';
 import { withRouter } from 'react-router-dom';
@@ -28,7 +29,10 @@ import {
     getCurrentUserRateActionCreator,
     rateNotebookActionCreator,
     openRateModalActionCreator,
-    closeRateModalActionCreator
+    closeRateModalActionCreator,
+    isNotebookInCollectionActionCreator,
+    addToNotebookCollectionActionCreator,
+    removeFromNotebookCollectionActionCreator
 } from '../store/NotebookNavbar';
 
 class Notebook extends Component {
@@ -37,6 +41,7 @@ class Notebook extends Component {
         this.props.getNotebookRatingActionCreator(this.props.match.params.id);
         this.props.getCurrentUserRateActionCreator(this.props.match.params.id);
         this.props.getUserNotebookPermissionActionCreator(this.props.match.params.id);
+        this.props.isNotebookInCollectionActionCreator(this.props.match.params.id);
     }
 
     render() {
@@ -46,9 +51,17 @@ class Notebook extends Component {
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item style={{ flex: 1 }}>
                             <Toolbar>
-                                <Typography variant="h5" style={{ marginRight: '70px' }}>
+                                <Typography variant="h5" style={{ marginRight: '110px' }}>
                                     {this.props.notebookName}
                                 </Typography>
+
+                                {
+                                    this.props.userIsOwner ?
+                                        null :
+                                        this.props.isNotebookInCollection ?
+                                            <Button variant="outlined" style={{ marginRight: '110px' }} onClick={this.props.removeFromNotebookCollectionActionCreator.bind(this, this.props.match.params.id)}>Remove from Collection</Button> :
+                                            <Button variant="contained" color="secondary" style={{ marginRight: '110px' }} onClick={this.props.addToNotebookCollectionActionCreator.bind(this, this.props.match.params.id)}>Add to Collection</Button>
+                                }
 
                                 <ButtonBase onClick={this.props.openRateModalActionCreator}>
                                     <Ratings rating={this.props.notebookRating} widgetDimensions="40px" widgetSpacings="2px">
@@ -69,8 +82,8 @@ class Notebook extends Component {
                             <Tabs value={this.props.location.pathname} indicatorColor="primary" textColor="primary">
                                 <Tab label="Content" component={Link} to={"/notebook/content/" + this.props.match.params.id} value={"/notebook/content/" + this.props.match.params.id} />
                                 <Tab label="Comments" component={Link} to={"/notebook/comments/" + this.props.match.params.id} value={"/notebook/comments/" + this.props.match.params.id} />
-                                { this.props.isOwner ? <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.match.params.id} value={"/notebook/share/" + this.props.match.params.id} /> : null }
-                                { this.props.isOwner ? <Tab style={{ height: '64px' }} label="Settings" component={Link} to={"/notebook/settings/" + this.props.match.params.id} value={"/notebook/settings/" + this.props.match.params.id} /> : null }
+                                { this.props.userIsOwner ? <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.match.params.id} value={"/notebook/share/" + this.props.match.params.id} /> : null }
+                                { this.props.userIsOwner ? <Tab style={{ height: '64px' }} label="Settings" component={Link} to={"/notebook/settings/" + this.props.match.params.id} value={"/notebook/settings/" + this.props.match.params.id} /> : null }
                             </Tabs>
                         </Grid>
                     </Grid>
@@ -115,7 +128,8 @@ function mapStateToProps(state) {
         numberOfRates: state.notebookPage.notebookNavbar.numberOfRates,
         userRating: state.notebookPage.notebookNavbar.userRating,
         isRateModalOpen: state.notebookPage.notebookNavbar.isRateModalOpen,
-        isOwner: state.notebookPage.notebookPermission.isOwner
+        userIsOwner: state.notebookPage.notebookPermission.userIsOwner,
+        isNotebookInCollection: state.notebookPage.notebookNavbar.isNotebookInCollection
     };
 }
 
@@ -127,7 +141,10 @@ function mapDispatchToProps(dispatch) {
         rateNotebookActionCreator: rateNotebookActionCreator,
         openRateModalActionCreator: openRateModalActionCreator,
         closeRateModalActionCreator: closeRateModalActionCreator,
-        getUserNotebookPermissionActionCreator: getUserNotebookPermissionActionCreator
+        getUserNotebookPermissionActionCreator: getUserNotebookPermissionActionCreator,
+        isNotebookInCollectionActionCreator: isNotebookInCollectionActionCreator,
+        addToNotebookCollectionActionCreator: addToNotebookCollectionActionCreator,
+        removeFromNotebookCollectionActionCreator: removeFromNotebookCollectionActionCreator
     }, dispatch);
 }
 

@@ -6,6 +6,7 @@ const getNotebookRatingType = 'GET_NOTEBOOK_RATING';
 const getCurrentUserRateType = 'GET_CURRENT_USER_RATING';
 const openRateModalType = 'OPEN_RATE_NOTEBOOK_MODAL';
 const closeRateModalType = 'CLOSE_RATE_NOTEBOOK_MODAL';
+const isNotebookInCollectionType = 'IS_NOTEBOOK_IN_COLLECTION_TYPE';
 
 
 const initialState = {
@@ -13,8 +14,45 @@ const initialState = {
     notebookRating: 0,
     numberOfRates: 0,
     userRating: null,
-    isRateModalOpen: false
+    isRateModalOpen: false,
+    isNotebookInCollection: false
 };
+
+export function removeFromNotebookCollectionActionCreator(notebookId) {
+    return function (dispatch) {
+        axios.delete('https://localhost:44388/api/NotebookCollection/' + notebookId).then(function (res) {
+            dispatch(isNotebookInCollectionActionCreator(notebookId));
+        })
+    }
+}
+
+export function addToNotebookCollectionActionCreator(notebookId)  {
+    return function (dispatch) {
+        axios.post('https://localhost:44388/api/NotebookCollection', { notebookId: notebookId }).then(function (res) {
+            dispatch(isNotebookInCollectionActionCreator(notebookId));
+        })
+    }
+}
+
+export function isNotebookInCollectionActionCreator(notebookId) {
+    return function (dispatch) {
+        axios.get('https://localhost:44388/api/NotebookCollection').then(function (res) {
+            let isNotebookInCollection = false;
+            res.data.forEach(function (element) {
+                if (element.notebookId == notebookId) {
+                    isNotebookInCollection = true;
+                }
+            });
+
+            dispatch({
+                type: isNotebookInCollectionType,
+                payload: {
+                    isNotebookInCollection: isNotebookInCollection
+                }
+            });
+        })
+    }
+}
 
 export function openRateModalActionCreator() {
     return {
@@ -142,6 +180,12 @@ export const reducer = (state = initialState, action) => {
         return {
             ...state,
             notebookName: action.payload.name
+        }
+    }
+    else if (action.type === isNotebookInCollectionType) {
+        return {
+            ...state,
+            ...action.payload
         }
     }
 
