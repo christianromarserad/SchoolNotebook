@@ -4,36 +4,44 @@ const getUserNotebookPermissionType = 'GET_USER_NOTEBOOK_PERMISSION';
 
 
 const initialState = {
-    isOwner: false,
-    canView: false,
-    canEdit: false
+    userIsOwner: false,
+    userCanView: false,
+    userCanEdit: false
 };
 
 export function getUserNotebookPermissionActionCreator(notebookId) {
     return function (dispatch, getState) {
-        axios.get('https://localhost:44388/api/Notebook/' + notebookId).then(function (res) {
-            if (res.data.user == getState().user.email) {
+        axios.get('https://localhost:44388/api/Notebook/' + notebookId).then(function (notebook) {
+
+            if (notebook.data.user == getState().user.email) {
                 dispatch({
                     type: getUserNotebookPermissionType,
                     payload: {
-                        isOwner: true,
-                        canView: true,
-                        canEdit: true
+                        userIsOwner: true,
+                        userCanView: true,
+                        userCanEdit: true
                     }
                 });
             }
             else {
-                axios.get('https://localhost:44388/api/NotebookShare/' + notebookId).then(function (res) {
+                axios.get('https://localhost:44388/api/NotebookShare/GetCurrentUserPermission/' + notebookId).then(function (res) {
                     dispatch({
                         type: getUserNotebookPermissionType,
                         payload: {
-                            canView: true,
-                            canEdit: res.data.canEdit
+                            userIsOwner: false,
+                            userCanView: true,
+                            userCanEdit: res.data.canEdit
                         }
                     })
                 }).catch(function (error) {
-                    //TODO (redirect to homepage)
-                    console.log(error);
+                    dispatch({
+                        type: getUserNotebookPermissionType,
+                        payload: {
+                            userIsOwner: false,
+                            userCanView: notebook.data.public,
+                            userCanEdit: false
+                        }
+                    })
                 });
             }
         });
