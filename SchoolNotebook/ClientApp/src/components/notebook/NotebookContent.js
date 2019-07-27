@@ -50,7 +50,7 @@ class NotebookContent extends Component {
                 <Grid container alignItems="flex-start">
                     <Grid item container lg={4}>
                         <Grid item lg={12}>
-                            <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Add Page</Button>
+                            { this.props.userCanEdit ? <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Add Page</Button> : null }
                         </Grid>
                         {this.props.notebookPages.map((item) => {
                             return (
@@ -61,9 +61,13 @@ class NotebookContent extends Component {
                                                 <Typography style={{ flexGrow: 1 }}>
                                                     {item.title}
                                                 </Typography>
-                                                <IconButton aria-label="Delete" name="deleteButton" onClick={this.deleteNotebookPage.bind(this, item.notebookId, item.pageNumber)}>
-                                                    <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
-                                                </IconButton>
+                                                {
+                                                    this.props.userCanEdit ? 
+                                                        <IconButton aria-label="Delete" name="deleteButton" onClick={this.deleteNotebookPage.bind(this, item.notebookId, item.pageNumber)}>
+                                                            <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                        </IconButton> :
+                                                        null
+                                                }
                                             </Toolbar>
                                         </CardActionArea>
                                     </Card>
@@ -74,7 +78,11 @@ class NotebookContent extends Component {
                     <Grid item container lg={8}>
                         <TextField margin="normal" label="Title" value={this.props.notebookPage.title} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='title' />
                         <NotebookEditor />
-                        <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.updateNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Update Page</Button>
+                        {
+                            this.props.userCanEdit ?
+                                <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.updateNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Update Page</Button> :
+                                null
+                        }
                     </Grid>
                 </Grid>
             </div>
@@ -85,7 +93,8 @@ class NotebookContent extends Component {
 function mapStateToProps(state) {
     return {
         notebookPages: state.notebookPage.notebookContent.notebookPages,
-        notebookPage: state.notebookPage.notebookContent.notebookPage
+        notebookPage: state.notebookPage.notebookContent.notebookPage,
+        userCanEdit: state.notebookPage.notebookPermission.userCanEdit
     };
 }
 

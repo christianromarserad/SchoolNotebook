@@ -35,35 +35,43 @@ class NotebookEditor extends Component {
     render() {
         return (
             <Grid item container justify="center" lg={12}>
-                <Grid item>
-                    <IconButton onMouseDown={this.toggleInlineStyle.bind(this, 'BOLD')}>
-                        <FormatBoldIcon />
-                    </IconButton>
-                    <IconButton onMouseDown={this.toggleInlineStyle.bind(this, 'ITALIC')}>
-                        <FormatItalicIcon />
-                    </IconButton>
-                    <IconButton onMouseDown={this.toggleInlineStyle.bind(this, 'UNDERLINE')}>
-                        <FormatUnderlinedIcon />
-                    </IconButton>
-                    <IconButton onMouseDown={this.toggleBlockType.bind(this, 'code-block')}>
-                        <CodeIcon />
-                    </IconButton>
-                    <IconButton onMouseDown={this.toggleBlockType.bind(this, 'blockquote')}>
-                        <FormatQuoteIcon />
-                    </IconButton>
-                    <IconButton onMouseDown={this.toggleBlockType.bind(this, 'unordered-list-item')}>
-                        <FormatListBulletedIcon />
-                    </IconButton>
-                    <IconButton onMouseDown={this.toggleBlockType.bind(this, 'ordered-list-item')}>
-                        <FormatListNumberedIcon />
-                    </IconButton>
-                    <IconButton onMouseDown={this.toggleBlockType.bind(this, 'header-one')}>
-                        <TitleIcon />
-                    </IconButton>
-                </Grid>
+                {
+                    this.props.userCanEdit ?
+                        <Grid item>
+                            <IconButton onMouseDown={this.toggleInlineStyle.bind(this, 'BOLD')}>
+                                <FormatBoldIcon />
+                            </IconButton>
+                            <IconButton onMouseDown={this.toggleInlineStyle.bind(this, 'ITALIC')}>
+                                <FormatItalicIcon />
+                            </IconButton>
+                            <IconButton onMouseDown={this.toggleInlineStyle.bind(this, 'UNDERLINE')}>
+                                <FormatUnderlinedIcon />
+                            </IconButton>
+                            <IconButton onMouseDown={this.toggleBlockType.bind(this, 'code-block')}>
+                                <CodeIcon />
+                            </IconButton>
+                            <IconButton onMouseDown={this.toggleBlockType.bind(this, 'blockquote')}>
+                                <FormatQuoteIcon />
+                            </IconButton>
+                            <IconButton onMouseDown={this.toggleBlockType.bind(this, 'unordered-list-item')}>
+                                <FormatListBulletedIcon />
+                            </IconButton>
+                            <IconButton onMouseDown={this.toggleBlockType.bind(this, 'ordered-list-item')}>
+                                <FormatListNumberedIcon />
+                            </IconButton>
+                            <IconButton onMouseDown={this.toggleBlockType.bind(this, 'header-one')}>
+                                <TitleIcon />
+                            </IconButton>
+                        </Grid> :
+                        null
+                }
                 <Grid item lg={12}>
                     <div style={{ height: '400px', maxHeight: '400px', overflow: 'auto' }}>
-                        <Editor editorState={this.props.editorState} onChange={this.props.updateEditorStateActionCreator} />
+                        {
+                            this.props.userCanEdit ?
+                                <Editor editorState={this.props.editorState} onChange={this.props.updateEditorStateActionCreator} /> :
+                                <Editor editorState={this.props.editorState} readOnly />
+                        }
                     </div>
                 </Grid>
             </Grid>
@@ -73,7 +81,8 @@ class NotebookEditor extends Component {
 
 function mapStateToProps(state) {
     return {
-        editorState: state.notebookPage.notebookContent.notebookPage.editorState
+        editorState: state.notebookPage.notebookContent.notebookPage.editorState,
+        userCanEdit: state.notebookPage.notebookPermission.userCanEdit
     };
 }
 
