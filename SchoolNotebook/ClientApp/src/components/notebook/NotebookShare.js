@@ -11,6 +11,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -20,7 +22,8 @@ import {
     openCreateModalActionCreator,
     closeCreateModalActionCreator,
     createNotebookPermissionActionCreator,
-    updateCanEditPermissionActionCreator
+    updateCanEditPermissionActionCreator,
+    deleteNotebookPermissionActionCreator
 } from '../../store/NotebookShare';
 
 class NotebookShare extends Component {
@@ -43,6 +46,9 @@ class NotebookShare extends Component {
                                                 {item.user}
                                             </Typography>
                                             <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
+                                            <IconButton aria-label="Delete" onClick={this.props.deleteNotebookPermissionActionCreator.bind(this, item.notebookId, item.user)}>
+                                                <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                            </IconButton>
                                         </Toolbar>
                                     </Card>
                                 </Grid>
@@ -88,7 +94,8 @@ function mapDispatchToProps(dispatch) {
         openCreateModalActionCreator: openCreateModalActionCreator,
         closeCreateModalActionCreator: closeCreateModalActionCreator,
         createNotebookPermissionActionCreator: createNotebookPermissionActionCreator,
-        updateCanEditPermissionActionCreator: updateCanEditPermissionActionCreator
+        updateCanEditPermissionActionCreator: updateCanEditPermissionActionCreator,
+        deleteNotebookPermissionActionCreator: deleteNotebookPermissionActionCreator
     }, dispatch);
 }
 

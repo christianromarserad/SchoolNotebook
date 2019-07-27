@@ -158,6 +158,14 @@ namespace SchoolNotebook.Controllers
             else
             {
                 _context.NotebookShare.Remove(notebookShare);
+
+                var notebookCollection = _context.NotebookCollection.SingleOrDefault(nc => nc.NotebookId == notebookId && nc.User == user);
+
+                if(notebookCollection != null)
+                {
+                    _context.NotebookCollection.Remove(notebookCollection);
+                }
+
                 _context.SaveChanges();
 
                 return Ok();

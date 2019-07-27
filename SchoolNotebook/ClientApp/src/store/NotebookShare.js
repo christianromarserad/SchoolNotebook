@@ -91,6 +91,14 @@ export function createNotebookPermissionActionCreator(notebookId) {
     }
 }
 
+export function deleteNotebookPermissionActionCreator(notebookId, user) {
+    return function (dispatch) {
+        axios.delete('https://localhost:44388/api/NotebookShare?notebookId=' + notebookId + '&user=' + user).then(function (res) {
+            dispatch(getNotebookPermissionsActionCreator(notebookId));
+        });
+    }
+}
+
 export const reducer = (state = initialState, action) => {
     if (action.type === getNotebookPermissionsType) {
         return {
