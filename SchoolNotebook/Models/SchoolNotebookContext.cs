@@ -56,6 +56,14 @@ namespace SchoolNotebook.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Image)
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ImageName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.User)
                     .IsRequired()
                     .HasMaxLength(50)

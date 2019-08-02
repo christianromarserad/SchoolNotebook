@@ -2,6 +2,7 @@
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,7 +20,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Switch from '@material-ui/core/Switch';
+import { withStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -30,6 +33,7 @@ import {
     createNotebookActionCreator,
     updateTextFieldsActionCreator,
     updateSwitchFieldsActionCreator,
+    updateImageFileActionCreator,
     deleteNotebookActionCreator,
     openMenuActionCreator,
     closeMenuActionCreator,
@@ -37,6 +41,17 @@ import {
     closeEditModalActionCreator,
     updateNotebookActionCreator
 } from '../../store/Notebook';
+
+const styles = {
+    card: {
+        maxWidth: 345,
+        margin: '5px'
+    },
+    media: {
+        height: 200
+    }
+};
+
 
 class Bookmark extends Component {
     constructor(props) {
@@ -53,6 +68,10 @@ class Bookmark extends Component {
         event.preventDefault();
     }
 
+    openFileExplorer(fileInputId) {
+        document.getElementById(fileInputId).click();
+    }
+
     render() {
         return (
             <div>
@@ -61,8 +80,13 @@ class Bookmark extends Component {
                     {this.props.notebooks.map((item) => {
                         return (
                             <Grid key={item.id} item lg={3}>
-                                <Card style={{ margin: '5px' }}>
+                                <Card className={this.props.classes.card}>
                                     <CardActionArea centerRipple='true' disableRipple='true' component={Link} to={"/notebook/content/" + item.id}>
+                                        <CardMedia
+                                            className={this.props.classes.media}
+                                            image={item.image || '/Images/lizard.jpg'}
+                                            title={item.Name}
+                                        />
                                         <Toolbar>
                                             <Typography style={{ flexGrow: 1 }}>
                                                 {item.name}
@@ -97,6 +121,14 @@ class Bookmark extends Component {
                     <DialogTitle id="form-dialog-title">Create Notebook</DialogTitle>
                     <DialogContent>
                         <TextField margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
+                        <input asp-for="File" type="file" accept="image/*" class="form-control" id="createFileInput" hidden onChange={this.props.updateImageFileActionCreator} />
+                        <Button variant="contained" color="default" onClick={this.openFileExplorer.bind(this, 'createFileInput')}>
+                            Thumbnail
+                            <CloudUploadIcon className={this.props.classes.smallMarginLeft} />
+                        </Button>
+                        <Typography variant="caption" display="inline" className={this.props.classes.smallMarginLeft}>
+                            {this.props.imageFileName}
+                        </Typography>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.props.closeCreateModalActionCreator} color="primary">
@@ -113,6 +145,14 @@ class Bookmark extends Component {
                     <DialogContent>
                         <TextField margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
                         <FormControlLabel control={<Switch color="primary" checked={this.props.public} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'public')} />} label="Public" />
+                        <input asp-for="File" type="file" accept="image/*" class="form-control" id="editFileInput" hidden onChange={this.props.updateImageFileActionCreator} />
+                        <Button variant="contained" color="default" onClick={this.openFileExplorer.bind(this, 'editFileInput')}>
+                            Thumbnail
+                            <CloudUploadIcon className={this.props.classes.smallMarginLeft} />
+                        </Button>
+                        <Typography variant="caption" display="inline" className={this.props.classes.smallMarginLeft}>
+                            {this.props.imageFileName}
+                        </Typography>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.props.closeEditModalActionCreator} color="primary">
@@ -137,7 +177,8 @@ function mapStateToProps(state) {
         isCreateModalOpen: state.homePage.notebook.isCreateModalOpen,
         isEditModalOpen: state.homePage.notebook.isEditModalOpen,
         name: state.homePage.notebook.notebookForm.name,
-        public: state.homePage.notebook.notebookForm.public
+        public: state.homePage.notebook.notebookForm.public,
+        imageFileName: state.homePage.notebook.notebookForm.imageFileName
     };
 }
 
@@ -149,6 +190,7 @@ function mapDispatchToProps(dispatch) {
         createNotebookActionCreator: createNotebookActionCreator,
         updateTextFieldsActionCreator: updateTextFieldsActionCreator,
         updateSwitchFieldsActionCreator: updateSwitchFieldsActionCreator,
+        updateImageFileActionCreator: updateImageFileActionCreator,
         deleteNotebookActionCreator: deleteNotebookActionCreator,
         openMenuActionCreator: openMenuActionCreator,
         closeMenuActionCreator: closeMenuActionCreator,
@@ -158,4 +200,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bookmark);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Bookmark));

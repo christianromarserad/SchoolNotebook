@@ -3,6 +3,7 @@
 const getNotebooksType = 'GET_NOTEBOOKS';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_TEXTFIELDS';
 const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_HOMEPAGE_SWITCHFIELDS';
+const updateImageFileType = 'UPDATE_NOTEBOOK_HOMEPAGE_IMAGE_FILE';
 const createNotebookType = 'CREATE_NOTEBOOK';
 const openCreateModalType = 'OPEN_CREATE_NOTEBOOK_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_NOTEBOOK_MODAL';
@@ -20,7 +21,9 @@ const initialState = {
     selectedNotebookId: '',
     notebookForm: {
         name: '',
-        public: false
+        public: false,
+        imageFile: null,
+        imageFileName: null
     }
 };
 
@@ -74,7 +77,8 @@ export function openEditModalActionCreator(id) {
                     isEditModalOpen: true,
                     notebookForm: {
                         name: res.data.name,
-                        public: res.data.public
+                        public: res.data.public,
+                        imageFileName: res.data.imageName
                     }
                 }
             });
@@ -109,6 +113,16 @@ export function getNotebooksActionCreator() {
     }
 }
 
+export function updateImageFileActionCreator(event) {
+    return {
+        type: updateImageFileType,
+        payload: {
+            imageFile: event.target.files[0],
+            imageFileName: event.target.files[0].name
+        }
+    };
+}
+
 export function updateTextFieldsActionCreator(event) {
     return {
         type: updateTextFieldsType,
@@ -125,11 +139,22 @@ export function updateSwitchFieldsActionCreator(name, event) {
 
 export function createNotebookActionCreator() {
     return function (dispatch, getState) {
-        let notebookFormData = getState().homePage.notebook.notebookForm;
-        axios.post('https://localhost:44388/api/Notebook', notebookFormData).then(function (res) {
+        let notebookFormData = getState().homePage.notebook.notebookForm
+        var formData = new FormData();
+        formData.append('name', notebookFormData.name);
+        formData.append('public', notebookFormData.public);
+        formData.append('imageFile', notebookFormData.imageFile);
+
+        axios.post('https://localhost:44388/api/Notebook', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getNotebooksActionCreator());
         });
+
+
     }
 }
 
@@ -144,8 +169,18 @@ export function deleteNotebookActionCreator(id) {
 
 export function updateNotebookActionCreator(id) {
     return function (dispatch, getState) {
-        let notebookFormData = getState().homePage.notebook.notebookForm;
-        axios.put('https://localhost:44388/api/Notebook/' + id, notebookFormData).then(function (res) {
+        let notebookFormData = getState().homePage.notebook.notebookForm
+
+        var formData = new FormData();
+        formData.append('name', notebookFormData.name);
+        formData.append('public', notebookFormData.public);
+        formData.append('imageFile', notebookFormData.imageFile);
+
+        axios.put('https://localhost:44388/api/Notebook/' + id, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getNotebooksActionCreator());
         });
@@ -169,6 +204,15 @@ export const reducer = (state = initialState, action) => {
         }
     }
     else if (action.type === updateSwitchFieldsType) {
+        return {
+            ...state,
+            notebookForm: {
+                ...state.notebookForm,
+                ...action.payload
+            }
+        }
+    }
+    else if (action.type === updateImageFileType) {
         return {
             ...state,
             notebookForm: {

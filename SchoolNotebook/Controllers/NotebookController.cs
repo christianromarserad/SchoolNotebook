@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolNotebook.Models;
@@ -19,17 +21,22 @@ namespace SchoolNotebook.Controllers
     {
         private SchoolNotebookContext _context;
         private NotebookService _notebookService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public NotebookController(SchoolNotebookContext context)
+        public NotebookController(SchoolNotebookContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _notebookService = new NotebookService(_context);
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: api/Notebook
         [HttpGet]
         public IActionResult Get()
         {
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            string contentRootPath = _hostingEnvironment.ContentRootPath;
+
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
             var notebooks = new List<Notebook>();
 
@@ -85,18 +92,33 @@ namespace SchoolNotebook.Controllers
 
         // POST: api/Notebook
         [HttpPost]
-        public IActionResult Post([FromBody] NotebookViewModel notebookViewModel)
+        public IActionResult Post([FromForm] NotebookViewModel notebookViewModel)
         {
             if (ModelState.IsValid)
-            {
-                var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
-
-                _context.Notebook.Add(new Notebook
+            {    
+                var notebook = new Notebook();
+                if(notebookViewModel.ImageFile != null)
                 {
-                    Name = notebookViewModel.Name,
-                    Public = notebookViewModel.Public,
-                    User = currentUser
-                });
+                    var fileName =  Guid.NewGuid() + notebookViewModel.ImageFile.FileName;
+                    var imageFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "Images");
+                    var filePath = Path.Combine(imageFilesFolderPath, fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        notebookViewModel.ImageFile.CopyTo(fileStream);
+                    }
+
+                    notebook.Image = Path.Combine("/Images/", fileName);
+                    notebook.ImageName = notebookViewModel.ImageFile.FileName;
+                }
+
+
+                var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+                notebook.Name = notebookViewModel.Name;
+                notebook.Public = notebookViewModel.Public;
+                notebook.User = currentUser;
+
+                _context.Notebook.Add(notebook);
 
                 _context.SaveChanges();
 
@@ -110,29 +132,58 @@ namespace SchoolNotebook.Controllers
 
         // PUT: api/Notebook/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] NotebookViewModel notebookViewModel)
+        public IActionResult Put(int id, [FromForm] NotebookViewModel notebookViewModel)
         {
-            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
-
-            if(!_notebookService.CanUserEdit(id, currentUser))
+            if (ModelState.IsValid)
             {
-                return Forbid();
-            }
+                var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
 
-            var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
+                if (!_notebookService.CanUserEdit(id, currentUser))
+                {
+                    return Forbid();
+                }
 
-            if (notebook == null)
-            {
-                return NotFound();
+                var notebook = _context.Notebook.SingleOrDefault(b => b.Id == id);
+
+                if (notebook == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    if (notebookViewModel.ImageFile != null)
+                    {
+                        if(notebook.Image != null)
+                        {
+                            // Delete the old image file
+                            var oldFilePath = _hostingEnvironment.WebRootPath + notebook.Image;
+                            System.IO.File.Delete(oldFilePath);
+                        }
+
+                        var fileName = Guid.NewGuid() + notebookViewModel.ImageFile.FileName;
+                        var imageFilesFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "Images");
+                        var filePath = Path.Combine(imageFilesFolderPath, fileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            notebookViewModel.ImageFile.CopyTo(fileStream);
+                        }
+
+                        notebook.Image = Path.Combine("/Images/", fileName);
+                        notebook.ImageName = notebookViewModel.ImageFile.FileName;
+                    }
+
+                    notebook.Name = notebookViewModel.Name;
+                    notebook.Public = notebookViewModel.Public;
+
+                    _context.SaveChanges();
+
+                    return Ok(notebook);
+                }
             }
             else
             {
-                notebook.Name = notebookViewModel.Name;
-                notebook.Public = notebookViewModel.Public;
-
-                _context.SaveChanges();
-
-                return Ok(notebook);
+                return BadRequest(ModelState);
             }
         }
 
@@ -155,6 +206,13 @@ namespace SchoolNotebook.Controllers
             }
             else
             {
+                if (notebook.Image != null)
+                {
+                    // Delete the image file
+                    var oldFilePath = _hostingEnvironment.WebRootPath + notebook.Image;
+                    System.IO.File.Delete(oldFilePath);
+                }
+
                 _context.Notebook.Remove(notebook);
                 _context.SaveChanges();
                 return Ok();

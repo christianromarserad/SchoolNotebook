@@ -3,13 +3,27 @@
 const getNotebookType = 'GET_NOTEBOOK';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_TEXTFIELDS';
 const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_SWITCHFIELDS';
+const updateImageFileType = 'UPDATE_NOTEBOOK_SETTINGS_IMAGE_FILE';
 export const updateNotebookSettingsType = 'UPDATE_NOTEBOOK_SETTINGS';
 
 
 const initialState = {
     name: null,
-    public: false
+    public: false,
+    imageFile: null,
+    imageFileName: null,
+    imageFilePath: null
 };
+
+export function updateImageFileActionCreator(event) {
+    return {
+        type: updateImageFileType,
+        payload: {
+            imageFile: event.target.files[0],
+            imageFileName: event.target.files[0].name
+        }
+    };
+}
 
 export function updateTextFieldsActionCreator(event) {
     return {
@@ -32,7 +46,9 @@ export function getNotebookActionCreator(notebookId) {
                 type: getNotebookType,
                 payload: {
                     name: res.data.name,
-                    public: res.data.public
+                    public: res.data.public,
+                    imageFilePath: res.data.image,
+                    imageFileName: res.data.imageName
                 }
             });
         });
@@ -41,12 +57,26 @@ export function getNotebookActionCreator(notebookId) {
 
 export function updateNotebookSettingsActionCreator(notebookId) {
     return function (dispatch, getState) {
-        let notebookFormData = getState().notebookPage.notebookSettings;
-        console.log(notebookFormData);
-        axios.put('https://localhost:44388/api/Notebook/' + notebookId, notebookFormData).then(function (res) {
+        let notebookFormData = getState().notebookPage.notebookSettings
+
+        var formData = new FormData();
+        formData.append('name', notebookFormData.name);
+        formData.append('public', notebookFormData.public);
+        formData.append('imageFile', notebookFormData.imageFile);
+
+        axios.put('https://localhost:44388/api/Notebook/' + notebookId, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(function (res) {
             dispatch({
                 type: updateNotebookSettingsType,
-                payload: res.data
+                payload: {
+                    name: res.data.name,
+                    public: res.data.public,
+                    imageFilePath: res.data.image,
+                    imageFileName: res.data.imageName
+                }
             });
         });
     }
@@ -66,6 +96,18 @@ export const reducer = (state = initialState, action) => {
         }
     }
     else if (action.type === updateSwitchFieldsType) {
+        return {
+            ...state,
+            ...action.payload
+        }
+    }
+    else if (action.type === updateImageFileType) {
+        return {
+            ...state,
+            ...action.payload
+        }
+    }
+    else if (action.type === updateNotebookSettingsType) {
         return {
             ...state,
             ...action.payload

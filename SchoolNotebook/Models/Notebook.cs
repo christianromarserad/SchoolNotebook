@@ -18,6 +18,8 @@ namespace SchoolNotebook.Models
         public string User { get; set; }
         public string Name { get; set; }
         public bool Public { get; set; }
+        public string Image { get; set; }
+        public string ImageName { get; set; }
 
         [JsonIgnore]
         public virtual User UserNavigation { get; set; }
