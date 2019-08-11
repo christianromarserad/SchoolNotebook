@@ -6,6 +6,10 @@ namespace SchoolNotebook.Models
 {
     public partial class SchoolNotebookContext : DbContext
     {
+        public SchoolNotebookContext()
+        {
+        }
+
         public SchoolNotebookContext(DbContextOptions<SchoolNotebookContext> options)
             : base(options)
         {
@@ -13,11 +17,11 @@ namespace SchoolNotebook.Models
 
         public virtual DbSet<Bookmark> Bookmark { get; set; }
         public virtual DbSet<Notebook> Notebook { get; set; }
+        public virtual DbSet<NotebookCollection> NotebookCollection { get; set; }
         public virtual DbSet<NotebookComment> NotebookComment { get; set; }
         public virtual DbSet<NotebookPage> NotebookPage { get; set; }
         public virtual DbSet<NotebookRate> NotebookRate { get; set; }
         public virtual DbSet<NotebookShare> NotebookShare { get; set; }
-        public virtual DbSet<NotebookCollection> NotebookCollection { get; set; }
         public virtual DbSet<ReminderNote> ReminderNote { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -34,7 +38,6 @@ namespace SchoolNotebook.Models
 
                 entity.Property(e => e.Url)
                     .IsRequired()
-                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.User)
@@ -51,17 +54,17 @@ namespace SchoolNotebook.Models
 
             modelBuilder.Entity<Notebook>(entity =>
             {
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Image)
                     .HasMaxLength(300)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ImageName)
                     .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.User)
@@ -74,6 +77,27 @@ namespace SchoolNotebook.Models
                     .HasForeignKey(d => d.User)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Notebook_User");
+            });
+
+            modelBuilder.Entity<NotebookCollection>(entity =>
+            {
+                entity.HasKey(e => new { e.User, e.NotebookId });
+
+                entity.Property(e => e.User)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Notebook)
+                    .WithMany(p => p.NotebookCollection)
+                    .HasForeignKey(d => d.NotebookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_NotebookCollection_Notebook");
+
+                entity.HasOne(d => d.UserNavigation)
+                    .WithMany(p => p.NotebookCollection)
+                    .HasForeignKey(d => d.User)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_NotebookCollection_User");
             });
 
             modelBuilder.Entity<NotebookComment>(entity =>
@@ -165,27 +189,6 @@ namespace SchoolNotebook.Models
                     .HasForeignKey(d => d.User)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_NotebookShare_User");
-            });
-
-            modelBuilder.Entity<NotebookCollection>(entity =>
-            {
-                entity.HasKey(e => new { e.User, e.NotebookId });
-
-                entity.Property(e => e.User)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Notebook)
-                    .WithMany(p => p.NotebookCollection)
-                    .HasForeignKey(d => d.NotebookId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_NotebookCollection_Notebook");
-
-                entity.HasOne(d => d.UserNavigation)
-                    .WithMany(p => p.NotebookCollection)
-                    .HasForeignKey(d => d.User)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_NotebookCollection_User");
             });
 
             modelBuilder.Entity<ReminderNote>(entity =>
