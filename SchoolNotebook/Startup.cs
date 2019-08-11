@@ -28,7 +28,7 @@ namespace SchoolNotebook
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<SchoolNotebookContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SchoolNotebookContext")));
+                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SchoolNotebookContext")));
 
             services.AddAuthentication(option =>
             {

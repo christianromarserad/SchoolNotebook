@@ -10,6 +10,7 @@ namespace SchoolNotebook.Models
         {
             Bookmark = new HashSet<Bookmark>();
             Notebook = new HashSet<Notebook>();
+            NotebookCollection = new HashSet<NotebookCollection>();
             NotebookComment = new HashSet<NotebookComment>();
             NotebookRate = new HashSet<NotebookRate>();
             NotebookShare = new HashSet<NotebookShare>();
@@ -23,13 +24,13 @@ namespace SchoolNotebook.Models
         [JsonIgnore]
         public virtual ICollection<Notebook> Notebook { get; set; }
         [JsonIgnore]
+        public virtual ICollection<NotebookCollection> NotebookCollection { get; set; }
+        [JsonIgnore]
         public virtual ICollection<NotebookComment> NotebookComment { get; set; }
         [JsonIgnore]
         public virtual ICollection<NotebookRate> NotebookRate { get; set; }
         [JsonIgnore]
         public virtual ICollection<NotebookShare> NotebookShare { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<NotebookCollection> NotebookCollection { get; set; }
         [JsonIgnore]
         public virtual ICollection<ReminderNote> ReminderNote { get; set; }
     }

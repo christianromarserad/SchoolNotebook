@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolNotebook.Models
 {
@@ -8,6 +9,7 @@ namespace SchoolNotebook.Models
     {
         public Notebook()
         {
+            NotebookCollection = new HashSet<NotebookCollection>();
             NotebookComment = new HashSet<NotebookComment>();
             NotebookPage = new HashSet<NotebookPage>();
             NotebookRate = new HashSet<NotebookRate>();
@@ -24,6 +26,8 @@ namespace SchoolNotebook.Models
         [JsonIgnore]
         public virtual User UserNavigation { get; set; }
         [JsonIgnore]
+        public virtual ICollection<NotebookCollection> NotebookCollection { get; set; }
+        [JsonIgnore]
         public virtual ICollection<NotebookComment> NotebookComment { get; set; }
         [JsonIgnore]
         public virtual ICollection<NotebookPage> NotebookPage { get; set; }
@@ -31,7 +35,37 @@ namespace SchoolNotebook.Models
         public virtual ICollection<NotebookRate> NotebookRate { get; set; }
         [JsonIgnore]
         public virtual ICollection<NotebookShare> NotebookShare { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<NotebookCollection> NotebookCollection { get; set; }
+
+        [NotMapped]
+        public double AverageRate
+        {
+            get
+            {
+                double total = 0;
+                var notebookRates = NotebookRate;
+                foreach (var notebookRate in NotebookRate)
+                {
+                    total = notebookRate.Rate + total;
+                }
+
+                if (total != 0)
+                {
+                    return total / NotebookRate.Count;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        [NotMapped]
+        public double NumberOfRates
+        {
+            get
+            {
+                return NotebookRate.Count;
+            }
+        }
     }
 }

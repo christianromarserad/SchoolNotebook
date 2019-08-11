@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchoolNotebook.Models;
 using SchoolNotebook.Services;
 using SchoolNotebook.ViewModels;
@@ -40,12 +41,14 @@ namespace SchoolNotebook.Controllers
             var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
             var notebooks = new List<Notebook>();
 
-            var ownedNotebooks = _context.Notebook.Where(n => n.User == currentUser).ToList();
+            var ownedNotebooks = _context.Notebook.Where(n => n.User == currentUser);
             var notebookCollectionIds = _context.NotebookCollection.Where(nc => nc.User == currentUser).Select(nc => nc.NotebookId);
-            var notebookCollection = _context.Notebook.Where(n => notebookCollectionIds.Contains(n.Id)).ToList();
+            var notebookCollection = _context.Notebook.Where(n => notebookCollectionIds.Contains(n.Id));
 
             notebooks.AddRange(ownedNotebooks);
             notebooks.AddRange(notebookCollection);
+
+
 
             return Ok(notebooks.Distinct());
         }
