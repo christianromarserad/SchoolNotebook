@@ -195,7 +195,7 @@ namespace SchoolNotebook.Models
             {
                 entity.Property(e => e.Notes)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.User)
