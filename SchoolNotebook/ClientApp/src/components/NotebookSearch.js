@@ -4,10 +4,12 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
+import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { searchNotebooksActionCreator } from '../store/NotebookSearch';
+import { searchNotebooksActionCreator, updateTextFieldsActionCreator } from '../store/NotebookSearch';
 
 class NotebookSearch extends Component {
     componentDidMount() {
@@ -24,6 +26,17 @@ class NotebookSearch extends Component {
         return (
             <div>
                 <Grid container>
+                    <Grid item lg={12}>
+                        <TextField
+                            value={this.props.searchKey}
+                            margin="normal"
+                            label="Search"
+                            fullWidth
+                            name='searchKey'
+                            onChange={this.props.updateTextFieldsActionCreator}
+                            onKeyPress={(event) => event.key == 'Enter' ? this.props.history.push("/notebookSearch/" + this.props.searchKey) : null}
+                        />
+                    </Grid>
                     <Grid item container lg={12}>
                         {this.props.notebooks.map((item) => {
                             return (
@@ -52,14 +65,16 @@ class NotebookSearch extends Component {
 
 function mapStateToProps(state) {
     return {
-        notebooks: state.notebookSearch.notebooks
+        notebooks: state.notebookSearch.notebooks,
+        searchKey: state.notebookSearch.searchKey
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        searchNotebooksActionCreator: searchNotebooksActionCreator
+        searchNotebooksActionCreator: searchNotebooksActionCreator,
+        updateTextFieldsActionCreator: updateTextFieldsActionCreator
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotebookSearch);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NotebookSearch));
