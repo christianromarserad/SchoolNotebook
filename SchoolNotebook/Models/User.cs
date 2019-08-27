@@ -18,6 +18,8 @@ namespace SchoolNotebook.Models
         }
 
         public string Email { get; set; }
+        public string Name { get; set; }
+        public string Picture { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Bookmark> Bookmark { get; set; }

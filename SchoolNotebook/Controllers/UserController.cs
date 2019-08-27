@@ -50,11 +50,19 @@ namespace SchoolNotebook.Controllers
             {
                 _context.User.Add(new User
                 {
-                    Email = payload.Email
+                    Email = payload.Email,
+                    Name = payload.Name,
+                    Picture = payload.Picture
                 });
-
-                _context.SaveChanges();
             }
+            else
+            {
+                var user = _context.User.Single(u => u.Email == payload.Email);
+                user.Name = payload.Name;
+                user.Picture = payload.Picture;
+            }
+
+            _context.SaveChanges();
 
             var claim = new[]
             {

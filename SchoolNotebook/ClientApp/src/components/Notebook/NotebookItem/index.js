@@ -94,7 +94,7 @@ class NotebookItem extends Component {
                                     {this.props.name}
                                 </Typography>
                                 <Typography variant="caption" display="block" gutterBottom>
-                                    Christian Serad
+                                    {this.props.userName}
                                 </Typography>
                                 <Ratings rating={this.props.averageRate} widgetDimensions="20px" widgetSpacings="2px">
                                     <Ratings.Widget widgetDimension="12px" widgetRatedColor="black" />

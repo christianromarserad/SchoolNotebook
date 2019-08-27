@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolNotebook.Models
 {
@@ -16,5 +17,14 @@ namespace SchoolNotebook.Models
         public virtual Notebook Notebook { get; set; }
         [JsonIgnore]
         public virtual User UserNavigation { get; set; }
+
+        [NotMapped]
+        public string UserName
+        {
+            get
+            {
+                return UserNavigation.Name;
+            }
+        }
     }
 }

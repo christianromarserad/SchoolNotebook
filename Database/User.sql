@@ -1,4 +1,6 @@
 ﻿CREATE TABLE [dbo].[User]
 (
-	[Email] VARCHAR(50) NOT NULL PRIMARY KEY
+	[Email] VARCHAR(50) NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NOT NULL, 
+    [Picture] VARCHAR(MAX) NOT NULL
 )

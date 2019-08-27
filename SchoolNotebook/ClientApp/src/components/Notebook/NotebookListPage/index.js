@@ -69,13 +69,16 @@ const styles = {
     smallMarginLeft: {
         marginLeft: '10px'
     },
-    centerSpace: {
+    title: {
         flexGrow: 1
+    },
+    margin: {
+        margin: '30px'
     }
 };
 
 
-class NotebookHomePage extends Component {
+class NotebookListPage extends Component {
     constructor(props) {
         super(props);
         this.menuItems = this.menuItems.bind(this);
@@ -93,43 +96,31 @@ class NotebookHomePage extends Component {
         return (
             notebooks.map((item) => {
                 return (
-                    <NotebookItem id={item.id} image={item.image} name={item.name} userName={item.userName} averageRate={item.averageRate} numberOfRates={item.numberOfRates} openMenuActionCreator={this.props.openMenuActionCreator} />
+                    <Grid item lg={3}>
+                        <NotebookItem id={item.id} image={item.image} name={item.name} userName={item.userName} averageRate={item.averageRate} numberOfRates={item.numberOfRates} openMenuActionCreator={this.props.openMenuActionCreator} />
+                    </Grid>
                 );
             })
         );
     }
 
     render() {
-        const settings = {
-            infinite: true,
-            accessibility: true,
-            arrows: true,
-            speed: 300,
-            slidesToShow: 5,
-            slidesToScroll: 1
-        };
-
         return (
-            <div>
+            <div className={this.props.classes.margin}>
                 <Divider />
                 <Toolbar>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" gutterBottom className={this.props.classes.title}>
                         Notebooks
                     </Typography>
-                    <div className={this.props.classes.centerSpace}></div>
                     <Button color="primary" onClick={this.props.openCreateModalActionCreator}>
                         Add
                         <AddIcon className={this.props.classes.smallMarginLeft} />
                     </Button>
-                    <Button color="primary" component={Link} to="/notebook">
-                        See All
-                        <ChevronRightIcon className={this.props.classes.smallMarginLeft} />
-                    </Button>
                 </Toolbar>
 
-                <Slider {...settings}>
+                <Grid container>
                     {this.menuItems(this.props.notebooks)}
-                </Slider>
+                </Grid>
 
                 <NotebookItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} deleteNotebookActionCreator={this.props.deleteNotebookActionCreator} selectedNotebookId={this.props.selectedNotebookId} openEditModalActionCreator={this.props.openEditModalActionCreator} selectedNotebookId={this.props.selectedNotebookId} />
                 <NotebookCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} name={this.props.name} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateImageFileActionCreator={this.props.updateImageFileActionCreator} imageFileName={this.props.imageFileName} createNotebookActionCreator={this.props.createNotebookActionCreator} />
@@ -171,4 +162,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(NotebookHomePage));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(NotebookListPage));

@@ -67,5 +67,14 @@ namespace SchoolNotebook.Models
                 return NotebookRate.Count;
             }
         }
+
+        [NotMapped]
+        public string UserName
+        {
+            get
+            {
+                return UserNavigation.Name;
+            }
+        }
     }
 }

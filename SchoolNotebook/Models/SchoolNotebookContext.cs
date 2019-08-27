@@ -219,6 +219,17 @@ namespace SchoolNotebook.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Picture)
+                    .IsRequired()
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
             });
         }
     }
