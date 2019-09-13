@@ -24,6 +24,7 @@ import ReminderNoteItem from '../ReminderNoteItem';
 import ReminderNoteCreateDialog from '../ReminderNoteCreateDialog';
 import ReminderNoteEditDialog from '../ReminderNoteEditDialog';
 import ReminderNoteItemMenu from '../ReminderNoteItemMenu';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
@@ -93,7 +94,7 @@ class ReminderNoteHomePage extends Component {
                         Add
                         <AddIcon className={this.props.classes.smallMarginLeft} />
                     </Button>
-                    <Button color="primary">
+                    <Button color="primary" component={Link} to="/reminderNote">
                         See All
                         <ChevronRightIcon className={this.props.classes.smallMarginLeft} />
                     </Button>

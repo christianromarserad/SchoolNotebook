@@ -33,7 +33,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/styles';
@@ -104,9 +104,9 @@ class BookmarkHomePage extends Component {
                         Add
                         <AddIcon className={this.props.classes.smallMarginLeft} />
                     </Button>
-                    <Button color="primary">
+                    <Button color="primary" component={Link} to="/bookmark">
                         See All
-                    <ChevronRightIcon className={this.props.classes.smallMarginLeft} />
+                        <ChevronRightIcon className={this.props.classes.smallMarginLeft} />
                     </Button>
                 </Toolbar>
 
@@ -131,7 +131,8 @@ function mapStateToProps(state) {
         anchorEl: state.homePage.bookmark.anchorEl,
         selectedBookmarkId: state.homePage.bookmark.selectedBookmarkId,
         url: state.homePage.bookmark.bookmarkForm.url,
-        name: state.homePage.bookmark.bookmarkForm.name
+        name: state.homePage.bookmark.bookmarkForm.name,
+        error: state.homePage.bookmark.bookmarkForm.error
     };
 }
 
