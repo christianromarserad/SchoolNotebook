@@ -12,7 +12,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
+import Avatar from '@material-ui/core/Avatar';
+import CardHeader from '@material-ui/core/CardHeader';
+import Divider from '@material-ui/core/Divider';
+import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -26,6 +31,25 @@ import {
     deleteNotebookPermissionActionCreator
 } from '../../store/NotebookShare';
 
+const styles = {
+    mainContainer: {
+        padding: '30px'
+    },
+    header: {
+        width: '100%',
+        marginBottom: '30px'
+    },
+    headerTitle: {
+        flexGrow: 1
+    },
+    permissionItem: {
+        width: '100%'
+    },
+    smallMarginLeft: {
+        marginLeft: '10px'
+    }
+};
+
 class NotebookShare extends Component {
     componentDidMount() {
         this.props.getNotebookPermissionsActionCreator(this.props.match.params.id);
@@ -33,24 +57,48 @@ class NotebookShare extends Component {
 
     render() {
         return (
-            <div>
+            <div className={this.props.classes.mainContainer}>
                 <Grid container>
-                    <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.openCreateModalActionCreator}>Add Permission</Button>
+                    <Toolbar className={this.props.classes.header}>
+                        <Typography variant="h5" gutterBottom className={this.props.classes.headerTitle}>
+                            People who can access:
+                        </Typography>
+                        <Button color="primary" onClick={this.props.openCreateModalActionCreator}>
+                            Add
+                            <AddIcon className={this.props.classes.smallMarginLeft} />
+                        </Button>
+                    </Toolbar>
+
+                    
+
+
                     <Grid item container lg={12}>
                         {this.props.notebookPermissions.map((item) => {
                             return (
                                 <Grid key={item.user} item lg={12}>
-                                    <Card style={{ margin: '5px' }}>
-                                        <Toolbar>
-                                            <Typography style={{ flexGrow: 1 }}>
-                                                {item.user}
-                                            </Typography>
-                                            <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
-                                            <IconButton aria-label="Delete" onClick={this.props.deleteNotebookPermissionActionCreator.bind(this, item.notebookId, item.user)}>
-                                                <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
-                                            </IconButton>
-                                        </Toolbar>
-                                    </Card>
+                                    <Divider/>
+                                            <CardHeader
+                                                className={this.props.classes.permissionItem}
+                                                avatar={
+                                                    <Avatar alt={item.userName} src={item.userPicture} />
+                                                }
+                                                title={
+                                                    <div>
+                                                        <Typography variant="body2" display="inline" className={this.props.classes.userName}>
+                                                            {item.userName}
+                                                        </Typography>
+                                                    </div>
+                                                }
+                                                subheader={item.user}
+                                                action={
+                                                    <div>
+                                                        <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
+                                                        <IconButton aria-label="Delete" onClick={this.props.deleteNotebookPermissionActionCreator.bind(this, item.notebookId, item.user)}>
+                                                            <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                        </IconButton>
+                                                    </div>
+                                                }
+                                            />
                                 </Grid>
                             )
                         })}
@@ -60,7 +108,7 @@ class NotebookShare extends Component {
                 <Dialog open={this.props.isCreateModalOpen} onClose={this.props.closeCreateModalActionCreator} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Create Bookmark</DialogTitle>
                     <DialogContent>
-                        <TextField margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' />
+                        <TextField variant="outlined" margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' />
                         <FormControlLabel control={<Switch color="primary" checked={this.props.canEdit} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'canEdit')} />} label="Can Edit" />
                     </DialogContent>
                     <DialogActions>
@@ -99,4 +147,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotebookShare);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(NotebookShare));

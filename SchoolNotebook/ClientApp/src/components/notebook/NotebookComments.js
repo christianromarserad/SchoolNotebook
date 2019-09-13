@@ -8,13 +8,32 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Avatar from '@material-ui/core/Avatar';
+import CardHeader from '@material-ui/core/CardHeader';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withStyles } from '@material-ui/styles';
 import {
     getNotebookCommentsActionCreator,
     createNotebookCommentActionCreator,
     updateTextFieldsActionCreator
 } from '../../store/NotebookComment';
+
+const styles = {
+    mainContainer: {
+        margin: '20px'
+    },
+    userName: {
+        fontWeight: 'bold',
+        marginRight: '15px'
+    },
+    smallMarginBottom: {
+        marginBottom: '5px'
+    },
+    commentTextEditor: {
+        marginBottom: '35px'
+    }
+};
 
 class NotebookComment extends Component {
     componentDidMount() {
@@ -23,27 +42,45 @@ class NotebookComment extends Component {
 
     render() {
         return (
-            <div>
+            <div className={this.props.classes.mainContainer}>
                 <Grid container>
                     <Grid item lg={12}>
-                        <TextField margin="normal" label="Comment" value={this.props.comment} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='comment' />
-                        <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookCommentActionCreator.bind(this, this.props.match.params.id)}>Comment</Button>
+                        <div className={this.props.classes.commentTextEditor}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar src={this.props.userPicture} />
+                                }
+                                title={
+                                    <TextField variant="outlined" margin="normal" label="Comment" value={this.props.comment} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='comment' multiline />
+                                }
+                                subheader={
+                                    <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookCommentActionCreator.bind(this, this.props.match.params.id)}>Comment</Button>
+                                }
+                            />
+                        </div>
                     </Grid>
                     <Grid item container lg={12}>
                         {this.props.notebookComments.map((item) => {
                             return (
-                                <Grid key={item.id} item lg={12}>
-                                    <Card style={{ margin: '5px' }}>
-                                        <Toolbar>
-                                            <Typography style={{ flexGrow: 1 }}>
-                                                {item.comment}
-                                            </Typography>
-                                            <Typography>
-                                                {item.user}
-                                            </Typography>
-                                        </Toolbar>
-                                    </Card>
+                                <Grid key={item.id} item container lg={12}>
+                                    <CardHeader
+                                        avatar={
+                                            <Avatar alt={item.userName} src={item.userPicture} />
+                                        }
+                                        title={
+                                            <div>
+                                                <Typography variant="body2" display="inline" className={this.props.classes.userName}>
+                                                    {item.userName}
+                                                </Typography>
+                                                <Typography variant="caption" display="inline" gutterBottom>
+                                                    {item.dateFormatted}
+                                                </Typography>
+                                            </div>
+                                        }
+                                        subheader={item.comment}
+                                    />
                                 </Grid>
+
                             )
                         })}
                     </Grid>
@@ -56,7 +93,8 @@ class NotebookComment extends Component {
 function mapStateToProps(state) {
     return {
         comment: state.notebookPage.notebookComment.comment,
-        notebookComments: state.notebookPage.notebookComment.notebookComments
+        notebookComments: state.notebookPage.notebookComment.notebookComments,
+        userPicture: state.user.picture
     };
 }
 
@@ -68,4 +106,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotebookComment);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(NotebookComment));
