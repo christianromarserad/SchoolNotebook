@@ -104,7 +104,6 @@ namespace SchoolNotebook.Models
             {
                 entity.Property(e => e.Comment)
                     .IsRequired()
-                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Date).HasColumnType("date");

@@ -7,8 +7,8 @@ const logoutType = 'LOGOUT';
 const initialState = {
     isAuthenticated: false,
     email: '',
-    givenName: '',
-    familyName: ''
+    name: '',
+    picture: ''
 };
 
 export function loginActionCreator(token) {
@@ -21,8 +21,8 @@ export function loginActionCreator(token) {
         payload: {
             isAuthenticated: true,
             email: jwtDecoded.email,
-            givenName: jwtDecoded.givenName,
-            familyName: jwtDecoded.familyName
+            name: jwtDecoded.name,
+            picture: jwtDecoded.picture
         }
     };
 }
@@ -36,8 +36,8 @@ export function logoutActionCreator() {
         payload: {
             isAuthenticated: false,
             email: '',
-            givenName: '',
-            familyName: ''
+            name: '',
+            picture: ''
         }
     };
 }
