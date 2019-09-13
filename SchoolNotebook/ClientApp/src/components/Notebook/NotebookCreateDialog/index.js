@@ -51,7 +51,7 @@ class NotebookCreateDialog extends Component {
             <Dialog open={this.props.isCreateModalOpen} onClose={this.props.closeCreateModalActionCreator} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Create Notebook</DialogTitle>
                 <DialogContent>
-                    <TextField margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
+                    <TextField fullWidth variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} name='name' />
                     <input asp-for="File" type="file" accept="image/*" class="form-control" id="createFileInput" hidden onChange={this.props.updateImageFileActionCreator} />
                     <Button variant="contained" color="default" onClick={this.openFileExplorer.bind(this, 'createFileInput')}>
                         Thumbnail
