@@ -33,10 +33,9 @@ export function updateTextFieldsActionCreator(event) {
 }
 
 export function updateSwitchFieldsActionCreator(name, event) {
-    let isPublic = event.target.value == "public" ? true : false;
     return {
         type: updateSwitchFieldsType,
-        payload: { [name]: isPublic }
+        payload: { [name]: event.target.checked }
     };
 }
 

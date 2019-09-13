@@ -13,8 +13,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
@@ -24,7 +22,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Switch from '@material-ui/core/Switch';
@@ -63,12 +60,12 @@ import {
 
 const styles = {
     card: {
-        maxWidth: 250,
-        width: 250,
+        maxWidth: 260,
+        width: 260,
         margin: 5
     },
     media: {
-        height: 140
+        height: 146
     },
     cardTitleContainer: {
         marginTop: 7,
@@ -84,9 +81,6 @@ const styles = {
     },
     smallMarginLeft: {
         marginLeft: '10px'
-    },
-    centerSpace: {
-        flexGrow: 1
     }
 };
 
@@ -168,21 +162,7 @@ class Bookmark extends Component {
 
         return (
             <div>
-                <Divider />
-                <Toolbar>
-                    <Typography variant="h6" gutterBottom>
-                        Notebooks
-                    </Typography>
-                    <div className={this.props.classes.centerSpace}></div>
-                    <Button color="primary" onClick={this.props.openCreateModalActionCreator}>
-                        Add
-                        <AddIcon className={this.props.classes.smallMarginLeft} />
-                    </Button>
-                    <Button color="primary">
-                        See All
-                        <ChevronRightIcon className={this.props.classes.smallMarginLeft} />
-                    </Button>
-                </Toolbar>
+                <Button variant="contained" color="primary" onClick={this.props.openCreateModalActionCreator}>Create Notebook</Button>
 
                 <Slider {...settings}>
                     {this.menuItems(this.props.notebooks)}

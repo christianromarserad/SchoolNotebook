@@ -3,7 +3,6 @@
 const getBookmarksType = 'GET_BOOKMARKS';
 const updateTextFieldsType = 'UPDATE_BOOKMARK_TEXTFIELDS';
 const createBookmarkType = 'CREATE_BOOKMARK';
-const errorFormModalType = 'ERROR_BOOKMARK_FORM_MODAL';
 const openCreateModalType = 'OPEN_CREATE_BOOKMARK_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_BOOKMARK_MODAL';
 const openEditModalType = 'OPEN_EDIT_BOOKMARK_MODAL';
@@ -20,11 +19,7 @@ const initialState = {
     selectedBookmarkId: '',
     bookmarkForm: {
         url: '',
-        name: '',
-        error: {
-            Name: null,
-            Url: null
-        }
+        name: ''
     }
 };
 
@@ -63,11 +58,7 @@ export function closeCreateModalActionCreator() {
             isCreateModalOpen: false,
             bookmarkForm: {
                 url: '',
-                name: '',
-                error: {
-                    Name: null,
-                    Url: null
-                }
+                name: ''
             }
         }
     };
@@ -82,7 +73,7 @@ export function openEditModalActionCreator(id) {
                     isEditModalOpen: true,
                     bookmarkForm: {
                         url: res.data.url,
-                        name: res.data.name,
+                        name: res.data.name
                     }
                 }
             });
@@ -97,11 +88,7 @@ export function closeEditModalActionCreator() {
             isEditModalOpen: false,
             bookmarkForm: {
                 url: '',
-                name: '',
-                error: {
-                    Name: null,
-                    Url: null
-                }
+                name: ''
             }
         }
     };
@@ -134,16 +121,6 @@ export function createBookmarkActionCreator() {
         axios.post('https://localhost:44388/api/Bookmark', bookmarkFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getBookmarksActionCreator());
-        })
-        .catch(error => {
-            if (error.response.status == 400) {
-                dispatch({
-                    type: errorFormModalType,
-                    payload: {
-                        ...error.response.data.errors
-                    }
-                });
-            }
         });
     }
 }
@@ -217,18 +194,6 @@ export const reducer = (state = initialState, action) => {
         return {
             ...state,
             ...action.payload
-        };
-    }
-    else if (action.type === errorFormModalType) {
-        return {
-            ...state,
-            bookmarkForm: {
-                ...state.bookmarkForm,
-                error: {
-                    ...state.bookmarkForm.error,
-                    ...action.payload
-                }
-            }
         };
     }
 

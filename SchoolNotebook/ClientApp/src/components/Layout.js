@@ -50,13 +50,13 @@ class Layout extends Component {
                         <ListItem button className={this.props.classes.listItem} component={Link} to={"/notebookSearch/" + this.props.searchKey}>
                             <ListItemIcon><SearchIcon /></ListItemIcon>
                         </ListItem>
-                        <ListItem button className={this.props.classes.listItem} component={Link} to="/bookmark">
+                        <ListItem button className={this.props.classes.listItem}>
                             <ListItemIcon><BookmarksIcon /></ListItemIcon>
                         </ListItem>
-                        <ListItem button className={this.props.classes.listItem} component={Link} to="/notebook">
+                        <ListItem button className={this.props.classes.listItem}>
                             <ListItemIcon><LibraryBooksIcon /></ListItemIcon>
                         </ListItem>
-                        <ListItem button className={this.props.classes.listItem} component={Link} to="/reminderNote">
+                        <ListItem button className={this.props.classes.listItem}>
                             <ListItemIcon><NoteIcon /></ListItemIcon>
                         </ListItem>
                     </List>

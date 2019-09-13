@@ -118,6 +118,17 @@ export function updateNotebookPageActionCreator(notebookId) {
             content: JSON.stringify(convertToRaw(state.notebookPage.notebookContent.notebookPage.editorState.getCurrentContent()))
         }
         axios.put('https://localhost:44388/api/NotebookPage/', notebookPageFormData).then(function (res) {
+            dispatch({
+                type: updateNotebookPageType,
+                payload: {
+                    notebookPage: {
+                        notebookId: res.data.notebookId,
+                        title: res.data.title,
+                        pageNumber: res.data.pageNumber,
+                        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.data.content)))
+                    }
+                }
+            });
             dispatch(getNotebookPagesActionCreator(res.data.notebookId));
         });
     }

@@ -18,7 +18,6 @@ import NotebookShare from './Notebook/NotebookShare';
 import NotebookSettings from './Notebook/NotebookSettings';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import { Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/styles';
 import { Route } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -36,19 +35,6 @@ import {
     removeFromNotebookCollectionActionCreator
 } from '../store/NotebookNavbar';
 
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-        maxHeight: '100vh'
-    },
-    page: {
-        flex: 1,
-        maxHeight: '100%'
-    }
-};
-
 class Notebook extends Component {
     componentDidMount() {
         this.props.getNotebookNameActionCreator(this.props.match.params.id);
@@ -60,7 +46,7 @@ class Notebook extends Component {
 
     render() {
         return (
-            <div className={this.props.classes.container}>
+            <div>
                 <Paper square>
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item style={{ flex: 1 }}>
@@ -103,13 +89,9 @@ class Notebook extends Component {
                     </Grid>
                 </Paper>
 
-                <div className={this.props.classes.page}>
-                    <Route exact path='/notebook/content/:id(\d+)' component={NotebookContent} />
-                    <Route exact path='/notebook/comments/:id(\d+)' component={NotebookComments} />
-                    <Route exact path='/notebook/share/:id(\d+)' component={NotebookShare} />
-                    <Route exact path='/notebook/settings/:id(\d+)' component={NotebookSettings} />
-                </div>
-                
+
+
+
                 <Dialog open={this.props.isRateModalOpen} onClose={this.props.closeRateModalActionCreator} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Rate Notebook</DialogTitle>
                     <DialogContent>
@@ -127,6 +109,13 @@ class Notebook extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+
+
+                <Route exact path='/notebook/content/:id(\d+)' component={NotebookContent} />
+                <Route exact path='/notebook/comments/:id(\d+)' component={NotebookComments} />
+                <Route exact path='/notebook/share/:id(\d+)' component={NotebookShare} />
+                <Route exact path='/notebook/settings/:id(\d+)' component={NotebookSettings} />
             </div >
         );
     }
@@ -159,4 +148,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(Notebook)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Notebook));

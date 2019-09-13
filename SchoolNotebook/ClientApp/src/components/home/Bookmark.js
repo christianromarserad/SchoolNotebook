@@ -2,7 +2,6 @@
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -10,8 +9,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import AddIcon from '@material-ui/icons/Add';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,19 +17,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withStyles } from '@material-ui/styles';
 import {
     getBookmarksActionCreator,
     closeCreateModalActionCreator,
@@ -46,111 +32,35 @@ import {
     closeMenuActionCreator,
     updateBookmarkActionCreator
 } from '../../store/Bookmark';
-import { textAlign } from '@material-ui/system';
-
-const styles = {
-    bookmark: {
-        "&:hover .moreButton": {
-            display: 'inline'
-
-        },
-        "&:not(:hover) .moreButton": {
-            display: 'none'
-        }
-    },
-    bookmarkTitle: {
-        width: '120px',
-        maxWidth: '120px',
-        textAlign: 'left',
-        marginLeft: '10px'
-    },
-    bookmarkImage: {
-        width: "57px",
-        height: "57px"
-    },
-    smallMarginLeft: {
-        marginLeft: '10px'
-    },
-    centerSpace: {
-        flexGrow: 1
-    }
-};
 
 class Bookmark extends Component {
-    constructor(props) {
-        super(props);
-
-        this.menuItems = this.menuItems.bind(this);
-    }
 
     componentDidMount() {
         this.props.getBookmarksActionCreator();
     }
 
-    openBookmark(url) {
-        window.open(url, '_blank');
-    }
-
-    getUrlIcon(url) {
-        var urlObject = new URL(url);
-        var urlIcon = urlObject.protocol + '//' + urlObject.hostname + '/apple-touch-icon.png';
-        return urlIcon;
-    }
-
-    menuItems(bookmarks) {
-        return (
-            bookmarks.map((item) => {
-                return (
-                    <Toolbar className={this.props.classes.bookmark}>
-                        <ButtonBase onClick={this.openBookmark.bind(this, item.url)}>
-                            <img src={this.getUrlIcon(item.url)} className={this.props.classes.bookmarkImage} />
-                            <Typography variant="caption" display="inline" className={this.props.classes.bookmarkTitle}>
-                                {item.name}
-                            </Typography>
-                        </ButtonBase>
-
-                        <div className="moreButton">
-                            <IconButton onClick={this.props.openMenuActionCreator.bind(this, item.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-                                <MoreVertIcon fontSize="small" aria-haspopup="true" />
-                            </IconButton>
-                        </div>
-                    </Toolbar>
-                )
-            })
-        );
-    }
-
     render() {
-        const settings = {
-            dots: true,
-            infinite: true,
-            accessibility: true,
-            arrows: true,
-            speed: 300,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            rows: 5
-        };
-
         return (
             <div>
-                <Divider />
-                <Toolbar>
-                    
-                    <Button color="primary" onClick={this.props.openCreateModalActionCreator}>
-                        Add
-                        <AddIcon className={this.props.classes.smallMarginLeft} />
-                    </Button>
-                    <div className={this.props.classes.centerSpace}></div>
-                    <Button color="primary">
-                        See All
-                    <ChevronRightIcon className={this.props.classes.smallMarginLeft} />
-                    </Button>
-                </Toolbar>
-
-                <Slider {...settings} arrows={false}>
-                    {this.menuItems(this.props.bookmarks)}
-                </Slider>
+                <Button variant="contained" color="primary" onClick={this.props.openCreateModalActionCreator}>Create Bookmark</Button>
+                <Grid container>
+                    {this.props.bookmarks.map((item) => {
+                        return (
+                            <Grid key={item.id} item lg={3}>
+                                <Paper style={{ margin: '5px' }}>
+                                    <Toolbar>
+                                        <Typography style={{ flexGrow: 1 }}>
+                                            {item.name}
+                                        </Typography>
+                                        <IconButton onClick={this.props.openMenuActionCreator.bind(this, item.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
+                                            <MoreVertIcon fontSize="small" aria-haspopup="true" />
+                                        </IconButton>
+                                    </Toolbar>
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
 
                 <Menu id="fade-menu" anchorEl={this.props.anchorEl} keepMounted open={this.props.isMenuOpen} onClose={this.props.closeMenuActionCreator}>
                     <MenuItem onClick={this.props.deleteBookmarkActionCreator.bind(this, this.props.selectedBookmarkId)}>
@@ -232,4 +142,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Bookmark));
+export default connect(mapStateToProps, mapDispatchToProps)(Bookmark);

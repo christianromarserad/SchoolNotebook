@@ -11,7 +11,6 @@ namespace SchoolNotebook.Models
         public int NotebookId { get; set; }
         public string User { get; set; }
         public string Comment { get; set; }
-        [JsonIgnore]
         public DateTime Date { get; set; }
 
         [JsonIgnore]
@@ -25,23 +24,6 @@ namespace SchoolNotebook.Models
             get
             {
                 return UserNavigation.Name;
-            }
-        }
-
-        [NotMapped]
-        public string UserPicture
-        {
-            get
-            {
-                return UserNavigation.Picture;
-            }
-        }
-        [NotMapped]
-        public string DateFormatted
-        {
-            get
-            {
-                return Date.ToString("MMMM dd, yyyy");
             }
         }
     }

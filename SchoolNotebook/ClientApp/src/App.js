@@ -8,9 +8,6 @@ import Notebook from './components/Notebook';
 import NotebookSearch from './components/NotebookSearch';
 import Login from './components/Login';
 import Authenticate from './components/Authenticate';
-import BookmarkListPage from './components/Bookmark/BookmarkListPage';
-import ReminderNoteListPage from './components/ReminderNote/ReminderNoteListPage';
-import NotebookListPage from './components/Notebook/NotebookListPage';
 
 export default () => (
     <div>
@@ -21,9 +18,6 @@ export default () => (
                 <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
                 <Route path='/notebook/*/:id(\d+)' component={Notebook} />
                 <Route path='/notebookSearch/:searchKey' component={NotebookSearch} />
-                <Route path='/bookmark' component={BookmarkListPage} />
-                <Route path='/reminderNote' component={ReminderNoteListPage} />
-                <Route exact path='/notebook' component={NotebookListPage} />
             </Layout>
         </Authenticate>
         <Route exact path='/login' component={Login} />

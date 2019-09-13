@@ -67,8 +67,8 @@ namespace SchoolNotebook.Controllers
             var claim = new[]
             {
                 new Claim("email", payload.Email),
-                new Claim("name", payload.Name),
-                new Claim("picture", payload.Picture)
+                new Claim("givenName", payload.GivenName),
+                new Claim("familyName", payload.FamilyName)
             };
 
             var signinKey = new SymmetricSecurityKey(

@@ -7,8 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import AddIcon from '@material-ui/icons/Add';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -19,15 +17,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
-
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import {
     getReminderNotesActionCreator,
     closeCreateModalActionCreator,
@@ -42,78 +33,34 @@ import {
     updateReminderNoteActionCreator
 } from '../../store/ReminderNote';
 
-const styles = {
-    card: {
-        margin: 5,
-        backgroundColor: '#FFFACD',
-        width: 250,
-        maxWidth: 250,
-        height: 200
-    },
-    centerSpace: {
-        flexGrow: 1
-    },
-    smallMarginLeft: {
-        marginLeft: '10px'
-    }
-};
-
 class ReminderNote extends Component {
 
     componentDidMount() {
         this.props.getReminderNotesActionCreator();
     }
 
-    menuItems(reminderNotes) {
-        return (
-            reminderNotes.map((item) => {
-                return (
-                    <Paper className={this.props.classes.card}>
-                        <Toolbar>
-                            <Typography style={{ flexGrow: 1 }}>
-                                {item.notes}
-                            </Typography>
-                            <IconButton onClick={this.props.openMenuActionCreator.bind(this, item.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-                                <MoreVertIcon fontSize="small" aria-haspopup="true" />
-                            </IconButton>
-                        </Toolbar>
-                    </Paper>
-                );
-            })
-        );
-    }
-
     render() {
-        const settings = {
-            infinite: true,
-            accessibility: true,
-            arrows: true,
-            speed: 300,
-            slidesToShow: 5,
-            slidesToScroll: 1
-        };
-
         return (
             <div>
-                <Divider />
-                <Toolbar>
-                    <Typography variant="h6" gutterBottom>
-                        Reminder Notes
-                    </Typography>
-                    <div className={this.props.classes.centerSpace}></div>
-                    <Button color="primary" onClick={this.props.openCreateModalActionCreator}>
-                        Add
-                        <AddIcon className={this.props.classes.smallMarginLeft} />
-                    </Button>
-                    <Button color="primary">
-                        See All
-                        <ChevronRightIcon className={this.props.classes.smallMarginLeft} />
-                    </Button>
-                </Toolbar>
-
-                <Slider {...settings}>
-                    {this.menuItems(this.props.reminderNotes)}
-                </Slider>
+                <Button variant="contained" color="primary" onClick={this.props.openCreateModalActionCreator}>Create Reminder Note</Button>
+                <Grid container>
+                    {this.props.reminderNotes.map((item) => {
+                        return (
+                            <Grid key={item.id} item lg={3}>
+                                <Paper style={{ margin: '5px' }}>
+                                    <Toolbar>
+                                        <Typography style={{ flexGrow: 1 }}>
+                                            {item.notes}
+                                        </Typography>
+                                        <IconButton onClick={this.props.openMenuActionCreator.bind(this, item.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
+                                            <MoreVertIcon fontSize="small" aria-haspopup="true" />
+                                        </IconButton>
+                                    </Toolbar>
+                                </Paper>
+                            </Grid>
+                        );
+                    })}
+                </Grid>
 
                 <Menu id="fade-menu" anchorEl={this.props.anchorEl} keepMounted open={this.props.isMenuOpen} onClose={this.props.closeMenuActionCreator}>
                     <MenuItem onClick={this.props.deleteReminderNoteActionCreator.bind(this, this.props.selectedReminderNoteId)}>
@@ -192,4 +139,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ReminderNote));
+export default connect(mapStateToProps, mapDispatchToProps)(ReminderNote);
