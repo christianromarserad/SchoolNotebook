@@ -216,6 +216,21 @@ namespace SchoolNotebook.Controllers
                     System.IO.File.Delete(oldFilePath);
                 }
 
+                // Remove the notebook pages associated to this notebook
+                _context.NotebookPage.RemoveRange(_context.NotebookPage.Where(np => np.NotebookId == id));
+
+                // Remove the rates associated to this notebook
+                _context.NotebookRate.RemoveRange(_context.NotebookRate.Where(nr => nr.NotebookId == id));
+
+                // Remove the notebook comments associated to this notebook
+                _context.NotebookComment.RemoveRange(_context.NotebookComment.Where(nc => nc.NotebookId == id));
+
+                // Remove the notebook shares associated to this notebook
+                _context.NotebookShare.RemoveRange(_context.NotebookShare.Where(ns => ns.NotebookId == id));
+
+                // Remove the notebook collections associated to this notebook
+                _context.NotebookCollection.RemoveRange(_context.NotebookCollection.Where(nc => nc.NotebookId == id));
+
                 _context.Notebook.Remove(notebook);
                 _context.SaveChanges();
                 return Ok();
