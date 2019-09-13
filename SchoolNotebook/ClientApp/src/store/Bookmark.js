@@ -83,6 +83,10 @@ export function openEditModalActionCreator(id) {
                     bookmarkForm: {
                         url: res.data.url,
                         name: res.data.name,
+                        error: {
+                            Name: null,
+                            Url: null
+                        }
                     }
                 }
             });
@@ -163,6 +167,16 @@ export function updateBookmarkActionCreator(id) {
         axios.put('https://localhost:44388/api/Bookmark/' + id, bookmarkFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getBookmarksActionCreator());
+        })
+        .catch(error => {
+            if (error.response.status == 400) {
+                dispatch({
+                    type: errorFormModalType,
+                    payload: {
+                        ...error.response.data.errors
+                    }
+                });
+            }
         });
     }
 }

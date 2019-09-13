@@ -31,8 +31,17 @@ class BookmarkCreateDialog extends Component {
             <Dialog open={this.props.isCreateModalOpen} onClose={this.props.closeCreateModalActionCreator} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Create Bookmark</DialogTitle>
                 <DialogContent>
-                    <TextField variant="outlined" margin="normal" label="URL" value={this.props.url} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='url' />
-                    <TextField variant="outlined" margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
+                    {
+                        this.props.error.Url == null ?
+                            <TextField variant="outlined" margin="normal" label="URL" value={this.props.url} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='url' /> :
+                            <TextField error helperText={this.props.error.Url[0]} variant="outlined" margin="normal" label="URL" value={this.props.url} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='url' />
+                    }
+                    {
+                        this.props.error.Name == null ?
+                            <TextField variant="outlined" margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' /> :
+                            <TextField error helperText={this.props.error.Name[0]} variant="outlined" margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' /> 
+                    }
+                   
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.closeCreateModalActionCreator} color="primary">

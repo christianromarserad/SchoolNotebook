@@ -115,8 +115,8 @@ class BookmarkHomePage extends Component {
                 </Slider>
 
                 <BookmarkItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} deleteBookmarkActionCreator={this.props.deleteBookmarkActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
-                <BookmarkCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createBookmarkActionCreator={this.props.createBookmarkActionCreator} />
-                <BookmarkEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateBookmarkActionCreator={this.props.updateBookmarkActionCreator} url={this.props.url} name={this.props.name} selectedBookmarkId={this.props.selectedBookmarkId} />
+                <BookmarkCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createBookmarkActionCreator={this.props.createBookmarkActionCreator} error={this.props.error}/>
+                <BookmarkEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateBookmarkActionCreator={this.props.updateBookmarkActionCreator} url={this.props.url} name={this.props.name} selectedBookmarkId={this.props.selectedBookmarkId} error={this.props.error}/>
             </div>
         );
     }
