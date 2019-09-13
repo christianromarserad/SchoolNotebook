@@ -10,8 +10,9 @@ namespace SchoolNotebook.ViewModels
     {
         public int Id { get; set; }
         [Required]
-        [MaxLength(50)]
+        [MaxLength(50, ErrorMessage = "Name can not be longer than 50 characters.")]
         public string Name { get; set; }
+        [Url(ErrorMessage = "Invalid Url")]
         [Required]
         public string Url { get; set; }
     }

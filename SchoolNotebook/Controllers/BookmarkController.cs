@@ -75,20 +75,27 @@ namespace SchoolNotebook.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] BookmarkViewModel bookmarkViewModel)
         {
-            var bookmark = _context.Bookmark.SingleOrDefault(b => b.Id == id);
-
-            if (bookmark == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                var bookmark = _context.Bookmark.SingleOrDefault(b => b.Id == id);
+
+                if (bookmark == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    bookmark.Name = bookmarkViewModel.Name;
+                    bookmark.Url = bookmarkViewModel.Url;
+
+                    _context.SaveChanges();
+
+                    return Ok();
+                }
             }
             else
             {
-                bookmark.Name = bookmarkViewModel.Name;
-                bookmark.Url = bookmarkViewModel.Url;
-
-                _context.SaveChanges();
-
-                return Ok();
+                return BadRequest(ModelState);
             }
         }
 
