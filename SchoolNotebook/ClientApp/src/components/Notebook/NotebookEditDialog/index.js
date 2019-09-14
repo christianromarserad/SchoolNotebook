@@ -51,7 +51,11 @@ class NotebookEditDialog extends Component {
             <Dialog open={this.props.isEditModalOpen} onClose={this.props.closeEditModalActionCreator} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Edit Bookmark</DialogTitle>
                 <DialogContent>
-                    <TextField fullWidth variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} name='name' />
+                    {
+                        this.props.error.Name == null ?
+                            <TextField fullWidth variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} name='name' /> :
+                            <TextField error helperText={this.props.error.Name[0]} fullWidth variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} name='name' />
+                    }
                     <FormControlLabel control={<Switch color="primary" checked={this.props.public} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'public')} />} label="Public" />
                     <input asp-for="File" type="file" accept="image/*" class="form-control" id="editFileInput" hidden onChange={this.props.updateImageFileActionCreator} />
                     <Button variant="contained" color="default" onClick={this.openFileExplorer.bind(this, 'editFileInput')}>

@@ -113,20 +113,27 @@ namespace SchoolNotebook.Controllers
                 return Forbid();
             }
 
-            var notebookPage = _context.NotebookPage.SingleOrDefault(np => np.NotebookId == notebookPageViewModel.NotebookId && np.PageNumber == notebookPageViewModel.PageNumber);
-
-            if (notebookPage == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                var notebookPage = _context.NotebookPage.SingleOrDefault(np => np.NotebookId == notebookPageViewModel.NotebookId && np.PageNumber == notebookPageViewModel.PageNumber);
+
+                if (notebookPage == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    notebookPage.Title = notebookPageViewModel.Title;
+                    notebookPage.Content = notebookPageViewModel.Content;
+
+                    _context.SaveChanges();
+
+                    return Ok(notebookPage);
+                }
             }
             else
             {
-                notebookPage.Title = notebookPageViewModel.Title;
-                notebookPage.Content = notebookPageViewModel.Content;
-
-                _context.SaveChanges();
-
-                return Ok(notebookPage);
+                return BadRequest(ModelState);
             }
         }
 

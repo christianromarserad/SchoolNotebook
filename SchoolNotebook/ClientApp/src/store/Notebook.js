@@ -5,6 +5,7 @@ const updateTextFieldsType = 'UPDATE_NOTEBOOK_TEXTFIELDS';
 const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_HOMEPAGE_SWITCHFIELDS';
 const updateImageFileType = 'UPDATE_NOTEBOOK_HOMEPAGE_IMAGE_FILE';
 const createNotebookType = 'CREATE_NOTEBOOK';
+const errorFormModalType = 'ERROR_NOTEBOOK_FORM_MODAL';
 const openCreateModalType = 'OPEN_CREATE_NOTEBOOK_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_NOTEBOOK_MODAL';
 const openEditModalType = 'OPEN_EDIT_NOTEBOOK_MODAL';
@@ -23,7 +24,10 @@ const initialState = {
         name: '',
         public: false,
         imageFile: null,
-        imageFileName: null
+        imageFileName: null,
+        error: {
+            Name: null
+        }
     }
 };
 
@@ -62,7 +66,10 @@ export function closeCreateModalActionCreator() {
             isCreateModalOpen: false,
             notebookForm: {
                 name: '',
-                public: false
+                public: false,
+                error: {
+                    Name: null
+                }
             }
         }
     };
@@ -78,7 +85,10 @@ export function openEditModalActionCreator(id) {
                     notebookForm: {
                         name: res.data.name,
                         public: res.data.public,
-                        imageFileName: res.data.imageName
+                        imageFileName: res.data.imageName,
+                        error: {
+                            Name: null
+                        }
                     }
                 }
             });
@@ -93,7 +103,10 @@ export function closeEditModalActionCreator() {
             isEditModalOpen: false,
             notebookForm: {
                 name: '',
-                public: false
+                public: false,
+                error: {
+                    Name: null
+                }
             }
         }
     };
@@ -150,9 +163,18 @@ export function createNotebookActionCreator() {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(function (res) {
-            dispatch(closeCreateModalActionCreator());
-            dispatch(getNotebooksActionCreator());
-        });
+                dispatch(closeCreateModalActionCreator());
+                dispatch(getNotebooksActionCreator());
+         }).catch(error => {
+                if (error.response.status == 400) {
+                    dispatch({
+                        type: errorFormModalType,
+                        payload: {
+                            ...error.response.data.errors
+                        }
+                    });
+                }
+         });
 
 
     }
@@ -183,7 +205,16 @@ export function updateNotebookActionCreator(id) {
         }).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getNotebooksActionCreator());
-        });
+        }).catch(error => {
+                if (error.response.status == 400) {
+                    dispatch({
+                        type: errorFormModalType,
+                        payload: {
+                            ...error.response.data.errors
+                        }
+                    });
+                }
+        });;
     }
 }
 
@@ -255,6 +286,18 @@ export const reducer = (state = initialState, action) => {
         return {
             ...state,
             ...action.payload
+        };
+    }
+    else if (action.type === errorFormModalType) {
+        return {
+            ...state,
+            notebookForm: {
+                ...state.notebookForm,
+                error: {
+                    ...state.notebookForm.error,
+                    ...action.payload
+                }
+            }
         };
     }
 
