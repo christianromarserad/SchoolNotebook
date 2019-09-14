@@ -27,7 +27,11 @@ class ReminderNoteCreateDialog extends Component {
             <Dialog open={this.props.isCreateModalOpen} onClose={this.props.closeCreateModalActionCreator} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Create Reminder Note</DialogTitle>
                 <DialogContent>
-                    <TextField fullWidth multiline variant="outlined" margin="normal" label="Notes" value={this.props.notes} onChange={this.props.updateTextFieldsActionCreator} name='notes' />
+                    {
+                        this.props.error.Notes == null ? 
+                            <TextField fullWidth multiline variant="outlined" margin="normal" label="Notes" value={this.props.notes} onChange={this.props.updateTextFieldsActionCreator} name='notes' /> :
+                            <TextField error helperText={this.props.error.Notes[0]} fullWidth multiline variant="outlined" margin="normal" label="Notes" value={this.props.notes} onChange={this.props.updateTextFieldsActionCreator} name='notes' /> 
+                    }
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.closeCreateModalActionCreator} color="primary">

@@ -76,19 +76,26 @@ namespace SchoolNotebook.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ReminderNoteViewModel reminderNoteViewModel)
         {
-            var reminderNote = _context.ReminderNote.SingleOrDefault(b => b.Id == id);
-
-            if (reminderNote == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                var reminderNote = _context.ReminderNote.SingleOrDefault(b => b.Id == id);
+
+                if (reminderNote == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    reminderNote.Notes = reminderNoteViewModel.Notes;
+
+                    _context.SaveChanges();
+
+                    return Ok();
+                }
             }
             else
             {
-                reminderNote.Notes = reminderNoteViewModel.Notes;
-
-                _context.SaveChanges();
-
-                return Ok();
+                return BadRequest(ModelState);
             }
         }
 

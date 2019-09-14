@@ -3,6 +3,7 @@
 const getReminderNotesType = 'GET_REMINDER_NOTES';
 const updateTextFieldsType = 'UPDATE_REMINDER_NOTES_TEXTFIELDS';
 const createReminderNoteType = 'CREATE_REMINDER_NOTE';
+const errorFormModalType = 'ERROR_REMINDER_NOTE_FORM_MODAL';
 const openCreateModalType = 'OPEN_CREATE_REMINDER_NOTE_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_REMINDER_NOTE_MODAL';
 const openEditModalType = 'OPEN_EDIT_REMINDER_NOTE_MODAL';
@@ -18,7 +19,10 @@ const initialState = {
     isCreateModalOpen: false,
     reminderNotes: [],
     reminderNoteForm: {
-        notes: ''
+        notes: '',
+        error: {
+            Notes: null
+        }
     }
 };
 
@@ -56,7 +60,10 @@ export function closeCreateModalActionCreator() {
         payload: {
             isCreateModalOpen: false,
             reminderNoteForm: {
-                notes: ''
+                notes: '',
+                error: {
+                    Notes: null
+                }
             }
         }
     };
@@ -70,7 +77,10 @@ export function openEditModalActionCreator(id) {
                 payload: {
                     isEditModalOpen: true,
                     reminderNoteForm: {
-                        notes: res.data.notes
+                        notes: res.data.notes,
+                        error: {
+                            Notes: null
+                        }
                     }
                 }
             });
@@ -84,7 +94,10 @@ export function closeEditModalActionCreator() {
         payload: {
             isEditModalOpen: false,
             reminderNoteForm: {
-                notes: ''
+                notes: '',
+                error: {
+                    Notes: null
+                }
             }
         }
     };
@@ -117,6 +130,16 @@ export function createReminderNoteActionCreator() {
         axios.post('https://localhost:44388/api/ReminderNote', reminderNoteFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getReminderNotesActionCreator());
+        })
+        .catch(error => {
+            if (error.response.status == 400) {
+                dispatch({
+                    type: errorFormModalType,
+                    payload: {
+                        ...error.response.data.errors
+                    }
+                });
+            }
         });
     }
 }
@@ -136,6 +159,16 @@ export function updateReminderNoteActionCreator(id) {
         axios.put('https://localhost:44388/api/ReminderNote/' + id, reminderNoteFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getReminderNotesActionCreator());
+        })
+        .catch(error => {
+            if (error.response.status == 400) {
+                dispatch({
+                    type: errorFormModalType,
+                    payload: {
+                        ...error.response.data.errors
+                    }
+                });
+            }
         });
     }
 }
@@ -190,6 +223,18 @@ export const reducer = (state = initialState, action) => {
         return {
             ...state,
             ...action.payload
+        };
+    }
+    else if (action.type === errorFormModalType) {
+        return {
+            ...state,
+            reminderNoteForm: {
+                ...state.reminderNoteForm,
+                error: {
+                    ...state.reminderNoteForm.error,
+                    ...action.payload
+                }
+            }
         };
     }
 

@@ -95,8 +95,8 @@ class ReminderNoteListPage extends Component {
                 </Grid>
 
                 <ReminderNoteItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} deleteReminderNoteActionCreator={this.props.deleteReminderNoteActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
-                <ReminderNoteCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} notes={this.props.notes} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createReminderNoteActionCreator={this.props.createReminderNoteActionCreator} />
-                <ReminderNoteEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} notes={this.props.notes} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateReminderNoteActionCreator={this.props.updateReminderNoteActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} />
+                <ReminderNoteCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} notes={this.props.notes} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createReminderNoteActionCreator={this.props.createReminderNoteActionCreator} error={this.props.error} />
+                <ReminderNoteEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} notes={this.props.notes} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateReminderNoteActionCreator={this.props.updateReminderNoteActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} error={this.props.error} />
             </div>
         );
     }
@@ -110,7 +110,8 @@ function mapStateToProps(state) {
         reminderNotes: state.homePage.reminderNote.reminderNotes,
         isCreateModalOpen: state.homePage.reminderNote.isCreateModalOpen,
         isEditModalOpen: state.homePage.reminderNote.isEditModalOpen,
-        notes: state.homePage.reminderNote.reminderNoteForm.notes
+        notes: state.homePage.reminderNote.reminderNoteForm.notes,
+        error: state.homePage.reminderNote.reminderNoteForm.error
     };
 }
 
