@@ -1,6 +1,7 @@
 ﻿import axios from 'axios';
 
 const getNotebookType = 'GET_NOTEBOOK';
+const closeSnackbarType = 'CLOSE_NOTEBOOK_SETTINGS_SNACKBAR';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_TEXTFIELDS';
 const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_SWITCHFIELDS';
 const updateImageFileType = 'UPDATE_NOTEBOOK_SETTINGS_IMAGE_FILE';
@@ -9,6 +10,7 @@ export const updateNotebookSettingsType = 'UPDATE_NOTEBOOK_SETTINGS';
 
 
 const initialState = {
+    isSnackbarOpen: false,
     name: null,
     public: false,
     imageFile: null,
@@ -18,6 +20,15 @@ const initialState = {
         Name: null
     }
 };
+
+export function closeSnackbarActionCreator() {
+    return {
+        type: closeSnackbarType,
+        payload: {
+            isSnackbarOpen: false
+        }
+    };
+}
 
 export function updateImageFileActionCreator(event) {
     return {
@@ -80,7 +91,8 @@ export function updateNotebookSettingsActionCreator(notebookId) {
                     name: res.data.name,
                     public: res.data.public,
                     imageFilePath: res.data.image,
-                    imageFileName: res.data.imageName
+                    imageFileName: res.data.imageName,
+                    isSnackbarOpen: true
                 }
             });
         }).catch(error => {
@@ -88,7 +100,10 @@ export function updateNotebookSettingsActionCreator(notebookId) {
                     dispatch({
                         type: errorFormModalType,
                         payload: {
-                            ...error.response.data.errors
+                            isSnackbarOpen: false,
+                            error: {
+                                ...error.response.data.errors
+                            }
                         }
                     });
                 }
@@ -130,9 +145,13 @@ export const reducer = (state = initialState, action) => {
     else if (action.type === errorFormModalType) {
         return {
             ...state,
-            error: {
-                ...action.payload
-            }
+            ...action.payload
+        };
+    }
+    else if (action.type === closeSnackbarType) {
+        return {
+            ...state,
+            ...action.payload
         };
     }
 

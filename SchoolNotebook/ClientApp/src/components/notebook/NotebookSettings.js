@@ -15,6 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,7 +24,8 @@ import {
     updateTextFieldsActionCreator,
     updateNotebookSettingsActionCreator,
     updateSwitchFieldsActionCreator,
-    updateImageFileActionCreator
+    updateImageFileActionCreator,
+    closeSnackbarActionCreator
 } from '../../store/NotebookSettings';
 
 const styles = {
@@ -68,6 +70,21 @@ class NotebookSettings extends Component {
     render() {
         return (
             <div className={this.props.classes.mainContainer}>
+
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.props.isSnackbarOpen}
+                    onClose={this.props.closeSnackbarActionCreator}
+                    autoHideDuration={2000}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">Notebook Saved</span>}
+                />
+
                 <Grid container justify="center">
                     <Grid item lg={7}>
                         <Card className={this.props.classes.formContainer}>
@@ -149,7 +166,8 @@ function mapStateToProps(state) {
         public: state.notebookPage.notebookSettings.public,
         imageFileName: state.notebookPage.notebookSettings.imageFileName,
         imageFilePath: state.notebookPage.notebookSettings.imageFilePath,
-        error: state.notebookPage.notebookSettings.error
+        error: state.notebookPage.notebookSettings.error,
+        isSnackbarOpen: state.notebookPage.notebookSettings.isSnackbarOpen,
     };
 }
 
@@ -159,7 +177,8 @@ function mapDispatchToProps(dispatch) {
         updateTextFieldsActionCreator: updateTextFieldsActionCreator,
         updateNotebookSettingsActionCreator: updateNotebookSettingsActionCreator,
         updateSwitchFieldsActionCreator: updateSwitchFieldsActionCreator,
-        updateImageFileActionCreator: updateImageFileActionCreator
+        updateImageFileActionCreator: updateImageFileActionCreator,
+        closeSnackbarActionCreator: closeSnackbarActionCreator
     }, dispatch);
 }
 
