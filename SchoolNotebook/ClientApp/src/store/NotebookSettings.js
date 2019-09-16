@@ -4,6 +4,7 @@ const getNotebookType = 'GET_NOTEBOOK';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_TEXTFIELDS';
 const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_SETTINGS_SWITCHFIELDS';
 const updateImageFileType = 'UPDATE_NOTEBOOK_SETTINGS_IMAGE_FILE';
+const errorFormModalType = 'ERROR_NOTEBOOK_SETTINGS_FORM_MODAL';
 export const updateNotebookSettingsType = 'UPDATE_NOTEBOOK_SETTINGS';
 
 
@@ -12,7 +13,10 @@ const initialState = {
     public: false,
     imageFile: null,
     imageFileName: null,
-    imageFilePath: null
+    imageFilePath: null,
+    error: {
+        Name: null
+    }
 };
 
 export function updateImageFileActionCreator(event) {
@@ -79,6 +83,15 @@ export function updateNotebookSettingsActionCreator(notebookId) {
                     imageFileName: res.data.imageName
                 }
             });
+        }).catch(error => {
+                if (error.response.status == 400) {
+                    dispatch({
+                        type: errorFormModalType,
+                        payload: {
+                            ...error.response.data.errors
+                        }
+                    });
+                }
         });
     }
 }
@@ -113,6 +126,14 @@ export const reducer = (state = initialState, action) => {
             ...state,
             ...action.payload
         }
+    }
+    else if (action.type === errorFormModalType) {
+        return {
+            ...state,
+            error: {
+                ...action.payload
+            }
+        };
     }
 
     return state;

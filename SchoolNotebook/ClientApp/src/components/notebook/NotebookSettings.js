@@ -77,7 +77,11 @@ class NotebookSettings extends Component {
 
                             <Grid item container spacing={5}>
                                 <Grid item lg={6}>
-                                    <TextField variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='name' className={this.props.classes.formTextField} />
+                                    {
+                                        this.props.error.Name == null ?
+                                            <TextField variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='name' className={this.props.classes.formTextField} /> :
+                                            <TextField error helperText={this.props.error.Name[0]} variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='name' className={this.props.classes.formTextField} /> 
+                                    }
                                 </Grid>
                                 <Grid item lg={6}>
                                     <FormControl variant="outlined" fullWidth margin="normal" className={this.props.classes.formSelect}>
@@ -144,7 +148,8 @@ function mapStateToProps(state) {
         name: state.notebookPage.notebookSettings.name,
         public: state.notebookPage.notebookSettings.public,
         imageFileName: state.notebookPage.notebookSettings.imageFileName,
-        imageFilePath: state.notebookPage.notebookSettings.imageFilePath
+        imageFilePath: state.notebookPage.notebookSettings.imageFilePath,
+        error: state.notebookPage.notebookSettings.error
     };
 }
 
