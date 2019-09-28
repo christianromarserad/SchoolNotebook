@@ -101,7 +101,7 @@ class NotebookHomePage extends Component {
 
     render() {
         const settings = {
-            infinite: true,
+            infinite: false,
             accessibility: true,
             arrows: true,
             speed: 300,
