@@ -1,13 +1,13 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loginActionCreator } from '../store/User';
+import { loginActionCreator } from '../../store/User';
 import { Redirect } from 'react-router'
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
-import config from '../config.json';
+import config from '../../config.json';
 
-class Login extends Component {
+class LoginPage extends Component {
 
     constructor(props) {
         super(props);
@@ -48,4 +48,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

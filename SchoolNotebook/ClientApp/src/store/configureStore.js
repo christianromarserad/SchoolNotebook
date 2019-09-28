@@ -1,8 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
-import * as Counter from './Counter';
-import * as WeatherForecasts from './WeatherForecasts';
 import * as User from './User';
 import * as Bookmark from './Bookmark';
 import * as ReminderNote from './ReminderNote';
@@ -31,9 +29,7 @@ export default function configureStore (history, initialState) {
         notebookSettings: NotebookSettings.reducer,
         notebookShare: NotebookShare.reducer
     }),
-    notebookSearch: NotebookSearch.reducer,
-    counter: Counter.reducer,
-    weatherForecasts: WeatherForecasts.reducer
+    notebookSearch: NotebookSearch.reducer
   };
 
   const middleware = [

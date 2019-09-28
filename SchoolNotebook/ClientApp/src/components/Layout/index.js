@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import NavMenu from './NavMenu';
+﻿import React, { Component } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -18,7 +17,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/styles';
 import { Container } from 'reactstrap';
-import { logoutActionCreator } from '../store/User'
+import { logoutActionCreator } from '../../store/User'
 
 const styles = {
     drawer: {

@@ -4,10 +4,10 @@ import { Redirect } from 'react-router'
 
 class Authenticate extends Component {
     render() {
-        const component = this.props.isAuthenticated ? <div> {this.props.children }</div> : <Redirect to='/login'/>;
+        const component = this.props.isAuthenticated ? <div> {this.props.children}</div> : <Redirect to='/login' />;
         return (
             <div>
-                { component }
+                {component}
             </div>
         );
     }

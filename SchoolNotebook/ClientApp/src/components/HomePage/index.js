@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import BookmarkHomePage from './Bookmark/BookmarkHomePage';
-import ReminderNoteHomePage from './ReminderNote/ReminderNoteHomePage';
-import NotebookHomePage from './Notebook/NotebookHomePage';
+﻿import React, { Component } from 'react';
+import BookmarkHomePage from '../Bookmark/BookmarkHomePage';
+import ReminderNoteHomePage from '../ReminderNote/ReminderNoteHomePage';
+import NotebookHomePage from '../Notebook/NotebookHomePage';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/styles';
@@ -12,7 +12,7 @@ const styles = {
     }
 };
 
-class Home extends Component {
+class HomePage extends Component {
 
     render() {
         return (
@@ -33,4 +33,4 @@ class Home extends Component {
     }
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(HomePage);
