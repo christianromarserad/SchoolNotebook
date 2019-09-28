@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Bookmark from './home/Bookmark';
 import BookmarkHomePage from './Bookmark/BookmarkHomePage';
 import ReminderNoteHomePage from './ReminderNote/ReminderNoteHomePage';
 import NotebookHomePage from './Notebook/NotebookHomePage';
