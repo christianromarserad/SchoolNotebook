@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { searchNotebooksActionCreator, updateTextFieldsActionCreator } from '../store/NotebookSearch';
+import { searchNotebooksActionCreator, updateTextFieldsActionCreator } from '../../../store/NotebookSearch';
 
 const styles = {
     mainContainer: {
@@ -81,7 +81,7 @@ class NotebookSearch extends Component {
                                 <Grid key={item.id} item lg={12}>
                                     <div className={this.props.classes.searchItemContainer}>
                                         <ButtonBase component={Link} to={"/notebook/content/" + item.id} className={this.props.classes.buttonBase}>
-                                            <div style={{ display: 'flex', flexDirection: 'row'}}>
+                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                 <div>
                                                     <Card className={this.props.classes.thumbnail}>
                                                         <CardMedia
@@ -112,7 +112,7 @@ class NotebookSearch extends Component {
                                                         </Typography>
                                                     </div>
                                                 </div>
-                                            </div>      
+                                            </div>
                                         </ButtonBase>
                                     </div>
                                 </Grid>

@@ -26,7 +26,7 @@ import {
     updateSwitchFieldsActionCreator,
     updateImageFileActionCreator,
     closeSnackbarActionCreator
-} from '../../store/NotebookSettings';
+} from '../../../store/NotebookSettings';
 
 const styles = {
     mainContainer: {
@@ -97,7 +97,7 @@ class NotebookSettings extends Component {
                                     {
                                         this.props.error.Name == null ?
                                             <TextField variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='name' className={this.props.classes.formTextField} /> :
-                                            <TextField error helperText={this.props.error.Name[0]} variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='name' className={this.props.classes.formTextField} /> 
+                                            <TextField error helperText={this.props.error.Name[0]} variant="outlined" margin="normal" label="Name" value={this.props.name} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='name' className={this.props.classes.formTextField} />
                                     }
                                 </Grid>
                                 <Grid item lg={6}>

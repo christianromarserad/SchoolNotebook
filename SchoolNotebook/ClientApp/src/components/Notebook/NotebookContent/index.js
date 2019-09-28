@@ -8,7 +8,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import NotebookEditor from './NotebookEditor';
+import NotebookEditor from '../NotebookEditor';
 import Paper from '@material-ui/core/Paper';
 import { RichUtils } from 'draft-js';
 import { withStyles } from '@material-ui/styles';
@@ -24,7 +24,7 @@ import {
     updateNotebookPageActionCreator,
     deleteNotebookPageActionCreator,
     updateEditorStateActionCreator
-} from '../../store/NotebookContent';
+} from '../../../store/NotebookContent';
 
 const styles = {
     mainContainer: {
@@ -68,7 +68,7 @@ class NotebookContent extends Component {
     componentDidMount() {
         this.props.getNotebookPagesActionCreator(this.props.match.params.id);
         if (this.props.match.params.id == this.props.notebookPage.notebookId && this.props.notebookPage.pageNumber != null) {
-            
+
             this.props.getNotebookPageActionCreator(this.props.match.params.id, this.props.notebookPage.pageNumber);
         }
         else {

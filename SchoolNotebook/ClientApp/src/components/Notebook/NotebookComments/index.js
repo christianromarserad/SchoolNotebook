@@ -17,7 +17,7 @@ import {
     getNotebookCommentsActionCreator,
     createNotebookCommentActionCreator,
     updateTextFieldsActionCreator
-} from '../../store/NotebookComment';
+} from '../../../store/NotebookComment';
 
 const styles = {
     mainContainer: {

@@ -29,7 +29,7 @@ import {
     createNotebookPermissionActionCreator,
     updateCanEditPermissionActionCreator,
     deleteNotebookPermissionActionCreator
-} from '../../store/NotebookShare';
+} from '../../../store/NotebookShare';
 
 const styles = {
     mainContainer: {
@@ -69,36 +69,33 @@ class NotebookShare extends Component {
                         </Button>
                     </Toolbar>
 
-                    
-
-
                     <Grid item container lg={12}>
                         {this.props.notebookPermissions.map((item) => {
                             return (
                                 <Grid key={item.user} item lg={12}>
-                                    <Divider/>
-                                            <CardHeader
-                                                className={this.props.classes.permissionItem}
-                                                avatar={
-                                                    <Avatar alt={item.userName} src={item.userPicture} />
-                                                }
-                                                title={
-                                                    <div>
-                                                        <Typography variant="body2" display="inline" className={this.props.classes.userName}>
-                                                            {item.userName}
-                                                        </Typography>
-                                                    </div>
-                                                }
-                                                subheader={item.user}
-                                                action={
-                                                    <div>
-                                                        <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
-                                                        <IconButton aria-label="Delete" onClick={this.props.deleteNotebookPermissionActionCreator.bind(this, item.notebookId, item.user)}>
-                                                            <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
-                                                        </IconButton>
-                                                    </div>
-                                                }
-                                            />
+                                    <Divider />
+                                    <CardHeader
+                                        className={this.props.classes.permissionItem}
+                                        avatar={
+                                            <Avatar alt={item.userName} src={item.userPicture} />
+                                        }
+                                        title={
+                                            <div>
+                                                <Typography variant="body2" display="inline" className={this.props.classes.userName}>
+                                                    {item.userName}
+                                                </Typography>
+                                            </div>
+                                        }
+                                        subheader={item.user}
+                                        action={
+                                            <div>
+                                                <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
+                                                <IconButton aria-label="Delete" onClick={this.props.deleteNotebookPermissionActionCreator.bind(this, item.notebookId, item.user)}>
+                                                    <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                </IconButton>
+                                            </div>
+                                        }
+                                    />
                                 </Grid>
                             )
                         })}

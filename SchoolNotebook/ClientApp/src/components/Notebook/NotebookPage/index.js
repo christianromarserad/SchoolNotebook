@@ -12,10 +12,10 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import NotebookContent from './Notebook/NotebookContent';
-import NotebookComments from './Notebook/NotebookComments';
-import NotebookShare from './Notebook/NotebookShare';
-import NotebookSettings from './Notebook/NotebookSettings';
+import NotebookContent from '../NotebookContent';
+import NotebookComments from '../NotebookComments';
+import NotebookShare from '../NotebookShare';
+import NotebookSettings from '../NotebookSettings';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/styles';
@@ -23,7 +23,7 @@ import { Route } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getUserNotebookPermissionActionCreator } from '../store/UserNotebookPermission';
+import { getUserNotebookPermissionActionCreator } from '../../../store/UserNotebookPermission';
 import {
     getNotebookNameActionCreator,
     getNotebookRatingActionCreator,
@@ -34,7 +34,7 @@ import {
     isNotebookInCollectionActionCreator,
     addToNotebookCollectionActionCreator,
     removeFromNotebookCollectionActionCreator
-} from '../store/NotebookNavbar';
+} from '../../../store/NotebookNavbar';
 
 const styles = {
     container: {
@@ -96,8 +96,8 @@ class Notebook extends Component {
                             <Tabs value={this.props.location.pathname} indicatorColor="primary" textColor="primary">
                                 <Tab label="Content" component={Link} to={"/notebook/content/" + this.props.match.params.id} value={"/notebook/content/" + this.props.match.params.id} />
                                 <Tab label="Comments" component={Link} to={"/notebook/comments/" + this.props.match.params.id} value={"/notebook/comments/" + this.props.match.params.id} />
-                                { this.props.userIsOwner ? <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.match.params.id} value={"/notebook/share/" + this.props.match.params.id} /> : null }
-                                { this.props.userIsOwner ? <Tab style={{ height: '64px' }} label="Settings" component={Link} to={"/notebook/settings/" + this.props.match.params.id} value={"/notebook/settings/" + this.props.match.params.id} /> : null }
+                                {this.props.userIsOwner ? <Tab label="Share" component={Link} to={"/notebook/share/" + this.props.match.params.id} value={"/notebook/share/" + this.props.match.params.id} /> : null}
+                                {this.props.userIsOwner ? <Tab style={{ height: '64px' }} label="Settings" component={Link} to={"/notebook/settings/" + this.props.match.params.id} value={"/notebook/settings/" + this.props.match.params.id} /> : null}
                             </Tabs>
                         </Grid>
                     </Grid>
@@ -109,7 +109,7 @@ class Notebook extends Component {
                     <Route exact path='/notebook/share/:id(\d+)' component={NotebookShare} />
                     <Route exact path='/notebook/settings/:id(\d+)' component={NotebookSettings} />
                 </div>
-                
+
                 <Dialog open={this.props.isRateModalOpen} onClose={this.props.closeRateModalActionCreator} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Rate Notebook</DialogTitle>
                     <DialogContent>
