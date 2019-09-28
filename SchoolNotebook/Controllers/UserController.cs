@@ -33,21 +33,22 @@ namespace SchoolNotebook.Controllers
 
         [HttpPost("[action]")]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel loginViewModel)
         {
             Payload payload = null;
 
             try
             {
-                payload = GoogleJsonWebSignature.ValidateAsync(loginViewModel.TokenId, new GoogleJsonWebSignature.ValidationSettings()).Result;
+                payload = await GoogleJsonWebSignature.ValidateAsync(loginViewModel.TokenId, new GoogleJsonWebSignature.ValidationSettings());
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest("hello");
             }
 
             if (!_context.User.Any(u => u.Email == payload.Email))
             {
+               
                 _context.User.Add(new User
                 {
                     Email = payload.Email,
@@ -63,6 +64,7 @@ namespace SchoolNotebook.Controllers
             }
 
             _context.SaveChanges();
+
 
             var claim = new[]
             {

@@ -20,7 +20,7 @@ const initialState = {
 
 export function removeFromNotebookCollectionActionCreator(notebookId) {
     return function (dispatch) {
-        axios.delete('https://localhost:44388/api/NotebookCollection/' + notebookId).then(function (res) {
+        axios.delete('api/NotebookCollection/' + notebookId).then(function (res) {
             dispatch(isNotebookInCollectionActionCreator(notebookId));
         })
     }
@@ -28,7 +28,7 @@ export function removeFromNotebookCollectionActionCreator(notebookId) {
 
 export function addToNotebookCollectionActionCreator(notebookId)  {
     return function (dispatch) {
-        axios.post('https://localhost:44388/api/NotebookCollection', { notebookId: notebookId }).then(function (res) {
+        axios.post('api/NotebookCollection', { notebookId: notebookId }).then(function (res) {
             dispatch(isNotebookInCollectionActionCreator(notebookId));
         })
     }
@@ -36,7 +36,7 @@ export function addToNotebookCollectionActionCreator(notebookId)  {
 
 export function isNotebookInCollectionActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookCollection').then(function (res) {
+        axios.get('api/NotebookCollection').then(function (res) {
             let isNotebookInCollection = false;
             res.data.forEach(function (element) {
                 if (element.notebookId == notebookId) {
@@ -72,7 +72,7 @@ export function closeRateModalActionCreator() {
 
 export function getNotebookNameActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/Notebook/' + notebookId).then(function (res) {
+        axios.get('api/Notebook/' + notebookId).then(function (res) {
             dispatch({
                 type: getNotebookNameType,
                 payload: {
@@ -85,7 +85,7 @@ export function getNotebookNameActionCreator(notebookId) {
 
 export function getNotebookRatingActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookRate/' + notebookId).then(function (res) {
+        axios.get('api/NotebookRate/' + notebookId).then(function (res) {
             let sum = 0;
             let average = 0;
 
@@ -110,7 +110,7 @@ export function getNotebookRatingActionCreator(notebookId) {
 
 export function getCurrentUserRateActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookRate/GetCurrentUserRate/' + notebookId).then(function (res) {
+        axios.get('api/NotebookRate/GetCurrentUserRate/' + notebookId).then(function (res) {
             dispatch({
                 type: getCurrentUserRateType,
                 payload: {
@@ -129,14 +129,14 @@ export function rateNotebookActionCreator(notebookId, rate) {
         }
 
         if (getState().notebookPage.notebookNavbar.userRating == null) {
-            axios.post('https://localhost:44388/api/NotebookRate', rateFormData).then(function (res) {
+            axios.post('api/NotebookRate', rateFormData).then(function (res) {
                 dispatch(closeRateModalActionCreator());
                 dispatch(getCurrentUserRateActionCreator(notebookId));
                 dispatch(getNotebookRatingActionCreator(notebookId));
             });
         }
         else {
-            axios.put('https://localhost:44388/api/NotebookRate', rateFormData).then(function (res) {
+            axios.put('api/NotebookRate', rateFormData).then(function (res) {
                 dispatch(closeRateModalActionCreator());
                 dispatch(getCurrentUserRateActionCreator(notebookId));
                 dispatch(getNotebookRatingActionCreator(notebookId));

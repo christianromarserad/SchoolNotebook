@@ -71,7 +71,7 @@ export function closeCreateModalActionCreator() {
 
 export function openEditModalActionCreator(id) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/ReminderNote/' + id).then(function (res) {
+        axios.get('api/ReminderNote/' + id).then(function (res) {
             dispatch({
                 type: openEditModalType,
                 payload: {
@@ -106,7 +106,7 @@ export function closeEditModalActionCreator() {
 export function getReminderNotesActionCreator() {
     return function (dispatch) {
 
-        axios.get('https://localhost:44388/api/ReminderNote').then(function (res) {
+        axios.get('api/ReminderNote').then(function (res) {
             dispatch({
                 type: getReminderNotesType,
                 payload: {
@@ -127,7 +127,7 @@ export function updateTextFieldsActionCreator(event) {
 export function createReminderNoteActionCreator() {
     return function (dispatch, getState) {
         let reminderNoteFormData = getState().homePage.reminderNote.reminderNoteForm;
-        axios.post('https://localhost:44388/api/ReminderNote', reminderNoteFormData).then(function (res) {
+        axios.post('api/ReminderNote', reminderNoteFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getReminderNotesActionCreator());
         })
@@ -146,7 +146,7 @@ export function createReminderNoteActionCreator() {
 
 export function deleteReminderNoteActionCreator(id) {
     return function (dispatch) {
-        axios.delete('https://localhost:44388/api/ReminderNote/' + id).then(function (res) {
+        axios.delete('api/ReminderNote/' + id).then(function (res) {
             dispatch(getReminderNotesActionCreator());
             dispatch(closeMenuActionCreator());
         });
@@ -156,7 +156,7 @@ export function deleteReminderNoteActionCreator(id) {
 export function updateReminderNoteActionCreator(id) {
     return function (dispatch, getState) {
         let reminderNoteFormData = getState().homePage.reminderNote.reminderNoteForm;
-        axios.put('https://localhost:44388/api/ReminderNote/' + id, reminderNoteFormData).then(function (res) {
+        axios.put('api/ReminderNote/' + id, reminderNoteFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getReminderNotesActionCreator());
         })

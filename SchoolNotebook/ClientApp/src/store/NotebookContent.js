@@ -40,7 +40,7 @@ export function updateTextFieldsActionCreator(event) {
 
 export function getNotebookPagesActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookPage/' + notebookId).then(function (res) {
+        axios.get('api/NotebookPage/' + notebookId).then(function (res) {
             dispatch({
                 type: getNotebookPagesType,
                 payload: {
@@ -53,7 +53,7 @@ export function getNotebookPagesActionCreator(notebookId) {
 
 export function getNotebookPageActionCreator(notebookId, pageNumber) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookPage?notebookId=' + notebookId + '&pageNumber=' + pageNumber).then(function (res) {
+        axios.get('api/NotebookPage?notebookId=' + notebookId + '&pageNumber=' + pageNumber).then(function (res) {
             dispatch({
                 type: getNotebookPageType,
                 payload: {
@@ -91,7 +91,7 @@ export function createNotebookPageActionCreator(notebookId) {
             content: JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
         };
         console.log(notebookId);
-        axios.post('https://localhost:44388/api/NotebookPage', notebookPageFormData).then(function (res) {
+        axios.post('api/NotebookPage', notebookPageFormData).then(function (res) {
             dispatch({
                 type: createNotebookPageType,
                 payload: {
@@ -117,7 +117,7 @@ export function updateNotebookPageActionCreator(notebookId) {
             pageNumber: state.notebookPage.notebookContent.notebookPage.pageNumber,
             content: JSON.stringify(convertToRaw(state.notebookPage.notebookContent.notebookPage.editorState.getCurrentContent()))
         }
-        axios.put('https://localhost:44388/api/NotebookPage/', notebookPageFormData).then(function (res) {
+        axios.put('api/NotebookPage/', notebookPageFormData).then(function (res) {
             dispatch(getNotebookPagesActionCreator(res.data.notebookId));
         });
     }
@@ -125,7 +125,7 @@ export function updateNotebookPageActionCreator(notebookId) {
 
 export function deleteNotebookPageActionCreator(notebookId, pageNumber) {
     return function (dispatch, getState) {
-        axios.delete('https://localhost:44388/api/NotebookPage?notebookId=' + notebookId + '&pageNumber=' + pageNumber).then(function (res) {
+        axios.delete('api/NotebookPage?notebookId=' + notebookId + '&pageNumber=' + pageNumber).then(function (res) {
             dispatch(getNotebookPagesActionCreator(notebookId));
             if (pageNumber == getState().notebookPage.notebookContent.notebookPage.pageNumber) {
                 dispatch(getDefaultNotebookPageActionCreator(notebookId));

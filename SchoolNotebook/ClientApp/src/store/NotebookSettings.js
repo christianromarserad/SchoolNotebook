@@ -57,7 +57,7 @@ export function updateSwitchFieldsActionCreator(name, event) {
 
 export function getNotebookActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/Notebook/' + notebookId).then(function (res) {
+        axios.get('api/Notebook/' + notebookId).then(function (res) {
             dispatch({
                 type: getNotebookType,
                 payload: {
@@ -80,7 +80,7 @@ export function updateNotebookSettingsActionCreator(notebookId) {
         formData.append('public', notebookFormData.public);
         formData.append('imageFile', notebookFormData.imageFile);
 
-        axios.put('https://localhost:44388/api/Notebook/' + notebookId, formData, {
+        axios.put('api/Notebook/' + notebookId, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

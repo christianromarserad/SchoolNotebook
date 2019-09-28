@@ -11,7 +11,7 @@ const initialState = {
 
 export function getUserNotebookPermissionActionCreator(notebookId) {
     return function (dispatch, getState) {
-        axios.get('https://localhost:44388/api/Notebook/' + notebookId).then(function (notebook) {
+        axios.get('api/Notebook/' + notebookId).then(function (notebook) {
 
             if (notebook.data.user == getState().user.email) {
                 dispatch({
@@ -24,7 +24,7 @@ export function getUserNotebookPermissionActionCreator(notebookId) {
                 });
             }
             else {
-                axios.get('https://localhost:44388/api/NotebookShare/GetCurrentUserPermission/' + notebookId).then(function (res) {
+                axios.get('api/NotebookShare/GetCurrentUserPermission/' + notebookId).then(function (res) {
                     dispatch({
                         type: getUserNotebookPermissionType,
                         payload: {

@@ -18,7 +18,7 @@ export function updateTextFieldsActionCreator(event) {
 
 export function getNotebookCommentsActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookComment?notebookId=' + notebookId).then(function (res) {
+        axios.get('api/NotebookComment?notebookId=' + notebookId).then(function (res) {
             dispatch({
                 type: getNotebookCommentsType,
                 payload: {
@@ -36,7 +36,7 @@ export function createNotebookCommentActionCreator(notebookId) {
             notebookId: notebookId,
             comment: state.notebookPage.notebookComment.comment
         };
-        axios.post('https://localhost:44388/api/NotebookComment', notebookCommentFormData).then(function (res) {
+        axios.post('api/NotebookComment', notebookCommentFormData).then(function (res) {
             dispatch(getNotebookCommentsActionCreator(notebookId));
         });
     }

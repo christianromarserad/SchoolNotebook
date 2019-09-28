@@ -11,7 +11,7 @@ const initialState = {
 
 export function searchNotebooksActionCreator(searchKey) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/Notebook/Search/' + searchKey).then(function (res) {
+        axios.get('api/Notebook/Search/' + searchKey).then(function (res) {
             dispatch({
                 type: searchNotebooksType,
                 payload: {

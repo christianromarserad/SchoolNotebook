@@ -75,7 +75,7 @@ export function closeCreateModalActionCreator() {
 
 export function openEditModalActionCreator(id) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/Bookmark/' + id).then(function (res) {
+        axios.get('api/Bookmark/' + id).then(function (res) {
             dispatch({
                 type: openEditModalType,
                 payload: {
@@ -114,7 +114,7 @@ export function closeEditModalActionCreator() {
 export function getBookmarksActionCreator() {
     return function (dispatch) {
 
-        axios.get('https://localhost:44388/api/Bookmark').then(function (res) {
+        axios.get('api/Bookmark').then(function (res) {
             dispatch({
                 type: getBookmarksType,
                 payload: {
@@ -135,7 +135,7 @@ export function updateTextFieldsActionCreator(event) {
 export function createBookmarkActionCreator() {
     return function (dispatch, getState) {
         let bookmarkFormData = getState().homePage.bookmark.bookmarkForm;
-        axios.post('https://localhost:44388/api/Bookmark', bookmarkFormData).then(function (res) {
+        axios.post('api/Bookmark', bookmarkFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getBookmarksActionCreator());
         })
@@ -154,7 +154,7 @@ export function createBookmarkActionCreator() {
 
 export function deleteBookmarkActionCreator(id) {
     return function (dispatch) {
-        axios.delete('https://localhost:44388/api/Bookmark/' + id).then(function (res) {
+        axios.delete('api/Bookmark/' + id).then(function (res) {
             dispatch(getBookmarksActionCreator());
             dispatch(closeMenuActionCreator());
         });
@@ -164,7 +164,7 @@ export function deleteBookmarkActionCreator(id) {
 export function updateBookmarkActionCreator(id) {
     return function (dispatch, getState) {
         let bookmarkFormData = getState().homePage.bookmark.bookmarkForm;
-        axios.put('https://localhost:44388/api/Bookmark/' + id, bookmarkFormData).then(function (res) {
+        axios.put('api/Bookmark/' + id, bookmarkFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
             dispatch(getBookmarksActionCreator());
         })

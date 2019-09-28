@@ -77,7 +77,7 @@ export function closeCreateModalActionCreator() {
 
 export function openEditModalActionCreator(id) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/Notebook/' + id).then(function (res) {
+        axios.get('api/Notebook/' + id).then(function (res) {
             dispatch({
                 type: openEditModalType,
                 payload: {
@@ -115,7 +115,7 @@ export function closeEditModalActionCreator() {
 export function getNotebooksActionCreator() {
     return function (dispatch) {
 
-        axios.get('https://localhost:44388/api/Notebook').then(function (res) {
+        axios.get('api/Notebook').then(function (res) {
             dispatch({
                 type: getNotebooksType,
                 payload: {
@@ -158,7 +158,7 @@ export function createNotebookActionCreator() {
         formData.append('public', notebookFormData.public);
         formData.append('imageFile', notebookFormData.imageFile);
 
-        axios.post('https://localhost:44388/api/Notebook', formData, {
+        axios.post('api/Notebook', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -182,7 +182,7 @@ export function createNotebookActionCreator() {
 
 export function deleteNotebookActionCreator(id) {
     return function (dispatch) {
-        axios.delete('https://localhost:44388/api/Notebook/' + id).then(function (res) {
+        axios.delete('api/Notebook/' + id).then(function (res) {
             dispatch(getNotebooksActionCreator());
             dispatch(closeMenuActionCreator());
         });
@@ -198,7 +198,7 @@ export function updateNotebookActionCreator(id) {
         formData.append('public', notebookFormData.public);
         formData.append('imageFile', notebookFormData.imageFile);
 
-        axios.put('https://localhost:44388/api/Notebook/' + id, formData, {
+        axios.put('api/Notebook/' + id, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

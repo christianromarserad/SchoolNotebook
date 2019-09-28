@@ -52,7 +52,7 @@ export function updateSwitchFieldsActionCreator(name, event) {
 
 export function getNotebookPermissionsActionCreator(notebookId) {
     return function (dispatch) {
-        axios.get('https://localhost:44388/api/NotebookShare/' + notebookId).then(function (res) {
+        axios.get('api/NotebookShare/' + notebookId).then(function (res) {
             dispatch({
                 type: getNotebookPermissionsType,
                 payload: {
@@ -71,7 +71,7 @@ export function updateCanEditPermissionActionCreator({ notebookId, user }, event
             user: user,
             canEdit: event.target.checked
         };
-        axios.put('https://localhost:44388/api/NotebookShare', notebookShareFormData).then(function (res) {
+        axios.put('api/NotebookShare', notebookShareFormData).then(function (res) {
             dispatch(getNotebookPermissionsActionCreator(notebookId));
         });
     }
@@ -84,7 +84,7 @@ export function createNotebookPermissionActionCreator(notebookId) {
             notebookId: notebookId,
             ...state.notebookPage.notebookShare.notebookShareForm
         };
-        axios.post('https://localhost:44388/api/NotebookShare', notebookShareFormData).then(function (res) {
+        axios.post('api/NotebookShare', notebookShareFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getNotebookPermissionsActionCreator(notebookId));
         });
@@ -93,7 +93,7 @@ export function createNotebookPermissionActionCreator(notebookId) {
 
 export function deleteNotebookPermissionActionCreator(notebookId, user) {
     return function (dispatch) {
-        axios.delete('https://localhost:44388/api/NotebookShare?notebookId=' + notebookId + '&user=' + user).then(function (res) {
+        axios.delete('api/NotebookShare?notebookId=' + notebookId + '&user=' + user).then(function (res) {
             dispatch(getNotebookPermissionsActionCreator(notebookId));
         });
     }
