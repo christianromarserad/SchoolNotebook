@@ -8,6 +8,8 @@ const openCreateModalType = 'OPEN_CREATE_BOOKMARK_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_BOOKMARK_MODAL';
 const openEditModalType = 'OPEN_EDIT_BOOKMARK_MODAL';
 const closeEditModalType = 'CLOSE_EDIT_BOOKMARK_MODAL';
+const openDeleteModalType = 'OPEN_DELETE_BOOKMARK_MODAL';
+const closeDeleteModalType = 'CLOSE_DELETE_BOOKMARK_MODAL';
 const openMenuType = 'OPEN_BOOKMARK_MENU';
 const closeMenuType = 'CLOSE_BOOKMARK_MENU';
 
@@ -16,6 +18,7 @@ const initialState = {
     anchorEl: null,
     isCreateModalOpen: false,
     isEditModalOpen: false,
+    isDeleteModalOpen: false,
     bookmarks: [],
     selectedBookmarkId: '',
     bookmarkForm: {
@@ -70,6 +73,20 @@ export function closeCreateModalActionCreator() {
                 }
             }
         }
+    };
+}
+
+export function openDeleteModalActionCreator() {
+    return {
+        type: openDeleteModalType,
+        payload: { isDeleteModalOpen: true }
+    };
+}
+
+export function closeDeleteModalActionCreator() {
+    return {
+        type: closeDeleteModalType,
+        payload: { isDeleteModalOpen: false }
     };
 }
 
@@ -157,6 +174,7 @@ export function deleteBookmarkActionCreator(id) {
         axios.delete('api/Bookmark/' + id).then(function (res) {
             dispatch(getBookmarksActionCreator());
             dispatch(closeMenuActionCreator());
+            dispatch(closeDeleteModalActionCreator());
         });
     }
 }
@@ -204,6 +222,18 @@ export const reducer = (state = initialState, action) => {
         };
     }
     else if (action.type === closeCreateModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === openDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === closeDeleteModalType) {
         return {
             ...state,
             ...action.payload

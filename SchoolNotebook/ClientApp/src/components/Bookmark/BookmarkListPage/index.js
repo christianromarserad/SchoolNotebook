@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import BookmarkItem from '../BookmarkItem';
 import BookmarkCreateDialog from '../BookmarkCreateDialog';
 import BookmarkEditDialog from '../BookmarkEditDialog';
+import BookmarkDeleteDialog from '../BookmarkDeleteDialog';
 import BookmarkItemMenu from '../BookmarkItemMenu';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -43,7 +44,9 @@ import {
     closeEditModalActionCreator,
     openMenuActionCreator,
     closeMenuActionCreator,
-    updateBookmarkActionCreator
+    updateBookmarkActionCreator,
+    openDeleteModalActionCreator,
+    closeDeleteModalActionCreator
 } from '../../../store/Bookmark';
 import { textAlign, maxHeight } from '@material-ui/system';
 
@@ -110,9 +113,10 @@ class BookmarkListPage extends Component {
                     {this.menuItems(this.props.bookmarks)}
                 </Grid>
 
-                <BookmarkItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} deleteBookmarkActionCreator={this.props.deleteBookmarkActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
+                <BookmarkItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
                 <BookmarkCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createBookmarkActionCreator={this.props.createBookmarkActionCreator} error={this.props.error} />
                 <BookmarkEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateBookmarkActionCreator={this.props.updateBookmarkActionCreator} url={this.props.url} name={this.props.name} selectedBookmarkId={this.props.selectedBookmarkId} error={this.props.error} />
+                <BookmarkDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteBookmarkActionCreator={this.props.deleteBookmarkActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} />
             </div>
         );
     }
@@ -123,6 +127,7 @@ function mapStateToProps(state) {
         bookmarks: state.homePage.bookmark.bookmarks,
         isCreateModalOpen: state.homePage.bookmark.isCreateModalOpen,
         isEditModalOpen: state.homePage.bookmark.isEditModalOpen,
+        isDeleteModalOpen: state.homePage.bookmark.isDeleteModalOpen,
         isMenuOpen: state.homePage.bookmark.isMenuOpen,
         anchorEl: state.homePage.bookmark.anchorEl,
         selectedBookmarkId: state.homePage.bookmark.selectedBookmarkId,
@@ -142,6 +147,8 @@ function mapDispatchToProps(dispatch) {
         deleteBookmarkActionCreator: deleteBookmarkActionCreator,
         openEditModalActionCreator: openEditModalActionCreator,
         closeEditModalActionCreator: closeEditModalActionCreator,
+        openDeleteModalActionCreator: openDeleteModalActionCreator,
+        closeDeleteModalActionCreator: closeDeleteModalActionCreator,
         updateBookmarkActionCreator: updateBookmarkActionCreator,
         openMenuActionCreator: openMenuActionCreator,
         closeMenuActionCreator: closeMenuActionCreator
