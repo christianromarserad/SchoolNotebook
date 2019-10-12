@@ -25,7 +25,7 @@ class ReminderNoteItemMenu extends Component {
     render() {
         return (
             <Menu id="fade-menu" anchorEl={this.props.anchorEl} keepMounted open={this.props.isMenuOpen} onClose={this.props.closeMenuActionCreator}>
-                <MenuItem onClick={this.props.deleteReminderNoteActionCreator.bind(this, this.props.selectedReminderNoteId)}>
+                <MenuItem onClick={this.props.openDeleteModalActionCreator}>
                     <ListItemIcon>
                         <DeleteIcon />
                     </ListItemIcon>

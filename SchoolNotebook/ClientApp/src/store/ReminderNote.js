@@ -8,6 +8,8 @@ const openCreateModalType = 'OPEN_CREATE_REMINDER_NOTE_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_REMINDER_NOTE_MODAL';
 const openEditModalType = 'OPEN_EDIT_REMINDER_NOTE_MODAL';
 const closeEditModalType = 'CLOSE_EDIT_REMINDER_NOTE_MODAL';
+const openDeleteModalType = 'OPEN_DELETE_REMINDER_NOTE_MODAL';
+const closeDeleteModalType = 'CLOSE_DELETE_REMINDER_NOTE_MODAL';
 const openMenuType = 'OPEN_REMINDER_NOTE_MENU';
 const closeMenuType = 'CLOSE_REMINDER_NOTE_MENU';
 
@@ -16,6 +18,7 @@ const initialState = {
     anchorEl: null,
     selectedReminderNoteId: '',
     isEditModalOpen: false,
+    isDeleteModalOpen: false,
     isCreateModalOpen: false,
     reminderNotes: [],
     reminderNoteForm: {
@@ -66,6 +69,20 @@ export function closeCreateModalActionCreator() {
                 }
             }
         }
+    };
+}
+
+export function openDeleteModalActionCreator() {
+    return {
+        type: openDeleteModalType,
+        payload: { isDeleteModalOpen: true }
+    };
+}
+
+export function closeDeleteModalActionCreator() {
+    return {
+        type: closeDeleteModalType,
+        payload: { isDeleteModalOpen: false }
     };
 }
 
@@ -149,6 +166,7 @@ export function deleteReminderNoteActionCreator(id) {
         axios.delete('api/ReminderNote/' + id).then(function (res) {
             dispatch(getReminderNotesActionCreator());
             dispatch(closeMenuActionCreator());
+            dispatch(closeDeleteModalActionCreator());
         });
     }
 }
@@ -208,6 +226,18 @@ export const reducer = (state = initialState, action) => {
         };
     }
     else if (action.type === closeEditModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === openDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === closeDeleteModalType) {
         return {
             ...state,
             ...action.payload

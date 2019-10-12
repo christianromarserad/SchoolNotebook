@@ -23,6 +23,7 @@ import Divider from '@material-ui/core/Divider';
 import ReminderNoteItem from '../ReminderNoteItem';
 import ReminderNoteCreateDialog from '../ReminderNoteCreateDialog';
 import ReminderNoteEditDialog from '../ReminderNoteEditDialog';
+import ReminderNoteDeleteDialog from '../ReminderNoteDeleteDialog';
 import ReminderNoteItemMenu from '../ReminderNoteItemMenu';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
@@ -43,7 +44,9 @@ import {
     closeMenuActionCreator,
     openEditModalActionCreator,
     closeEditModalActionCreator,
-    updateReminderNoteActionCreator
+    updateReminderNoteActionCreator,
+    openDeleteModalActionCreator,
+    closeDeleteModalActionCreator
 } from '../../../store/ReminderNote';
 
 const styles = {
@@ -94,9 +97,10 @@ class ReminderNoteListPage extends Component {
                     {this.menuItems(this.props.reminderNotes)}
                 </Grid>
 
-                <ReminderNoteItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} deleteReminderNoteActionCreator={this.props.deleteReminderNoteActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
+                <ReminderNoteItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
                 <ReminderNoteCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} notes={this.props.notes} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createReminderNoteActionCreator={this.props.createReminderNoteActionCreator} error={this.props.error} />
                 <ReminderNoteEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} notes={this.props.notes} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateReminderNoteActionCreator={this.props.updateReminderNoteActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} error={this.props.error} />
+                <ReminderNoteDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteReminderNoteActionCreator={this.props.deleteReminderNoteActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} />
             </div>
         );
     }
@@ -109,6 +113,7 @@ function mapStateToProps(state) {
         selectedReminderNoteId: state.homePage.reminderNote.selectedReminderNoteId,
         reminderNotes: state.homePage.reminderNote.reminderNotes,
         isCreateModalOpen: state.homePage.reminderNote.isCreateModalOpen,
+        isDeleteModalOpen: state.homePage.reminderNote.isDeleteModalOpen,
         isEditModalOpen: state.homePage.reminderNote.isEditModalOpen,
         notes: state.homePage.reminderNote.reminderNoteForm.notes,
         error: state.homePage.reminderNote.reminderNoteForm.error
@@ -127,7 +132,9 @@ function mapDispatchToProps(dispatch) {
         closeMenuActionCreator: closeMenuActionCreator,
         openEditModalActionCreator: openEditModalActionCreator,
         closeEditModalActionCreator: closeEditModalActionCreator,
-        updateReminderNoteActionCreator: updateReminderNoteActionCreator
+        updateReminderNoteActionCreator: updateReminderNoteActionCreator,
+        openDeleteModalActionCreator: openDeleteModalActionCreator,
+        closeDeleteModalActionCreator: closeDeleteModalActionCreator
     }, dispatch);
 }
 
