@@ -32,6 +32,7 @@ import Ratings from 'react-ratings-declarative';
 import NotebookItem from '../NotebookItem';
 import NotebookCreateDialog from '../NotebookCreateDialog';
 import NotebookEditDialog from '../NotebookEditDialog';
+import NotebookDeleteDialog from '../NotebookDeleteDialog';
 import NotebookItemMenu from '../NotebookItemMenu';
 
 import AliceCarousel from 'react-alice-carousel';
@@ -62,7 +63,9 @@ import {
     closeMenuActionCreator,
     openEditModalActionCreator,
     closeEditModalActionCreator,
-    updateNotebookActionCreator
+    updateNotebookActionCreator,
+    openDeleteModalActionCreator,
+    closeDeleteModalActionCreator
 } from '../../../store/Notebook';
 
 const styles = {
@@ -122,9 +125,10 @@ class NotebookListPage extends Component {
                     {this.menuItems(this.props.notebooks)}
                 </Grid>
 
-                <NotebookItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} deleteNotebookActionCreator={this.props.deleteNotebookActionCreator} selectedNotebookId={this.props.selectedNotebookId} openEditModalActionCreator={this.props.openEditModalActionCreator} selectedNotebookId={this.props.selectedNotebookId} />
+                <NotebookItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} openEditModalActionCreator={this.props.openEditModalActionCreator} selectedNotebookId={this.props.selectedNotebookId} />
                 <NotebookCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} name={this.props.name} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateImageFileActionCreator={this.props.updateImageFileActionCreator} imageFileName={this.props.imageFileName} createNotebookActionCreator={this.props.createNotebookActionCreator} error={this.props.error} />
                 <NotebookEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} name={this.props.name} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} public={this.props.public} updateSwitchFieldsActionCreator={this.props.updateSwitchFieldsActionCreator} updateImageFileActionCreator={this.props.updateImageFileActionCreator} imageFileName={this.props.imageFileName} updateNotebookActionCreator={this.props.updateNotebookActionCreator} selectedNotebookId={this.props.selectedNotebookId} error={this.props.error} />
+                <NotebookDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteNotebookActionCreator={this.props.deleteNotebookActionCreator} selectedNotebookId={this.props.selectedNotebookId} />
             </div>
         );
     }
@@ -138,6 +142,7 @@ function mapStateToProps(state) {
         notebooks: state.homePage.notebook.notebooks,
         isCreateModalOpen: state.homePage.notebook.isCreateModalOpen,
         isEditModalOpen: state.homePage.notebook.isEditModalOpen,
+        isDeleteModalOpen: state.homePage.notebook.isDeleteModalOpen,
         name: state.homePage.notebook.notebookForm.name,
         public: state.homePage.notebook.notebookForm.public,
         imageFileName: state.homePage.notebook.notebookForm.imageFileName,
@@ -159,7 +164,9 @@ function mapDispatchToProps(dispatch) {
         closeMenuActionCreator: closeMenuActionCreator,
         openEditModalActionCreator: openEditModalActionCreator,
         closeEditModalActionCreator: closeEditModalActionCreator,
-        updateNotebookActionCreator: updateNotebookActionCreator
+        updateNotebookActionCreator: updateNotebookActionCreator,
+        openDeleteModalActionCreator: openDeleteModalActionCreator,
+        closeDeleteModalActionCreator: closeDeleteModalActionCreator
     }, dispatch);
 }
 

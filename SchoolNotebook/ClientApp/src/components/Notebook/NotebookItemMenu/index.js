@@ -36,7 +36,7 @@ class NotebookItemMenu extends Component {
     render() {
         return (
             <Menu id="fade-menu" anchorEl={this.props.anchorEl} keepMounted open={this.props.isMenuOpen} onClose={this.props.closeMenuActionCreator}>
-                <MenuItem onClick={this.props.deleteNotebookActionCreator.bind(this, this.props.selectedNotebookId)}>
+                <MenuItem onClick={this.props.openDeleteModalActionCreator}>
                     <ListItemIcon>
                         <DeleteIcon />
                     </ListItemIcon>

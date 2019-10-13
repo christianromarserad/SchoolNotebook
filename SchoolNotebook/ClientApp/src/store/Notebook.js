@@ -10,6 +10,8 @@ const openCreateModalType = 'OPEN_CREATE_NOTEBOOK_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_NOTEBOOK_MODAL';
 const openEditModalType = 'OPEN_EDIT_NOTEBOOK_MODAL';
 const closeEditModalType = 'CLOSE_EDIT_NOTEBOOK_MODAL';
+const openDeleteModalType = 'OPEN_DELETE_NOTEBOOK_MODAL';
+const closeDeleteModalType = 'CLOSE_DELETE_NOTEBOOK_MODAL';
 const openMenuType = 'OPEN_NOTEBOOK_MENU';
 const closeMenuType = 'CLOSE_NOTEBOOK_MENU';
 
@@ -18,6 +20,7 @@ const initialState = {
     anchorEl: null,
     isCreateModalOpen: false,
     isEditModalOpen: false,
+    isDeleteModalOpen: false,
     notebooks: [],
     selectedNotebookId: '',
     notebookForm: {
@@ -112,6 +115,20 @@ export function closeEditModalActionCreator() {
     };
 }
 
+export function openDeleteModalActionCreator() {
+    return {
+        type: openDeleteModalType,
+        payload: { isDeleteModalOpen: true }
+    };
+}
+
+export function closeDeleteModalActionCreator() {
+    return {
+        type: closeDeleteModalType,
+        payload: { isDeleteModalOpen: false }
+    };
+}
+
 export function getNotebooksActionCreator() {
     return function (dispatch) {
 
@@ -185,6 +202,7 @@ export function deleteNotebookActionCreator(id) {
         axios.delete('api/Notebook/' + id).then(function (res) {
             dispatch(getNotebooksActionCreator());
             dispatch(closeMenuActionCreator());
+            dispatch(closeDeleteModalActionCreator());
         });
     }
 }
@@ -271,6 +289,18 @@ export const reducer = (state = initialState, action) => {
         };
     }
     else if (action.type === closeEditModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === openDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === closeDeleteModalType) {
         return {
             ...state,
             ...action.payload
