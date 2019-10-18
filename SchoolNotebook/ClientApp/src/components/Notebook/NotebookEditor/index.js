@@ -23,10 +23,9 @@ const styles = {
         height: '100%',
         maxHeight: 'inherit'
     },
-    notesEditor: {
+    notesEditorContainer: {
         flex: 1,
-        maxHeight: 'inherit',
-        overflowY: 'scroll'
+        maxHeight: 'inherit'
     },
     toolbar: {
         margin: '10px'
@@ -79,13 +78,13 @@ class NotebookEditor extends Component {
                     </Grid>
                 </Grid>
                 <Divider />
-                <div className={this.props.classes.notesEditor}>
-                        {
-                            this.props.userCanEdit ?
-                                <Editor editorState={this.props.editorState} onChange={this.props.onChangeEditorState} /> :
-                                <Editor editorState={this.props.editorState} readOnly />
-                        }
-                </div>
+        
+                {
+                    this.props.userCanEdit ?
+                        <Editor editorState={this.props.editorState} onChange={this.props.onChangeEditorState} /> :
+                        <Editor editorState={this.props.editorState} readOnly />
+                }
+        
                 {this.props.saved && this.props.userCanEdit ? <div>Page Saved</div> : null}
             </div>
         );

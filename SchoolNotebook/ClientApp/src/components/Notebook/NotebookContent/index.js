@@ -29,7 +29,8 @@ import {
 const styles = {
     mainContainer: {
         height: '100%',
-        maxHeight: 'inherit'
+        maxHeight: 'inherit',
+        overflowY: 'hide'
     },
     gridContainer: {
         height: '100%',
@@ -44,8 +45,7 @@ const styles = {
     pageContentContainer: {
         width: '100%',
         padding: '0px 15px 0px 15px',
-        maxHeight: '100%',
-        overflowY: 'auto'
+        maxHeight: '100%'
     }
 };
 
