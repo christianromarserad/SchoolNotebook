@@ -20,14 +20,42 @@ const initialState = {
         notebookId: null,
         title: null,
         pageNumber: null,
-        editorState: EditorState.createEmpty()
+        editorState: EditorState.createEmpty(),
+        styles: {
+            bold: false,
+            italic: false,
+            underline: false,
+            codeBlock: false,
+            blockquote: false,
+            unorderedListItem: false,
+            orderedListItem: false,
+            headerOne: false
+        }
     },
 };
 
 export function updateEditorStateActionCreator(editorState) {
+    let selection = editorState.getSelection();
+    let blockType = editorState
+        .getCurrentContent()
+        .getBlockForKey(selection.getStartKey())
+        .getType();
+
     return {
         type: updateEditorStateType,
-        payload: { editorState: editorState }
+        payload: {
+            editorState: editorState,
+            styles: {
+                bold: editorState.getCurrentInlineStyle().has('BOLD'),
+                italic: editorState.getCurrentInlineStyle().has('ITALIC'),
+                underline: editorState.getCurrentInlineStyle().has('UNDERLINE'),
+                codeBlock: 'code-block' == blockType,
+                blockquote: 'blockquote' == blockType,
+                unorderedListItem: 'unordered-list-item' == blockType,
+                orderedListItem: 'ordered-list-item' == blockType,
+                headerOne: 'header-one' == blockType
+            }
+        }
     };
 }
 
@@ -144,13 +172,19 @@ export const reducer = (state = initialState, action) => {
     else if (action.type === getNotebookPageType) {
         return {
             ...state,
-            ...action.payload
+            notebookPage: {
+                ...state.notebookPage,
+                ...action.payload.notebookPage
+            }
         }
     }
     else if (action.type === getDefaultNotebookPageType) {
         return {
             ...state,
-            ...action.payload
+            notebookPage: {
+                ...state.notebookPage,
+                ...action.payload.notebookPage
+            }
         }
     }
     else if (action.type === createNotebookPageType) {

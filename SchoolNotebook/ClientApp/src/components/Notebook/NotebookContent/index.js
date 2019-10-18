@@ -147,6 +147,7 @@ class NotebookContent extends Component {
                             <NotebookEditor
                                 userCanEdit={this.props.userCanEdit}
                                 editorState={this.props.notebookPage.editorState}
+                                styles={this.props.notebookPage.styles}
                                 toggleInlineStyle={this.toggleInlineStyle}
                                 toggleBlockType={this.toggleBlockType}
                                 onChangeEditorState={this.onChangeEditorState}

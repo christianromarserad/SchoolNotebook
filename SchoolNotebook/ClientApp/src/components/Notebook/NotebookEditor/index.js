@@ -49,28 +49,60 @@ class NotebookEditor extends Component {
                             this.props.userCanEdit ?
                                 <Grid item>
                                     <IconButton onMouseDown={this.props.toggleInlineStyle.bind(this, 'BOLD', this.props.editorState)}>
-                                        <FormatBoldIcon />
+                                        {
+                                            this.props.styles.bold ?
+                                                <FormatBoldIcon color="primary" /> :
+                                                <FormatBoldIcon />
+                                        }
                                     </IconButton>
                                     <IconButton onMouseDown={this.props.toggleInlineStyle.bind(this, 'ITALIC', this.props.editorState)}>
-                                        <FormatItalicIcon />
+                                        {
+                                            this.props.styles.italic ?
+                                                <FormatItalicIcon color="primary" /> :
+                                                <FormatItalicIcon />
+                                        }
                                     </IconButton>
                                     <IconButton onMouseDown={this.props.toggleInlineStyle.bind(this, 'UNDERLINE', this.props.editorState)}>
-                                        <FormatUnderlinedIcon />
+                                        {
+                                            this.props.styles.underline ?
+                                                <FormatUnderlinedIcon color="primary"/> :
+                                                <FormatUnderlinedIcon />
+                                        }
                                     </IconButton>
                                     <IconButton onMouseDown={this.props.toggleBlockType.bind(this, 'code-block', this.props.editorState)}>
-                                        <CodeIcon />
+                                        {
+                                            this.props.styles.codeBlock ?
+                                                <CodeIcon color="primary" /> :
+                                                <CodeIcon />
+                                        }
                                     </IconButton>
                                     <IconButton onMouseDown={this.props.toggleBlockType.bind(this, 'blockquote', this.props.editorState)}>
-                                        <FormatQuoteIcon />
+                                        {
+                                            this.props.styles.blockquote ?
+                                                <FormatQuoteIcon color="primary" /> :
+                                                <FormatQuoteIcon />
+                                        }
                                     </IconButton>
                                     <IconButton onMouseDown={this.props.toggleBlockType.bind(this, 'unordered-list-item', this.props.editorState)}>
-                                        <FormatListBulletedIcon />
+                                        {
+                                            this.props.styles.unorderedListItem ?
+                                                <FormatListBulletedIcon color="primary" /> :
+                                                <FormatListBulletedIcon />
+                                        }
                                     </IconButton>
                                     <IconButton onMouseDown={this.props.toggleBlockType.bind(this, 'ordered-list-item', this.props.editorState)}>
-                                        <FormatListNumberedIcon />
+                                        {
+                                            this.props.styles.orderedListItem ?
+                                                <FormatListNumberedIcon color="primary" /> :
+                                                <FormatListNumberedIcon />
+                                        }
                                     </IconButton>
                                     <IconButton onMouseDown={this.props.toggleBlockType.bind(this, 'header-one', this.props.editorState)}>
-                                        <TitleIcon />
+                                        {
+                                            this.props.styles.headerOne ?
+                                                <TitleIcon color="primary" /> :
+                                                <TitleIcon />
+                                        }
                                     </IconButton>
                                 </Grid> :
                                 null
