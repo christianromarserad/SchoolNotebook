@@ -13,8 +13,11 @@ const getDefaultNotebookPageType = 'GET_DEFAULT_NOTEBOOK_PAGE';
 const createNotebookPageType = 'CREATE_NOTEBOOK_PAGE';
 const updateNotebookPageType = 'UPDATE_NOTEBOOK_PAGE';
 const updateEditorStateType = 'UPDATE_EDITOR_STATE';
+const openDeleteModalType = 'OPEN_DELETE_NOTEBOOK_PAGE_MODAL';
+const closeDeleteModalType = 'CLOSE_DELETE_NOTEBOOK_PAGE_MODAL';
 
 const initialState = {
+    isDeleteModalOpen: false,
     notebookPages: [],
     notebookPage: {
         notebookId: null,
@@ -33,6 +36,20 @@ const initialState = {
         }
     },
 };
+
+export function openDeleteModalActionCreator() {
+    return {
+        type: openDeleteModalType,
+        payload: { isDeleteModalOpen: true }
+    };
+}
+
+export function closeDeleteModalActionCreator() {
+    return {
+        type: closeDeleteModalType,
+        payload: { isDeleteModalOpen: false }
+    };
+}
 
 export function updateEditorStateActionCreator(editorState) {
     let selection = editorState.getSelection();
@@ -158,6 +175,7 @@ export function deleteNotebookPageActionCreator(notebookId, pageNumber) {
             if (pageNumber == getState().notebookPage.notebookContent.notebookPage.pageNumber) {
                 dispatch(getDefaultNotebookPageActionCreator(notebookId));
             }
+            dispatch(closeDeleteModalActionCreator());
         });
     }
 }
@@ -190,7 +208,10 @@ export const reducer = (state = initialState, action) => {
     else if (action.type === createNotebookPageType) {
         return {
             ...state,
-            ...action.payload
+            notebookPage: {
+                ...state.notebookPage,
+                ...action.payload.notebookPage
+            }
         }
     }
     else if (action.type === updateNotebookPageType) {
@@ -216,6 +237,18 @@ export const reducer = (state = initialState, action) => {
                 ...action.payload
             }
         }
+    }
+    else if (action.type === openDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === closeDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
     }
 
     return state;

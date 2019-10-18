@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NotebookEditor from '../NotebookEditor';
+import NotebookPageDeleteDialog from '../NotebookPageDeleteDialog';
 import Paper from '@material-ui/core/Paper';
 import { RichUtils } from 'draft-js';
 import { withStyles } from '@material-ui/styles';
@@ -23,7 +24,9 @@ import {
     updateTextFieldsActionCreator,
     updateNotebookPageActionCreator,
     deleteNotebookPageActionCreator,
-    updateEditorStateActionCreator
+    updateEditorStateActionCreator,
+    openDeleteModalActionCreator,
+    closeDeleteModalActionCreator
 } from '../../../store/NotebookContent';
 
 const styles = {
@@ -52,16 +55,20 @@ const styles = {
 class NotebookContent extends Component {
     constructor(props) {
         super(props);
-        this.deleteNotebookPage = this.deleteNotebookPage.bind(this);
         this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
         this.toggleBlockType = this.toggleBlockType.bind(this);
         this.onChangeEditorState = this.onChangeEditorState.bind(this);
         this.saveNotebookPage = this.saveNotebookPage.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
+        this.openDeleteDialog = this.openDeleteDialog.bind(this);
 
         this.state = {
             timeout: null,
-            saved: false
+            saved: false,
+            deletePage: {
+                notebookId: null,
+                pageNumber: null
+            }
         }
     }
 
@@ -74,6 +81,18 @@ class NotebookContent extends Component {
         else {
             this.props.getDefaultNotebookPageActionCreator(this.props.match.params.id);
         }
+    }
+
+    openDeleteDialog(notebookId, pageNumber, event) {
+        this.setState({
+            ...this.state,
+            deletePage: {
+                notebookId: notebookId,
+                pageNumber: pageNumber
+            }
+        });
+        this.props.openDeleteModalActionCreator();
+        event.stopPropagation();
     }
 
     toggleInlineStyle(style, editorState, event) {
@@ -104,11 +123,6 @@ class NotebookContent extends Component {
         setTimeout(() => this.setState({ ...this.state, saved: false }), 2000)
     }
 
-    deleteNotebookPage(notebookId, pageNumber, event) {
-        this.props.deleteNotebookPageActionCreator(notebookId, pageNumber);
-        event.stopPropagation();
-    }
-
     render() {
         return (
             <div className={this.props.classes.mainContainer}>
@@ -129,7 +143,7 @@ class NotebookContent extends Component {
                                                     </Typography>
                                                     {
                                                         this.props.userCanEdit ?
-                                                            <IconButton aria-label="Delete" name="deleteButton" onClick={this.deleteNotebookPage.bind(this, item.notebookId, item.pageNumber)}>
+                                                            <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
                                                                 <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
                                                             </IconButton> :
                                                             null
@@ -159,6 +173,7 @@ class NotebookContent extends Component {
                         </div>
                     </Grid>
                 </Grid>
+                <NotebookPageDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteNotebookPageActionCreator={this.props.deleteNotebookPageActionCreator} notebookId={this.state.deletePage.notebookId} pageNumber={this.state.deletePage.pageNumber} />
             </div>
         );
     }
@@ -166,6 +181,7 @@ class NotebookContent extends Component {
 
 function mapStateToProps(state) {
     return {
+        isDeleteModalOpen: state.notebookPage.notebookContent.isDeleteModalOpen,
         notebookPages: state.notebookPage.notebookContent.notebookPages,
         notebookPage: state.notebookPage.notebookContent.notebookPage,
         userCanEdit: state.notebookPage.notebookPermission.userCanEdit
@@ -181,7 +197,9 @@ function mapDispatchToProps(dispatch) {
         updateTextFieldsActionCreator: updateTextFieldsActionCreator,
         updateNotebookPageActionCreator: updateNotebookPageActionCreator,
         deleteNotebookPageActionCreator: deleteNotebookPageActionCreator,
-        updateEditorStateActionCreator: updateEditorStateActionCreator
+        updateEditorStateActionCreator: updateEditorStateActionCreator,
+        openDeleteModalActionCreator: openDeleteModalActionCreator,
+        closeDeleteModalActionCreator: closeDeleteModalActionCreator
     }, dispatch);
 }
 
