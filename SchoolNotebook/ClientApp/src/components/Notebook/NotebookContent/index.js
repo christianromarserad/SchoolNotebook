@@ -49,6 +49,9 @@ const styles = {
         width: '100%',
         padding: '0px 15px 0px 15px',
         maxHeight: '100%'
+    },
+    activePage: {
+        backgroundColor: "#D3D3D3"
     }
 };
 
@@ -135,22 +138,42 @@ class NotebookContent extends Component {
                             {this.props.notebookPages.map((item) => {
                                 return (
                                     <Grid key={item.pageNumber} item lg={12}>
-                                        <Card style={{ margin: '5px' }}>
-                                            <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
-                                                <Toolbar>
-                                                    <Typography style={{ flexGrow: 1 }}>
-                                                        {item.title}
-                                                    </Typography>
-                                                    {
-                                                        this.props.userCanEdit ?
-                                                            <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
-                                                                <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
-                                                            </IconButton> :
-                                                            null
-                                                    }
-                                                </Toolbar>
-                                            </CardActionArea>
-                                        </Card>
+                                        {
+                                            this.props.notebookPage.pageNumber == item.pageNumber ?
+                                                <Card style={{ margin: '5px' }} className={this.props.classes.activePage}>
+                                                    <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
+                                                        <Toolbar>
+                                                            <Typography style={{ flexGrow: 1 }}>
+                                                                {item.title}
+                                                            </Typography>
+                                                            {
+                                                                this.props.userCanEdit ?
+                                                                    <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
+                                                                        <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                                    </IconButton> :
+                                                                    null
+                                                            }
+                                                        </Toolbar>
+                                                    </CardActionArea>
+                                                </Card> :
+                                                <Card style={{ margin: '5px' }}>
+                                                    <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
+                                                        <Toolbar>
+                                                            <Typography style={{ flexGrow: 1 }}>
+                                                                {item.title}
+                                                            </Typography>
+                                                            {
+                                                                this.props.userCanEdit ?
+                                                                    <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
+                                                                        <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                                    </IconButton> :
+                                                                    null
+                                                            }
+                                                        </Toolbar>
+                                                    </CardActionArea>
+                                                </Card>
+                                        }
+
                                     </Grid>
                                 )
                             })}
