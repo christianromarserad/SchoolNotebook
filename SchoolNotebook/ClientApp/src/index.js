@@ -5,9 +5,10 @@ import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 import configureStore from './store/configureStore';
 import App from './App';
+import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { loginActionCreator } from './store/User';
+import { loginActionCreator, logoutActionCreator } from './store/User';
 import 'typeface-roboto';
 import 'draft-js/dist/Draft.css';
 import './styles.css';
@@ -22,8 +23,17 @@ const store = configureStore(history, initialState);
 
 const rootElement = document.getElementById('root');
 
+axios.interceptors.response.use(response => {
+    return response;
+}, error => {
+    if (error.response.status === 401) {
+        store.dispatch(logoutActionCreator());
+    }
+    return error;
+});
+
 if (localStorage.jwtToken) {
-    store.dispatch(loginActionCreator(localStorage.jwtToken))
+    store.dispatch(loginActionCreator(localStorage.jwtToken));
 }
 
 ReactDOM.render(

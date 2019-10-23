@@ -16,7 +16,7 @@ export default () => (
             <Layout>
                 <Route exact path='/' component={HomePage} />
                 <Route path='/notebook/*/:id(\d+)' component={Notebook} />
-                <Route path='/notebookSearch/:searchKey' component={NotebookSearch} />
+                <Route path='/notebookSearch' component={NotebookSearch} />
                 <Route path='/bookmark' component={BookmarkListPage} />
                 <Route path='/reminderNote' component={ReminderNoteListPage} />
                 <Route exact path='/notebook' component={NotebookListPage} />
