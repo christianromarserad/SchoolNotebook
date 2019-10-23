@@ -10,7 +10,7 @@ namespace SchoolNotebook.ViewModels
     {
         public int Id { get; set; }
         [Required]
-        [MaxLength(50, ErrorMessage = "Notes can not be longer than 200 characters.")]
+        [MaxLength(160, ErrorMessage = "Notes can not be longer than 160 characters.")]
         public string Notes { get; set; }
     }
 }
