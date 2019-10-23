@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NotebookEditor from '../NotebookEditor';
 import NotebookPageDeleteDialog from '../NotebookPageDeleteDialog';
+import AddIcon from '@material-ui/icons/Add';
 import Paper from '@material-ui/core/Paper';
 import { RichUtils } from 'draft-js';
 import { withStyles } from '@material-ui/styles';
@@ -52,6 +53,9 @@ const styles = {
     },
     activePage: {
         backgroundColor: "#D3D3D3"
+    },
+    smallMarginLeft: {
+        marginLeft: '10px'
     }
 };
 
@@ -133,7 +137,14 @@ class NotebookContent extends Component {
                     <Grid item container lg={4} className={this.props.classes.gridContainer}>
                         <div className={this.props.classes.pagesContainer}>
                             <Grid item lg={12}>
-                                {this.props.userCanEdit ? <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookPageActionCreator.bind(this, this.props.match.params.id)}>Add Page</Button> : null}
+                                {
+                                    this.props.userCanEdit ?
+                                        <Button style={{ margin: '5px' }} color="primary" onClick={this.props.createNotebookPageActionCreator.bind(this, this.props.match.params.id)}>
+                                            Add Page
+                                            <AddIcon className={this.props.classes.smallMarginLeft} />
+                                        </Button> :
+                                        null
+                                }
                             </Grid>
                             {this.props.notebookPages.map((item) => {
                                 return (
