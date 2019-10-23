@@ -26,10 +26,11 @@ const rootElement = document.getElementById('root');
 axios.interceptors.response.use(response => {
     return response;
 }, error => {
-    if (error.response.status === 401) {
+    if (error.response.status == 401) {
         store.dispatch(logoutActionCreator());
     }
-    return error;
+
+    return Promise.reject(error);
 });
 
 if (localStorage.jwtToken) {
