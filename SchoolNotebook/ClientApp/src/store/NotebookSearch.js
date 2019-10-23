@@ -5,20 +5,22 @@ const updateTextFieldsType = 'UPDATE_NOTEBOOK_SEARCH_TEXTFIELDS';
 
 
 const initialState = {
-    searchKey: 'search',
+    searchKey: '',
     notebooks: []
 };
 
 export function searchNotebooksActionCreator(searchKey) {
     return function (dispatch) {
-        axios.get('api/Notebook/Search/' + searchKey).then(function (res) {
-            dispatch({
-                type: searchNotebooksType,
-                payload: {
-                    notebooks: res.data
-                }
+        if (searchKey != '') {
+            axios.get('api/Notebook/Search/' + searchKey).then(function (res) {
+                dispatch({
+                    type: searchNotebooksType,
+                    payload: {
+                        notebooks: res.data
+                    }
+                });
             });
-        });
+        }
     }
 }
 

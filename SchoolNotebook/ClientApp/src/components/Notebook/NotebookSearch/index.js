@@ -42,15 +42,6 @@ const styles = {
 };
 
 class NotebookSearch extends Component {
-    componentDidMount() {
-        this.props.searchNotebooksActionCreator(this.props.match.params.searchKey);
-    }
-
-    componentWillReceiveProps(props) {
-        if (this.props.match.params.searchKey != props.match.params.searchKey) {
-            this.props.searchNotebooksActionCreator(props.match.params.searchKey);
-        }
-    }
 
     render() {
         return (
@@ -65,7 +56,7 @@ class NotebookSearch extends Component {
                             fullWidth
                             name='searchKey'
                             onChange={this.props.updateTextFieldsActionCreator}
-                            onKeyPress={(event) => event.key == 'Enter' ? this.props.history.push("/notebookSearch/" + this.props.searchKey) : null}
+                            onKeyPress={(event) => event.key == 'Enter' ? this.props.searchNotebooksActionCreator(this.props.searchKey) : null}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
