@@ -1,11 +1,30 @@
 ﻿import React, { Component } from 'react';
+import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loginActionCreator } from '../../store/User';
 import { Redirect } from 'react-router'
 import { GoogleLogin } from 'react-google-login';
+import { withStyles } from '@material-ui/styles';
 import axios from 'axios';
 import config from '../../config.json';
+
+const styles = {
+    title: {
+        textAlign: 'center',
+        margin: '40px 0px 100px 0px'
+    },
+    card: {
+        height: '300px',
+        width: '400px',
+        textAlign: 'center',
+        margin: '0px auto 0px auto',
+        padding: '20px'
+    },
+    cardTitle: {
+        marginBottom: '70px'
+    }
+};
 
 class LoginPage extends Component {
 
@@ -24,14 +43,19 @@ class LoginPage extends Component {
     render() {
         return (
             <div>
-                {this.props.isAuthenticated ? <Redirect to='/' /> : null}
-                <h1>Login Please</h1>
-                <GoogleLogin
-                    clientId={config.GOOGLE_CLIENT_ID}
-                    buttonText="Google Login"
-                    onSuccess={this.googleResponse}
-                    onFailure={this.googleResponse}
-                />
+                <h1 className={this.props.classes.title}> School Notebook </h1>
+                <Paper className={this.props.classes.card}>
+                    {this.props.isAuthenticated ? <Redirect to='/' /> : null}
+                    <h1 className={this.props.classes.cardTitle}>
+                        Please Login
+                    </h1>
+                    <GoogleLogin
+                        clientId={config.GOOGLE_CLIENT_ID}
+                        buttonText="Google Login"
+                        onSuccess={this.googleResponse}
+                        onFailure={this.googleResponse}
+                    />
+                </Paper>
             </div>
         );
     }
@@ -48,4 +72,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(LoginPage));
