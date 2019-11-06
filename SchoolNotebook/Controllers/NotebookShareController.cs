@@ -83,6 +83,21 @@ namespace SchoolNotebook.Controllers
                 return Forbid();
             }
 
+            if(!_context.User.Any(u => u.Email == notebookShareViewModel.User))
+            {
+                return NotFound(new { message = "User does not exist" });
+            }
+
+            if (notebook.User == notebookShareViewModel.User)
+            {
+                return BadRequest(new { message = "You can't add the owner in the share list" });
+            }
+
+            if(_context.NotebookShare.Any(ns => ns.User == notebookShareViewModel.User))
+            {
+                return BadRequest(new { message = "The user is already in the share list" });
+            }
+
             if (ModelState.IsValid)
             {
                 _context.NotebookShare.Add(new NotebookShare

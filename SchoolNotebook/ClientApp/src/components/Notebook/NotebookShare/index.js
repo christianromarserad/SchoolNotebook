@@ -105,7 +105,11 @@ class NotebookShare extends Component {
                 <Dialog open={this.props.isCreateModalOpen} onClose={this.props.closeCreateModalActionCreator} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Create Bookmark</DialogTitle>
                     <DialogContent>
-                        <TextField variant="outlined" margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' />
+                        {
+                            this.props.error == null ?
+                                <TextField variant="outlined" margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' /> :
+                                <TextField error helperText={this.props.error} variant="outlined" margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' />
+                        }
                         <FormControlLabel control={<Switch color="primary" checked={this.props.canEdit} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'canEdit')} />} label="Can Edit" />
                     </DialogContent>
                     <DialogActions>
@@ -126,6 +130,7 @@ function mapStateToProps(state) {
     return {
         user: state.notebookPage.notebookShare.notebookShareForm.user,
         canEdit: state.notebookPage.notebookShare.notebookShareForm.canEdit,
+        error: state.notebookPage.notebookShare.notebookShareForm.error,
         notebookPermissions: state.notebookPage.notebookShare.notebookPermissions,
         isCreateModalOpen: state.notebookPage.notebookShare.isCreateModalOpen
     };

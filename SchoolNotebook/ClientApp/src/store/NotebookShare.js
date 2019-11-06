@@ -5,6 +5,7 @@ const updateTextFieldsType = 'UPDATE_NOTEBOOK_SHARE_TEXTFIELDS';
 const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_SHARE_SWITCHFIELDS';
 const openCreateModalType = 'OPEN_CREATE_NOTEBOOK_SHARE_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_NOTEBOOK_SHARE_MODAL';
+const errorFormModalType = 'ERROR_NOTEBOOK_SHARE_FORM_MODAL';
 
 
 const initialState = {
@@ -12,7 +13,8 @@ const initialState = {
     notebookPermissions: [],
     notebookShareForm: {
         user: null,
-        canEdit: false
+        canEdit: false,
+        error: null
     }
 };
 
@@ -87,6 +89,16 @@ export function createNotebookPermissionActionCreator(notebookId) {
         axios.post('api/NotebookShare', notebookShareFormData).then(function (res) {
             dispatch(closeCreateModalActionCreator());
             dispatch(getNotebookPermissionsActionCreator(notebookId));
+        })
+        .catch(error => {
+            if (error.response.status == 404 || error.response.status == 400) {
+                dispatch({
+                    type: errorFormModalType,
+                    payload: {
+                        error: error.response.data.message
+                    }
+                });
+            }
         });
     }
 }
@@ -135,6 +147,15 @@ export const reducer = (state = initialState, action) => {
             ...state,
             ...action.payload
         }
+    }
+    else if (action.type === errorFormModalType) {
+        return {
+            ...state,
+            notebookShareForm: {
+                ...state.notebookShareForm,
+                ...action.payload
+            }
+        };
     }
 
     return state;
