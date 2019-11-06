@@ -38,6 +38,9 @@ const styles = {
     },
     rating: {
         marginTop: '20px'
+    },
+    emptyListMessage: {
+        textAlign: 'center'
     }
 };
 
@@ -67,48 +70,51 @@ class NotebookSearch extends Component {
                         />
                     </Grid>
                     <Grid item container lg={12}>
-                        {this.props.notebooks.map((item) => {
-                            return (
-                                <Grid key={item.id} item lg={12}>
-                                    <div className={this.props.classes.searchItemContainer}>
-                                        <ButtonBase component={Link} to={"/notebook/content/" + item.id} className={this.props.classes.buttonBase}>
-                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                                <div>
-                                                    <Card className={this.props.classes.thumbnail}>
-                                                        <CardMedia
-                                                            className={this.props.classes.thumbnail}
-                                                            image={item.image || '/Images/lizard.jpg'}
-                                                        />
-                                                    </Card>
-                                                </div>
+                        {
+                            this.props.notebooks.length == 0 ?
+                                <Grid item lg={12}><h1 className={this.props.classes.emptyListMessage}>No Notebooks Found</h1></Grid> :
+                                this.props.notebooks.map((item) => {
+                                    return (
+                                        <Grid key={item.id} item lg={12}>
+                                            <div className={this.props.classes.searchItemContainer}>
+                                                <ButtonBase component={Link} to={"/notebook/content/" + item.id} className={this.props.classes.buttonBase}>
+                                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                        <div>
+                                                            <Card className={this.props.classes.thumbnail}>
+                                                                <CardMedia
+                                                                    className={this.props.classes.thumbnail}
+                                                                    image={item.image || '/Images/lizard.jpg'}
+                                                                />
+                                                            </Card>
+                                                        </div>
 
-                                                <div>
-                                                    <Typography variant="h5" display="block">
-                                                        {item.name}
-                                                    </Typography>
-                                                    <Typography variant="body2" display="block">
-                                                        {item.userName}
-                                                    </Typography>
+                                                        <div>
+                                                            <Typography variant="h5" display="block">
+                                                                {item.name}
+                                                            </Typography>
+                                                            <Typography variant="body2" display="block">
+                                                                {item.userName}
+                                                            </Typography>
 
-                                                    <div className={this.props.classes.rating}>
-                                                        <Ratings rating={item.averageRate} widgetDimensions="30px" widgetSpacings="2px">
-                                                            <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
-                                                            <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
-                                                            <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
-                                                            <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
-                                                            <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
-                                                        </Ratings>
-                                                        <Typography variant="caption" gutterBottom className={item.smallMarginLeft}>
-                                                            {item.averageRate}({item.numberOfRates})
+                                                            <div className={this.props.classes.rating}>
+                                                                <Ratings rating={item.averageRate} widgetDimensions="30px" widgetSpacings="2px">
+                                                                    <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
+                                                                    <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
+                                                                    <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
+                                                                    <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
+                                                                    <Ratings.Widget widgetDimension="15px" widgetRatedColor="black" />
+                                                                </Ratings>
+                                                                <Typography variant="caption" gutterBottom className={item.smallMarginLeft}>
+                                                                    {item.averageRate}({item.numberOfRates})
                                                         </Typography>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </ButtonBase>
                                             </div>
-                                        </ButtonBase>
-                                    </div>
-                                </Grid>
-                            )
-                        })}
+                                        </Grid>
+                                    )
+                                })}
                     </Grid>
                 </Grid>
             </div >

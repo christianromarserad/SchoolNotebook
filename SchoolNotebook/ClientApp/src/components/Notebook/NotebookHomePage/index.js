@@ -74,6 +74,9 @@ const styles = {
     },
     centerSpace: {
         flexGrow: 1
+    },
+    emptyListMessage: {
+        textAlign: 'center'
     }
 };
 
@@ -130,9 +133,13 @@ class NotebookHomePage extends Component {
                     </Button>
                 </Toolbar>
 
-                <Slider {...settings}>
-                    {this.menuItems(this.props.notebooks)}
-                </Slider>
+                {
+                    this.props.notebooks.length == 0 ?
+                        <h1 className={this.props.classes.emptyListMessage}>No Notebooks Available</h1> :
+                        <Slider {...settings}>
+                            {this.menuItems(this.props.notebooks)}
+                        </Slider>
+                }
 
                 <NotebookItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} openEditModalActionCreator={this.props.openEditModalActionCreator} selectedNotebookId={this.props.selectedNotebookId} />
                 <NotebookCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} name={this.props.name} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateImageFileActionCreator={this.props.updateImageFileActionCreator} imageFileName={this.props.imageFileName} createNotebookActionCreator={this.props.createNotebookActionCreator} error={this.props.error}/>

@@ -56,6 +56,9 @@ const styles = {
     },
     smallMarginLeft: {
         marginLeft: '10px'
+    },
+    emptyListMessage: {
+        textAlign: 'center'
     }
 };
 
@@ -146,65 +149,72 @@ class NotebookContent extends Component {
                                         null
                                 }
                             </Grid>
-                            {this.props.notebookPages.map((item) => {
-                                return (
-                                    <Grid key={item.pageNumber} item lg={12}>
-                                        {
-                                            this.props.notebookPage.pageNumber == item.pageNumber ?
-                                                <Card style={{ margin: '5px' }} className={this.props.classes.activePage}>
-                                                    <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
-                                                        <Toolbar>
-                                                            <Typography style={{ flexGrow: 1 }}>
-                                                                {item.title}
-                                                            </Typography>
-                                                            {
-                                                                this.props.userCanEdit ?
-                                                                    <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
-                                                                        <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
-                                                                    </IconButton> :
-                                                                    null
-                                                            }
-                                                        </Toolbar>
-                                                    </CardActionArea>
-                                                </Card> :
-                                                <Card style={{ margin: '5px' }}>
-                                                    <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
-                                                        <Toolbar>
-                                                            <Typography style={{ flexGrow: 1 }}>
-                                                                {item.title}
-                                                            </Typography>
-                                                            {
-                                                                this.props.userCanEdit ?
-                                                                    <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
-                                                                        <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
-                                                                    </IconButton> :
-                                                                    null
-                                                            }
-                                                        </Toolbar>
-                                                    </CardActionArea>
-                                                </Card>
-                                        }
+                            {
+                                this.props.notebookPages.length == 0 ?
+                                    <h2 className={this.props.classes.emptyListMessage}>No Available Pages</h2> :
+                                    this.props.notebookPages.map((item) => {
+                                        return (
+                                            <Grid key={item.pageNumber} item lg={12}>
+                                                {
+                                                    this.props.notebookPage.pageNumber == item.pageNumber ?
+                                                        <Card style={{ margin: '5px' }} className={this.props.classes.activePage}>
+                                                            <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
+                                                                <Toolbar>
+                                                                    <Typography style={{ flexGrow: 1 }}>
+                                                                        {item.title}
+                                                                    </Typography>
+                                                                    {
+                                                                        this.props.userCanEdit ?
+                                                                            <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
+                                                                                <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                                            </IconButton> :
+                                                                            null
+                                                                    }
+                                                                </Toolbar>
+                                                            </CardActionArea>
+                                                        </Card> :
+                                                        <Card style={{ margin: '5px' }}>
+                                                            <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
+                                                                <Toolbar>
+                                                                    <Typography style={{ flexGrow: 1 }}>
+                                                                        {item.title}
+                                                                    </Typography>
+                                                                    {
+                                                                        this.props.userCanEdit ?
+                                                                            <IconButton aria-label="Delete" name="deleteButton" onClick={this.openDeleteDialog.bind(this, item.notebookId, item.pageNumber)}>
+                                                                                <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                                            </IconButton> :
+                                                                            null
+                                                                    }
+                                                                </Toolbar>
+                                                            </CardActionArea>
+                                                        </Card>
+                                                }
 
-                                    </Grid>
-                                )
-                            })}
+                                            </Grid>
+                                        )
+                                    })}
                         </div>
                     </Grid>
                     <Grid item container lg={8} className={this.props.classes.gridContainer}>
-                        <div className={this.props.classes.pageContentContainer}>
-                            <NotebookEditor
-                                userCanEdit={this.props.userCanEdit}
-                                editorState={this.props.notebookPage.editorState}
-                                styles={this.props.notebookPage.styles}
-                                toggleInlineStyle={this.toggleInlineStyle}
-                                toggleBlockType={this.toggleBlockType}
-                                onChangeEditorState={this.onChangeEditorState}
-                                saved={this.state.saved}
-                                title={this.props.notebookPage.title}
-                                updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator}
-                                onChangeTitle={this.onChangeTitle}
-                            />
-                        </div>
+                        {
+                            this.props.notebookPage.notebookId == null ?
+                                <Grid item lg={12}><h1 className={this.props.classes.emptyListMessage}>Select a page</h1></Grid> :
+                                <div className={this.props.classes.pageContentContainer}>
+                                    <NotebookEditor
+                                        userCanEdit={this.props.userCanEdit}
+                                        editorState={this.props.notebookPage.editorState}
+                                        styles={this.props.notebookPage.styles}
+                                        toggleInlineStyle={this.toggleInlineStyle}
+                                        toggleBlockType={this.toggleBlockType}
+                                        onChangeEditorState={this.onChangeEditorState}
+                                        saved={this.state.saved}
+                                        title={this.props.notebookPage.title}
+                                        updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator}
+                                        onChangeTitle={this.onChangeTitle}
+                                    />
+                                </div>
+                        }
                     </Grid>
                 </Grid>
                 <NotebookPageDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteNotebookPageActionCreator={this.props.deleteNotebookPageActionCreator} notebookId={this.state.deletePage.notebookId} pageNumber={this.state.deletePage.pageNumber} />

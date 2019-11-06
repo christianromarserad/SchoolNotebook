@@ -93,7 +93,7 @@ namespace SchoolNotebook.Controllers
                 return BadRequest(new { message = "You can't add the owner in the share list" });
             }
 
-            if(_context.NotebookShare.Any(ns => ns.User == notebookShareViewModel.User))
+            if(_context.NotebookShare.Any(ns => ns.User == notebookShareViewModel.User && ns.NotebookId == notebookShareViewModel.NotebookId))
             {
                 return BadRequest(new { message = "The user is already in the share list" });
             }

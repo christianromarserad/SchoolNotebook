@@ -28,7 +28,9 @@ import {
     closeCreateModalActionCreator,
     createNotebookPermissionActionCreator,
     updateCanEditPermissionActionCreator,
-    deleteNotebookPermissionActionCreator
+    deleteNotebookPermissionActionCreator,
+    openDeleteModalActionCreator,
+    closeDeleteModalActionCreator
 } from '../../../store/NotebookShare';
 
 const styles = {
@@ -47,6 +49,9 @@ const styles = {
     },
     smallMarginLeft: {
         marginLeft: '10px'
+    },
+    emptyListMessage: {
+        textAlign: 'center'
     }
 };
 
@@ -70,35 +75,38 @@ class NotebookShare extends Component {
                     </Toolbar>
 
                     <Grid item container lg={12}>
-                        {this.props.notebookPermissions.map((item) => {
-                            return (
-                                <Grid key={item.user} item lg={12}>
-                                    <Divider />
-                                    <CardHeader
-                                        className={this.props.classes.permissionItem}
-                                        avatar={
-                                            <Avatar alt={item.userName} src={item.userPicture} />
-                                        }
-                                        title={
-                                            <div>
-                                                <Typography variant="body2" display="inline" className={this.props.classes.userName}>
-                                                    {item.userName}
-                                                </Typography>
-                                            </div>
-                                        }
-                                        subheader={item.user}
-                                        action={
-                                            <div>
-                                                <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
-                                                <IconButton aria-label="Delete" onClick={this.props.deleteNotebookPermissionActionCreator.bind(this, item.notebookId, item.user)}>
-                                                    <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
-                                                </IconButton>
-                                            </div>
-                                        }
-                                    />
-                                </Grid>
-                            )
-                        })}
+                        {
+                            this.props.notebookPermissions.length == 0 ?
+                                <Grid item lg={12}><h1 className={this.props.classes.emptyListMessage}>No available users that can access</h1></Grid> :
+                                this.props.notebookPermissions.map((item) => {
+                                    return (
+                                        <Grid key={item.user} item lg={12}>
+                                            <Divider />
+                                            <CardHeader
+                                                className={this.props.classes.permissionItem}
+                                                avatar={
+                                                    <Avatar alt={item.userName} src={item.userPicture} />
+                                                }
+                                                title={
+                                                    <div>
+                                                        <Typography variant="body2" display="inline" className={this.props.classes.userName}>
+                                                            {item.userName}
+                                                        </Typography>
+                                                    </div>
+                                                }
+                                                subheader={item.user}
+                                                action={
+                                                    <div>
+                                                        <FormControlLabel control={<Switch color="primary" checked={item.canEdit} onChange={this.props.updateCanEditPermissionActionCreator.bind(this, item)} />} label="Can Edit" />
+                                                        <IconButton aria-label="Delete" onClick={this.props.openDeleteModalActionCreator.bind(this, item.notebookId, item.user)}>
+                                                            <DeleteIcon style={{ backgroundColor: 'transparent' }} fontSize="small" />
+                                                        </IconButton>
+                                                    </div>
+                                                }
+                                            />
+                                        </Grid>
+                                    )
+                                })}
                     </Grid>
                 </Grid>
 
@@ -121,6 +129,22 @@ class NotebookShare extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+
+                <Dialog open={this.props.isDeleteModalOpen} onClose={this.props.closeDeleteModalActionCreator} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Delete User</DialogTitle>
+                    <DialogContent>
+                        Are you sure you want to delete this user from the share list?
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.props.closeDeleteModalActionCreator} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={this.props.deleteNotebookPermissionActionCreator.bind(this, this.props.selectedNotebookShareId, this.props.selectedNotebookShareUser)} color="primary">
+                            Delete
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }
@@ -132,7 +156,10 @@ function mapStateToProps(state) {
         canEdit: state.notebookPage.notebookShare.notebookShareForm.canEdit,
         error: state.notebookPage.notebookShare.notebookShareForm.error,
         notebookPermissions: state.notebookPage.notebookShare.notebookPermissions,
-        isCreateModalOpen: state.notebookPage.notebookShare.isCreateModalOpen
+        isCreateModalOpen: state.notebookPage.notebookShare.isCreateModalOpen,
+        isDeleteModalOpen: state.notebookPage.notebookShare.isDeleteModalOpen,
+        selectedNotebookShareId: state.notebookPage.notebookShare.selectedNotebookShareId,
+        selectedNotebookShareUser: state.notebookPage.notebookShare.selectedNotebookShareUser
     };
 }
 
@@ -145,7 +172,9 @@ function mapDispatchToProps(dispatch) {
         closeCreateModalActionCreator: closeCreateModalActionCreator,
         createNotebookPermissionActionCreator: createNotebookPermissionActionCreator,
         updateCanEditPermissionActionCreator: updateCanEditPermissionActionCreator,
-        deleteNotebookPermissionActionCreator: deleteNotebookPermissionActionCreator
+        deleteNotebookPermissionActionCreator: deleteNotebookPermissionActionCreator,
+        openDeleteModalActionCreator: openDeleteModalActionCreator,
+        closeDeleteModalActionCreator: closeDeleteModalActionCreator
     }, dispatch);
 }
 

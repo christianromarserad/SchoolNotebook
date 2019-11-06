@@ -61,6 +61,9 @@ const styles = {
     },
     title: {
         flexGrow: 1
+    },
+    emptyListMessage: {
+        textAlign: 'center'
     }
 };
 
@@ -113,9 +116,13 @@ class BookmarkHomePage extends Component {
                     </Button>
                 </Toolbar>
 
-                <Slider {...settings}>
-                    {this.menuItems(this.props.bookmarks)}
-                </Slider>
+                {
+                    this.props.bookmarks.length == 0 ? 
+                        <h1 className={this.props.classes.emptyListMessage}>No Bookmarks Available</h1> :
+                        <Slider {...settings}>
+                            {this.menuItems(this.props.bookmarks)}
+                        </Slider>
+                }
 
                 <BookmarkItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
                 <BookmarkCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createBookmarkActionCreator={this.props.createBookmarkActionCreator} error={this.props.error}/>

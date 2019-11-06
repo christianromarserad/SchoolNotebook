@@ -5,11 +5,16 @@ const updateTextFieldsType = 'UPDATE_NOTEBOOK_SHARE_TEXTFIELDS';
 const updateSwitchFieldsType = 'UPDATE_NOTEBOOK_SHARE_SWITCHFIELDS';
 const openCreateModalType = 'OPEN_CREATE_NOTEBOOK_SHARE_MODAL';
 const closeCreateModalType = 'CLOSE_CREATE_NOTEBOOK_SHARE_MODAL';
+const openDeleteModalType = 'OPEN_DELETE_NOTEBOOK_SHARE_MODAL';
+const closeDeleteModalType = 'CLOSE_DELETE_NOTEBOOK_SHARE_MODAL';
 const errorFormModalType = 'ERROR_NOTEBOOK_SHARE_FORM_MODAL';
 
 
 const initialState = {
     isCreateModalOpen: false,
+    isDeleteModalOpen: false,
+    selectedNotebookShareId: '',
+    selectedNotebookShareUser: '',
     notebookPermissions: [],
     notebookShareForm: {
         user: null,
@@ -34,6 +39,28 @@ export function closeCreateModalActionCreator() {
                 user: null,
                 canEdit: false
             }
+        }
+    };
+}
+
+export function openDeleteModalActionCreator(notebookId, user) {
+    return {
+        type: openDeleteModalType,
+        payload: {
+            isDeleteModalOpen: true,
+            selectedNotebookShareId: notebookId,
+            selectedNotebookShareUser: user
+        }
+    };
+}
+
+export function closeDeleteModalActionCreator() {
+    return {
+        type: closeDeleteModalType,
+        payload: {
+            isDeleteModalOpen: false,
+            selectedNotebookShareId: '',
+            selectedNotebookShareUser: ''
         }
     };
 }
@@ -107,6 +134,7 @@ export function deleteNotebookPermissionActionCreator(notebookId, user) {
     return function (dispatch) {
         axios.delete('api/NotebookShare?notebookId=' + notebookId + '&user=' + user).then(function (res) {
             dispatch(getNotebookPermissionsActionCreator(notebookId));
+            dispatch(closeDeleteModalActionCreator());
         });
     }
 }
@@ -147,6 +175,18 @@ export const reducer = (state = initialState, action) => {
             ...state,
             ...action.payload
         }
+    }
+    else if (action.type === closeDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === openDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
     }
     else if (action.type === errorFormModalType) {
         return {

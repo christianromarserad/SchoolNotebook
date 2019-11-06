@@ -92,7 +92,10 @@ export function updateNotebookSettingsActionCreator(notebookId) {
                     public: res.data.public,
                     imageFilePath: res.data.image,
                     imageFileName: res.data.imageName,
-                    isSnackbarOpen: true
+                    isSnackbarOpen: true,
+                    error: {
+                        Name: null
+                    }
                 }
             });
         }).catch(error => {

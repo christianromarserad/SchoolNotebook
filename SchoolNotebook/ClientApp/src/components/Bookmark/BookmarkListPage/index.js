@@ -25,11 +25,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
-
 import Divider from '@material-ui/core/Divider';
-
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/styles';
@@ -59,6 +55,9 @@ const styles = {
     },
     smallMarginLeft: {
         marginLeft: '10px'
+    },
+    emptyListMessage: {
+        textAlign: 'center'
     }
 };
 
@@ -109,9 +108,13 @@ class BookmarkListPage extends Component {
                     </Button>
                 </Toolbar>
 
-                <Grid container>
-                    {this.menuItems(this.props.bookmarks)}
-                </Grid>
+                {
+                    this.props.bookmarks.length == 0 ?
+                        <h1 className={this.props.classes.emptyListMessage}>No Bookmarks Available</h1> :
+                        <Grid container>
+                            {this.menuItems(this.props.bookmarks)}
+                        </Grid>
+                }
 
                 <BookmarkItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
                 <BookmarkCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createBookmarkActionCreator={this.props.createBookmarkActionCreator} error={this.props.error} />

@@ -56,6 +56,9 @@ const styles = {
     },
     smallMarginLeft: {
         marginLeft: '10px'
+    },
+    emptyListMessage: {
+        textAlign: 'center'
     }
 };
 
@@ -103,9 +106,13 @@ class ReminderNoteHomePage extends Component {
                     </Button>
                 </Toolbar>
 
-                <Slider {...settings}>
-                    {this.menuItems(this.props.reminderNotes)}
-                </Slider>
+                {
+                    this.props.reminderNotes.length == 0 ?
+                        <h1 className={this.props.classes.emptyListMessage}>No Reminder Notes Available</h1> : 
+                        <Slider {...settings}>
+                            {this.menuItems(this.props.reminderNotes)}
+                        </Slider>
+                }
 
                 <ReminderNoteItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
                 <ReminderNoteCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} notes={this.props.notes} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createReminderNoteActionCreator={this.props.createReminderNoteActionCreator} error={this.props.error}/>
