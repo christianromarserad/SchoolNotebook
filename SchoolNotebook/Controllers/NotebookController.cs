@@ -15,6 +15,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the notebook from the database
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
@@ -31,7 +34,10 @@ namespace SchoolNotebook.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        // GET: api/Notebook
+        /// <summary>
+        /// This method is used to get a notebook associated to the current user, which includes owned and shared notebooks
+        /// </summary>
+        /// <returns>The list of notebooks that is associated to the user</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -53,7 +59,11 @@ namespace SchoolNotebook.Controllers
             return Ok(notebooks.Distinct());
         }
 
-        // GET: api/Notebook/5
+        /// <summary>
+        /// This method is used to get a specific notebook
+        /// </summary>
+        /// <param name="id">The id of the notebook that will returned</param>
+        /// <returns>The notebook associated with the id parameter</returns>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -76,7 +86,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // GET: api/Notebook?searchKey=notebooktitle
+        /// <summary>
+        /// This method will search notebooks that they can access, which includes owned, shared, and public notebooks
+        /// </summary>
+        /// <param name="searchKey">The search key that is used to match the notebook</param>
+        /// <returns>The accessible notebooks that matches the search key</returns>
         [HttpGet("Search/{searchKey}")]
         public IActionResult Get(string searchKey)
         {
@@ -93,7 +107,11 @@ namespace SchoolNotebook.Controllers
             return Ok(searchNotebookResults.Distinct());
         }
 
-        // POST: api/Notebook
+        /// <summary>
+        /// This method id used to create a notebook
+        /// </summary>
+        /// <param name="notebookViewModel">The view model that will be used to create a notebook</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post([FromForm] NotebookViewModel notebookViewModel)
         {
@@ -133,7 +151,12 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // PUT: api/Notebook/5
+        /// <summary>
+        /// This method is used to update a notebook
+        /// </summary>
+        /// <param name="id">The id of the notebook that will be updated</param>
+        /// <param name="notebookViewModel">The view model that is used to update the value of the notebook</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromForm] NotebookViewModel notebookViewModel)
         {
@@ -190,7 +213,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// This method is used to delete a notebook
+        /// </summary>
+        /// <param name="id">The id of the notebook that will be deleted</param>
+        /// <returns>An error or an ok response</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

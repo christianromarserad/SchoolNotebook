@@ -12,6 +12,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the pages of the notebook
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
@@ -26,7 +29,11 @@ namespace SchoolNotebook.Controllers
             _notebookService = new NotebookService(_context);
         }
 
-        // GET: api/NotebookPage/5
+        /// <summary>
+        /// This method is used to get the pages of the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will be used to get its pages</param>
+        /// <returns>The pages of the notebook</returns>
         [HttpGet("{notebookId}")]
         public IActionResult Get(int notebookId)
         {
@@ -40,7 +47,12 @@ namespace SchoolNotebook.Controllers
             return Ok(_context.NotebookPage.Where(np => np.NotebookId == notebookId).OrderBy(np => np.PageNumber).ToList());
         }
 
-        // GET: api/NotebookPage?notebookId=5&pageNumber=5
+        /// <summary>
+        /// This method is used to get a specific page from a notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will be used to get the page</param>
+        /// <param name="pageNumber">The page number</param>
+        /// <returns>A page from the notebook</returns>
         [HttpGet]
         public IActionResult Get(int notebookId, int pageNumber)
         {
@@ -63,7 +75,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // POST: api/NotebookPage
+        /// <summary>
+        /// This method is used to create a page for the notebook
+        /// </summary>
+        /// <param name="notebookPageViewModel">The view model that will be used to create a page</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post([FromBody] NotebookPageViewModel notebookPageViewModel)
         {
@@ -102,7 +118,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // PUT: api/NotebookPage/
+        /// <summary>
+        /// This method is used to update the page from the notebook
+        /// </summary>
+        /// <param name="notebookPageViewModel">The view model that will be used to update the value of the page</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPut]
         public IActionResult Put([FromBody] NotebookPageViewModel notebookPageViewModel)
         {
@@ -137,7 +157,12 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions?notebookId=5&pageNumber=5
+        /// <summary>
+        /// This method is used to delete a page from the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id of the page</param>
+        /// <param name="pageNumber">The page number</param>
+        /// <returns>An error or an ok response</returns>
         [HttpDelete]
         public IActionResult Delete(int notebookId, int pageNumber)
         {

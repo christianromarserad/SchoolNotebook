@@ -11,6 +11,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the reminder notes
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
@@ -23,7 +26,10 @@ namespace SchoolNotebook.Controllers
             _context = context;
         }
 
-        // GET: api/ReminderNote
+        /// <summary>
+        /// This method is used to get reminder notes of the current user
+        /// </summary>
+        /// <returns>The reminder notes of the user</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,7 +38,11 @@ namespace SchoolNotebook.Controllers
             return Ok(_context.ReminderNote.Where(rm => rm.User == currentUser).ToList());
         }
 
-        // GET: api/ReminderNote/5
+        /// <summary>
+        /// This method is used to get a specific reminder note
+        /// </summary>
+        /// <param name="id">The id associated to that reminder note</param>
+        /// <returns>The reminder note</returns>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -48,7 +58,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // POST: api/ReminderNote
+        /// <summary>
+        /// This method is used to create a reminder note
+        /// </summary>
+        /// <param name="reminderNoteViewModel">The view model that is used to create the reminder note</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post([FromBody] ReminderNoteViewModel reminderNoteViewModel)
         {
@@ -72,7 +86,12 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // PUT: api/ReminderNote/5
+        /// <summary>
+        /// This method is used to update a reminder note
+        /// </summary>
+        /// <param name="id">The id that is associated to that reminder note</param>
+        /// <param name="reminderNoteViewModel">The view model that is used to update the values of the reminder note</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ReminderNoteViewModel reminderNoteViewModel)
         {
@@ -99,7 +118,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// This method is used to delete a reminder note
+        /// </summary>
+        /// <param name="id">The id that is associated to that reminder note</param>
+        /// <returns>An error or an ok response</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

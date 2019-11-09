@@ -13,6 +13,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the rates of the notebook
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
@@ -27,7 +30,11 @@ namespace SchoolNotebook.Controllers
             _notebookService = new NotebookService(_context);
         }
 
-        // GET: api/NotebookRate/5
+        /// <summary>
+        /// This method is used to get rates from the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will used to get its rates</param>
+        /// <returns>The rates of the notebook</returns>
         [HttpGet("{notebookId}")]
         public IActionResult Get(int notebookId)
         {
@@ -41,7 +48,11 @@ namespace SchoolNotebook.Controllers
             return Ok(_context.NotebookRate.Where(nr => nr.NotebookId == notebookId));
         }
 
-        // GET: api/NotebookRate/GetYourRate/5
+        /// <summary>
+        /// This method is used to get the user's rate for the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will used to get the user's rate</param>
+        /// <returns>The user's rate of the notebook</returns>
         [HttpGet("[action]/{notebookId}")]
         public IActionResult GetCurrentUserRate(int notebookId)
         {
@@ -55,7 +66,11 @@ namespace SchoolNotebook.Controllers
             return Ok(_context.NotebookRate.SingleOrDefault(nr => nr.NotebookId == notebookId && nr.User == currentUser));
         }
 
-        // PUT: api/NotebookRate
+        /// <summary>
+        /// This method is used to update the user's rate for the notebook
+        /// </summary>
+        /// <param name="notebookRateViewModel">The view model that will be used to update the rate values</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPut]
         public IActionResult Put([FromBody] NotebookRateViewModel notebookRateViewModel)
         {
@@ -89,7 +104,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // POST: api/NotebookRate
+        /// <summary>
+        /// This method is used to create a rate for the notebook
+        /// </summary>
+        /// <param name="notebookRateViewModel">The view model that is used to create a rate for the notebook</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post(NotebookRateViewModel notebookRateViewModel)
         {

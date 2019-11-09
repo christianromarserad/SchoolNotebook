@@ -12,6 +12,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the user notebook collection from the database
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
@@ -26,7 +29,10 @@ namespace SchoolNotebook.Controllers
             _notebookService = new NotebookService(_context);
         }
 
-        // GET: api/NotebookCollection
+        /// <summary>
+        /// This method will get a list of notebook collection from the current user
+        /// </summary>
+        /// <returns>The list notebook collection of the current user</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -35,7 +41,11 @@ namespace SchoolNotebook.Controllers
             return Ok(_context.NotebookCollection.Where(nc => nc.User == currentUser));
         }
 
-        // POST: api/NotebookCollection
+        /// <summary>
+        /// This method is used to create a notebook collection for the current user
+        /// </summary>
+        /// <param name="notebookCollectionViewModel">The view model that will be used to create a notebook collection</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post(NotebookCollectionViewModel notebookCollectionViewModel)
         {
@@ -65,7 +75,11 @@ namespace SchoolNotebook.Controllers
             return Ok(notebookCollection);
         }
 
-        // DELETE: api/NotebookCollection/5
+        /// <summary>
+        /// This method is used to delete a notebook collection from the database
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will be deleted from the user's notebook collection</param>
+        /// <returns>An error or an ok response</returns>
         [HttpDelete("{notebookId}")]
         public IActionResult Delete(int notebookId)
         {

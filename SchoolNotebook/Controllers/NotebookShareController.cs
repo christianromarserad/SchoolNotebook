@@ -11,6 +11,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the share feature of the notebook
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class NotebookShareController : ControllerBase
@@ -24,7 +27,11 @@ namespace SchoolNotebook.Controllers
             _notebookService = new NotebookService(_context);
         }
 
-        // GET: api/NotebookShare
+        /// <summary>
+        /// This method is used to get the shared users that has access to the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will be used to get the shared users which has access to it</param>
+        /// <returns>The shared users</returns>
         [HttpGet("{notebookId}")]
         public IActionResult Get(int notebookId)
         {
@@ -40,7 +47,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // GET: api/NotebookShare/GetCurrentUserPermission/5
+        /// <summary>
+        /// This method is used to get the user permission information for the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will used to get the user's permission information for the notebook</param>
+        /// <returns>The permission information of the user</returns>
         [HttpGet("[action]/{notebookId}")]
         public IActionResult GetCurrentUserPermission(int notebookId)
         {
@@ -65,7 +76,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // POST: api/NotebookShare
+        /// <summary>
+        /// This method is used to create a notebook share information for the user
+        /// </summary>
+        /// <param name="notebookShareViewModel">The view model that is used to create a notebook share for the user</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post([FromBody] NotebookShareViewModel notebookShareViewModel)
         {
@@ -126,7 +141,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // PUT: api/NotebookShare
+        /// <summary>
+        /// This method is used to update the notebook share of the user
+        /// </summary>
+        /// <param name="notebookShareViewModel">The view model that is used to update the value of the notebook share</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPut]
         public IActionResult Put([FromBody] NotebookShareViewModel notebookShareViewModel)
         {
@@ -153,7 +172,12 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions?notebookId=5&user=user
+        /// <summary>
+        /// This is method is used to delete a notebook share for the user from the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that is associated to that notebook share</param>
+        /// <param name="user">The user that is associated to that notebook share</param>
+        /// <returns>An error or an ok response</returns>
         [HttpDelete]
         public IActionResult Delete(int notebookId, string user)
         {

@@ -11,6 +11,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the bookmark data  in the database
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
@@ -23,14 +26,21 @@ namespace SchoolNotebook.Controllers
             _context = context;
         }
 
-        // GET: api/Bookmark
+        /// <summary>
+        /// This method will get the list of bookmarks
+        /// </summary>
+        /// <returns>List of bookmarks</returns>
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_context.Bookmark.ToList());
         }
 
-        // GET: api/Bookmark/5
+        /// <summary>
+        /// This method will get a specific bookmark
+        /// </summary>
+        /// <param name="id">The id of the bookmark that will returned</param>
+        /// <returns>The bookmark associated with the id parameter</returns>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -46,7 +56,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // POST: api/Bookmark
+        /// <summary>
+        /// This method is used to create a bookmark
+        /// </summary>
+        /// <param name="bookmarkViewModel">The bookmark view model that will be added to the database</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post([FromBody] BookmarkViewModel bookmarkViewModel)
         {
@@ -71,7 +85,12 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // PUT: api/Bookmark/5
+        /// <summary>
+        /// This method will update a bookmark from the database
+        /// </summary>
+        /// <param name="id">The id of bookrmark that will be updated</param>
+        /// <param name="bookmarkViewModel">The view model that will used to update the values of the bookmark</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] BookmarkViewModel bookmarkViewModel)
         {
@@ -99,7 +118,11 @@ namespace SchoolNotebook.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// This method will delete a bookmark from the database
+        /// </summary>
+        /// <param name="id">The id of the bookmark that will be deleted</param>
+        /// <returns>An error or an ok response</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

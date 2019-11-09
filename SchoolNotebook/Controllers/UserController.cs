@@ -17,6 +17,9 @@ using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the users
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -31,6 +34,11 @@ namespace SchoolNotebook.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// This method is used to login to the api
+        /// </summary>
+        /// <param name="loginViewModel">The login view model that checks the tokenid</param>
+        /// <returns>An error or a jwt token</returns>
         [HttpPost("[action]")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginViewModel loginViewModel)

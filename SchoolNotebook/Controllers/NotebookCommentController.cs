@@ -12,6 +12,9 @@ using SchoolNotebook.ViewModels;
 
 namespace SchoolNotebook.Controllers
 {
+    /// <summary>
+    /// This api controller is used to manage the notebook's comments from the database
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
@@ -26,7 +29,11 @@ namespace SchoolNotebook.Controllers
             _notebookService = new NotebookService(_context);
         }
 
-        // GET: api/NotebookComment
+        /// <summary>
+        /// This method is used to get the comments from the notebook
+        /// </summary>
+        /// <param name="notebookId">The notebook id that will be used to get the comments</param>
+        /// <returns>The list of comments from the notebook</returns>
         [HttpGet]
         public IActionResult Get(int notebookId)
         {
@@ -40,7 +47,11 @@ namespace SchoolNotebook.Controllers
             return Ok(_context.NotebookComment.Where(nc => nc.NotebookId == notebookId).ToList());
         }
 
-        // POST: api/NotebookComment
+        /// <summary>
+        /// This method is used to create a comment for the notebook
+        /// </summary>
+        /// <param name="notebookCommentViewModel">The view model that will be used to create a comment for the notebook</param>
+        /// <returns>An error or an ok response</returns>
         [HttpPost]
         public IActionResult Post([FromBody] NotebookCommentViewModel notebookCommentViewModel)
         {
@@ -69,18 +80,6 @@ namespace SchoolNotebook.Controllers
             {
                 return BadRequest(ModelState);
             }
-        }
-
-        // PUT: api/NotebookComment/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
