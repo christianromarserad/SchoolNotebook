@@ -116,8 +116,7 @@ class NotebookEditor extends Component {
                         <Editor editorState={this.props.editorState} onChange={this.props.onChangeEditorState} /> :
                         <Editor editorState={this.props.editorState} readOnly />
                 }
-        
-                {this.props.saved && this.props.userCanEdit ? <div>Page Saved</div> : null}
+
             </div>
         );
     }

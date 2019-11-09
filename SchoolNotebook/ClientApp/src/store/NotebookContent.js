@@ -7,6 +7,7 @@ import {
 } from 'draft-js';
 
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_PAGE_TEXTFIELDS';
+const closeSnackbarType = 'CLOSE_NOTEBOOK_CONTENT_SNACKBAR';
 const getNotebookPagesType = 'GET_NOTEBOOK_PAGES';
 const getNotebookPageType = 'GET_NOTEBOOK_PAGE';
 const getDefaultNotebookPageType = 'GET_DEFAULT_NOTEBOOK_PAGE';
@@ -17,6 +18,7 @@ const openDeleteModalType = 'OPEN_DELETE_NOTEBOOK_PAGE_MODAL';
 const closeDeleteModalType = 'CLOSE_DELETE_NOTEBOOK_PAGE_MODAL';
 
 const initialState = {
+    isSnackbarOpen: false,
     isDeleteModalOpen: false,
     notebookPages: [],
     notebookPage: {
@@ -36,6 +38,15 @@ const initialState = {
         }
     },
 };
+
+export function closeSnackbarActionCreator() {
+    return {
+        type: closeSnackbarType,
+        payload: {
+            isSnackbarOpen: false
+        }
+    };
+}
 
 export function openDeleteModalActionCreator() {
     return {
@@ -164,6 +175,12 @@ export function updateNotebookPageActionCreator(notebookId) {
         }
         axios.put('api/NotebookPage/', notebookPageFormData).then(function (res) {
             dispatch(getNotebookPagesActionCreator(res.data.notebookId));
+            dispatch({
+                type: updateNotebookPageType,
+                payload: {
+                    isSnackbarOpen: true
+                }
+            });
         });
     }
 }
@@ -245,6 +262,12 @@ export const reducer = (state = initialState, action) => {
         };
     }
     else if (action.type === closeDeleteModalType) {
+        return {
+            ...state,
+            ...action.payload
+        };
+    }
+    else if (action.type === closeSnackbarType) {
         return {
             ...state,
             ...action.payload

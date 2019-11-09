@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import NotebookEditor from '../NotebookEditor';
 import NotebookPageDeleteDialog from '../NotebookPageDeleteDialog';
 import AddIcon from '@material-ui/icons/Add';
+import Snackbar from '@material-ui/core/Snackbar';
 import Paper from '@material-ui/core/Paper';
 import { RichUtils } from 'draft-js';
 import { withStyles } from '@material-ui/styles';
@@ -27,7 +28,8 @@ import {
     deleteNotebookPageActionCreator,
     updateEditorStateActionCreator,
     openDeleteModalActionCreator,
-    closeDeleteModalActionCreator
+    closeDeleteModalActionCreator,
+    closeSnackbarActionCreator
 } from '../../../store/NotebookContent';
 
 const styles = {
@@ -75,7 +77,6 @@ class NotebookContent extends Component {
 
         this.state = {
             timeout: null,
-            saved: false,
             deletePage: {
                 notebookId: null,
                 pageNumber: null
@@ -129,14 +130,26 @@ class NotebookContent extends Component {
     }
 
     saveNotebookPage() {
-        this.setState({ ...this.state, saved: true });
         this.props.updateNotebookPageActionCreator(this.props.match.params.id);
-        setTimeout(() => this.setState({ ...this.state, saved: false }), 2000)
     }
 
     render() {
         return (
             <div className={this.props.classes.mainContainer}>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.props.isSnackbarOpen}
+                    onClose={this.props.closeSnackbarActionCreator}
+                    autoHideDuration={2000}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">Page Saved</span>}
+                />
+
                 <Grid container className={this.props.classes.gridContainer}>
                     <Grid item container lg={4} className={this.props.classes.gridContainer}>
                         <div className={this.props.classes.pagesContainer}>
@@ -215,7 +228,6 @@ class NotebookContent extends Component {
                                         toggleInlineStyle={this.toggleInlineStyle}
                                         toggleBlockType={this.toggleBlockType}
                                         onChangeEditorState={this.onChangeEditorState}
-                                        saved={this.state.saved}
                                         title={this.props.notebookPage.title}
                                         updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator}
                                         onChangeTitle={this.onChangeTitle}
@@ -233,6 +245,7 @@ class NotebookContent extends Component {
 function mapStateToProps(state) {
     return {
         isDeleteModalOpen: state.notebookPage.notebookContent.isDeleteModalOpen,
+        isSnackbarOpen: state.notebookPage.notebookContent.isSnackbarOpen,
         notebookPages: state.notebookPage.notebookContent.notebookPages,
         notebookPage: state.notebookPage.notebookContent.notebookPage,
         userCanEdit: state.notebookPage.notebookPermission.userCanEdit
@@ -250,7 +263,8 @@ function mapDispatchToProps(dispatch) {
         deleteNotebookPageActionCreator: deleteNotebookPageActionCreator,
         updateEditorStateActionCreator: updateEditorStateActionCreator,
         openDeleteModalActionCreator: openDeleteModalActionCreator,
-        closeDeleteModalActionCreator: closeDeleteModalActionCreator
+        closeDeleteModalActionCreator: closeDeleteModalActionCreator,
+        closeSnackbarActionCreator: closeSnackbarActionCreator
     }, dispatch);
 }
 
