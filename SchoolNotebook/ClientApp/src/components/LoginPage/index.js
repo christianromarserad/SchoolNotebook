@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loginActionCreator } from '../../store/User';
@@ -43,12 +44,14 @@ class LoginPage extends Component {
     render() {
         return (
             <div>
-                <h1 className={this.props.classes.title}> School Notebook </h1>
+                <Typography variant="h2" gutterBottom className={this.props.classes.title}>
+                    School Notebook
+                </Typography>
                 <Paper className={this.props.classes.card}>
                     {this.props.isAuthenticated ? <Redirect to='/' /> : null}
-                    <h1 className={this.props.classes.cardTitle}>
+                    <Typography variant="h5" gutterBottom className={this.props.classes.cardTitle}>
                         Please Login
-                    </h1>
+                    </Typography>
                     <GoogleLogin
                         clientId={config.GOOGLE_CLIENT_ID}
                         buttonText="Google Login"
