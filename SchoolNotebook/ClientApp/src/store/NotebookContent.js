@@ -141,7 +141,7 @@ export function createNotebookPageActionCreator(notebookId) {
                 type: createNotebookPageType,
                 payload: {
                     notebookPage: {
-                        id: res.data.notebookId,
+                        notebookId: res.data.notebookId,
                         title: res.data.title,
                         pageNumber: res.data.pageNumber,
                         editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.data.content)))

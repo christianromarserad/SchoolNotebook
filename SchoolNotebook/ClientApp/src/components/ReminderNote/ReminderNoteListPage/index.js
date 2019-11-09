@@ -60,7 +60,8 @@ const styles = {
         margin: '30px'
     },
     emptyListMessage: {
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '90px'
     }
 };
 
@@ -98,7 +99,9 @@ class ReminderNoteListPage extends Component {
 
                 {
                     this.props.reminderNotes.length == 0 ?
-                        <h1 className={this.props.classes.emptyListMessage}>No Reminder Notes Available</h1> :
+                        <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                            No Reminder Notes Available
+                        </Typography> :
                         <Grid container>
                             {this.menuItems(this.props.reminderNotes)}
                         </Grid>

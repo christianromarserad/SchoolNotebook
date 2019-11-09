@@ -58,7 +58,8 @@ const styles = {
         marginLeft: '10px'
     },
     emptyListMessage: {
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '150px'
     }
 };
 
@@ -151,7 +152,9 @@ class NotebookContent extends Component {
                             </Grid>
                             {
                                 this.props.notebookPages.length == 0 ?
-                                    <h2 className={this.props.classes.emptyListMessage}>No Available Pages</h2> :
+                                    <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                                        No Available Pages
+                                    </Typography> :
                                     this.props.notebookPages.map((item) => {
                                         return (
                                             <Grid key={item.pageNumber} item lg={12}>
@@ -199,7 +202,11 @@ class NotebookContent extends Component {
                     <Grid item container lg={8} className={this.props.classes.gridContainer}>
                         {
                             this.props.notebookPage.notebookId == null ?
-                                <Grid item lg={12}><h1 className={this.props.classes.emptyListMessage}>Select a page</h1></Grid> :
+                                <Grid item lg={12}>
+                                    <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                                        Select a page
+                                    </Typography>
+                                </Grid> :
                                 <div className={this.props.classes.pageContentContainer}>
                                     <NotebookEditor
                                         userCanEdit={this.props.userCanEdit}

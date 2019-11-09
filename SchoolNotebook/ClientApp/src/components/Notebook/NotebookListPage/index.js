@@ -79,7 +79,8 @@ const styles = {
         margin: '30px'
     },
     emptyListMessage: {
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '90px'
     }
 };
 
@@ -126,7 +127,9 @@ class NotebookListPage extends Component {
 
                 {
                     this.props.notebooks.length == 0 ?
-                        <h1 className={this.props.classes.emptyListMessage}>No Notebooks Available</h1> :
+                        <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                            No Notebooks Available
+                        </Typography> :
                         <Grid container>
                             {this.menuItems(this.props.notebooks)}
                         </Grid>

@@ -118,7 +118,9 @@ class BookmarkHomePage extends Component {
 
                 {
                     this.props.bookmarks.length == 0 ? 
-                        <h1 className={this.props.classes.emptyListMessage}>No Bookmarks Available</h1> :
+                        <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                            No Bookmarks Available
+                        </Typography> :
                         <Slider {...settings}>
                             {this.menuItems(this.props.bookmarks)}
                         </Slider>

@@ -40,7 +40,8 @@ const styles = {
         marginTop: '20px'
     },
     emptyListMessage: {
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '90px'
     }
 };
 
@@ -72,7 +73,11 @@ class NotebookSearch extends Component {
                     <Grid item container lg={12}>
                         {
                             this.props.notebooks.length == 0 ?
-                                <Grid item lg={12}><h1 className={this.props.classes.emptyListMessage}>No Notebooks Found</h1></Grid> :
+                                <Grid item lg={12}>
+                                    <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                                        No Notebooks Found
+                                    </Typography>
+                                </Grid> :
                                 this.props.notebooks.map((item) => {
                                     return (
                                         <Grid key={item.id} item lg={12}>

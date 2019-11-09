@@ -38,8 +38,8 @@ class BookmarkEditDialog extends Component {
                     }
                     {
                         this.props.error.Name == null ?
-                            <TextField variant="outlined" margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' /> :
-                            <TextField error helperText={this.props.error.Name[0]} variant="outlined" margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' />
+                            <TextField variant="outlined" margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' inputProps={{ maxLength: 50 }} /> :
+                            <TextField error helperText={this.props.error.Name[0]} variant="outlined" margin="normal" label="Name" value={this.props.name} fullWidth onChange={this.props.updateTextFieldsActionCreator} name='name' inputProps={{ maxLength: 50 }} />
                     }
                 </DialogContent>
                 <DialogActions>

@@ -51,7 +51,8 @@ const styles = {
         marginLeft: '10px'
     },
     emptyListMessage: {
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '90px'
     }
 };
 
@@ -77,7 +78,11 @@ class NotebookShare extends Component {
                     <Grid item container lg={12}>
                         {
                             this.props.notebookPermissions.length == 0 ?
-                                <Grid item lg={12}><h1 className={this.props.classes.emptyListMessage}>No available users that can access</h1></Grid> :
+                                <Grid item lg={12}>
+                                    <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                                        No available users that can access
+                                    </Typography>
+                                </Grid> :
                                 this.props.notebookPermissions.map((item) => {
                                     return (
                                         <Grid key={item.user} item lg={12}>

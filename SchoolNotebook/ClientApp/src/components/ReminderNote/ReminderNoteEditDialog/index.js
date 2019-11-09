@@ -29,8 +29,8 @@ class ReminderNoteEditDialog extends Component {
                 <DialogContent>
                     {
                         this.props.error.Notes == null ?
-                            <TextField fullWidth multiline variant="outlined" margin="normal" label="Notes" value={this.props.notes} onChange={this.props.updateTextFieldsActionCreator} name='notes' /> :
-                            <TextField error helperText={this.props.error.Notes[0]} fullWidth multiline variant="outlined" margin="normal" label="Notes" value={this.props.notes} onChange={this.props.updateTextFieldsActionCreator} name='notes' />
+                            <TextField fullWidth multiline variant="outlined" margin="normal" label="Notes" value={this.props.notes} onChange={this.props.updateTextFieldsActionCreator} name='notes' inputProps={{ maxLength: 160 }} /> :
+                            <TextField error helperText={this.props.error.Notes[0]} fullWidth multiline variant="outlined" margin="normal" label="Notes" value={this.props.notes} onChange={this.props.updateTextFieldsActionCreator} name='notes' inputProps={{ maxLength: 160 }} />
                     }
                 </DialogContent>
                 <DialogActions>

@@ -108,7 +108,9 @@ class ReminderNoteHomePage extends Component {
 
                 {
                     this.props.reminderNotes.length == 0 ?
-                        <h1 className={this.props.classes.emptyListMessage}>No Reminder Notes Available</h1> : 
+                        <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
+                            No Reminder Notes Available
+                        </Typography> : 
                         <Slider {...settings}>
                             {this.menuItems(this.props.reminderNotes)}
                         </Slider>
