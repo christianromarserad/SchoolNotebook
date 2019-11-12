@@ -49,7 +49,7 @@ class NotebookEditor extends Component {
                     {
                         this.props.userCanEdit ?
                             <Grid item lg={6}>
-                                <TextField variant="outlined" margin="normal" label="Title" value={this.props.title} onChange={this.props.onChangeTitle} fullWidth name='title' />
+                                <TextField variant="outlined" margin="normal" label="Title" value={this.props.title} onChange={this.props.onChangeTitle} fullWidth name='title' inputProps={{ maxLength: 50 }} />
                             </Grid> :
                             <Grid item lg={12}>
                                 <Typography variant="h5" gutterBottom className={this.props.classes.title}>
