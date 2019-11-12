@@ -33,11 +33,11 @@ import { textAlign } from '@material-ui/system';
 const styles = {
     bookmark: {
         "&:hover .moreButton": {
-            display: 'inline'
+            visibility: 'visible'
 
         },
         "&:not(:hover) .moreButton": {
-            display: 'none'
+            visibility: 'hidden'
         }
     },
     bookmarkTitle: {

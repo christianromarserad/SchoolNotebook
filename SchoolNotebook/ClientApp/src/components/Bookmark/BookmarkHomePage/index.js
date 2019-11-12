@@ -117,19 +117,21 @@ class BookmarkHomePage extends Component {
                 </Toolbar>
 
                 {
-                    this.props.bookmarks.length == 0 ? 
+                    this.props.bookmarks.length == 0 ?
                         <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
                             No Bookmarks Available
                         </Typography> :
-                        <Slider {...settings}>
-                            {this.menuItems(this.props.bookmarks)}
-                        </Slider>
+                        this.props.bookmarks.length > 4 ?
+                            <Slider {...settings}>
+                                {this.menuItems(this.props.bookmarks)}
+                            </Slider> :
+                            <Toolbar>{this.menuItems(this.props.bookmarks)}</Toolbar>
                 }
 
                 <BookmarkItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
-                <BookmarkCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createBookmarkActionCreator={this.props.createBookmarkActionCreator} error={this.props.error}/>
+                <BookmarkCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} createBookmarkActionCreator={this.props.createBookmarkActionCreator} error={this.props.error} />
                 <BookmarkEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateBookmarkActionCreator={this.props.updateBookmarkActionCreator} url={this.props.url} name={this.props.name} selectedBookmarkId={this.props.selectedBookmarkId} error={this.props.error} />
-                <BookmarkDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteBookmarkActionCreator={this.props.deleteBookmarkActionCreator} selectedBookmarkId={this.props.selectedBookmarkId}/>
+                <BookmarkDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteBookmarkActionCreator={this.props.deleteBookmarkActionCreator} selectedBookmarkId={this.props.selectedBookmarkId} />
             </div>
         );
     }

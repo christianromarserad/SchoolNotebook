@@ -138,15 +138,17 @@ class NotebookHomePage extends Component {
                         <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
                             No Notebooks Available
                         </Typography> :
-                        <Slider {...settings}>
-                            {this.menuItems(this.props.notebooks)}
-                        </Slider>
+                        this.props.notebooks.length > 4 ?
+                            <Slider {...settings}>
+                                {this.menuItems(this.props.notebooks)}
+                            </Slider> :
+                            <Toolbar>{this.menuItems(this.props.notebooks)}</Toolbar>
                 }
 
                 <NotebookItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} openEditModalActionCreator={this.props.openEditModalActionCreator} selectedNotebookId={this.props.selectedNotebookId} />
-                <NotebookCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} name={this.props.name} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateImageFileActionCreator={this.props.updateImageFileActionCreator} imageFileName={this.props.imageFileName} createNotebookActionCreator={this.props.createNotebookActionCreator} error={this.props.error}/>
+                <NotebookCreateDialog isCreateModalOpen={this.props.isCreateModalOpen} closeCreateModalActionCreator={this.props.closeCreateModalActionCreator} name={this.props.name} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} updateImageFileActionCreator={this.props.updateImageFileActionCreator} imageFileName={this.props.imageFileName} createNotebookActionCreator={this.props.createNotebookActionCreator} error={this.props.error} />
                 <NotebookEditDialog isEditModalOpen={this.props.isEditModalOpen} closeEditModalActionCreator={this.props.closeEditModalActionCreator} name={this.props.name} updateTextFieldsActionCreator={this.props.updateTextFieldsActionCreator} public={this.props.public} updateSwitchFieldsActionCreator={this.props.updateSwitchFieldsActionCreator} updateImageFileActionCreator={this.props.updateImageFileActionCreator} imageFileName={this.props.imageFileName} updateNotebookActionCreator={this.props.updateNotebookActionCreator} selectedNotebookId={this.props.selectedNotebookId} error={this.props.error} />
-                <NotebookDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteNotebookActionCreator={this.props.deleteNotebookActionCreator} selectedNotebookId={this.props.selectedNotebookId}/>
+                <NotebookDeleteDialog isDeleteModalOpen={this.props.isDeleteModalOpen} closeDeleteModalActionCreator={this.props.closeDeleteModalActionCreator} deleteNotebookActionCreator={this.props.deleteNotebookActionCreator} selectedNotebookId={this.props.selectedNotebookId} />
             </div>
         );
     }

@@ -111,9 +111,12 @@ class ReminderNoteHomePage extends Component {
                         <Typography variant="h5" gutterBottom className={this.props.classes.emptyListMessage}>
                             No Reminder Notes Available
                         </Typography> : 
-                        <Slider {...settings}>
-                            {this.menuItems(this.props.reminderNotes)}
-                        </Slider>
+                        this.props.reminderNotes.length > 4 ?
+                            <Slider {...settings}>
+                                {this.menuItems(this.props.reminderNotes)}
+                            </Slider> :
+                            <Toolbar>{this.menuItems(this.props.reminderNotes)}</Toolbar>
+                        
                 }
 
                 <ReminderNoteItemMenu anchorEl={this.props.anchorEl} isMenuOpen={this.props.isMenuOpen} closeMenuActionCreator={this.props.closeMenuActionCreator} openDeleteModalActionCreator={this.props.openDeleteModalActionCreator} selectedReminderNoteId={this.props.selectedReminderNoteId} openEditModalActionCreator={this.props.openEditModalActionCreator} />
