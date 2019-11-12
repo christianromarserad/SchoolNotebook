@@ -143,7 +143,7 @@ class NotebookSettings extends Component {
                                     <Card className={this.props.classes.card}>
                                         <CardMedia
                                             className={this.props.classes.media}
-                                            image={this.props.imageFilePath || '/Images/lizard.jpg'}
+                                            image={this.props.imageFilePath || '/Images/defaultnotebook.jpg'}
                                         />
                                     </Card>
                                 </Grid>

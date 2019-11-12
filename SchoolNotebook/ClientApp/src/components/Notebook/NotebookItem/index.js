@@ -84,7 +84,7 @@ class NotebookItem extends Component {
                 <ButtonBase className={this.props.classes.cardActionArea} component={Link} to={"/notebook/content/" + this.props.id}>
                     <CardMedia
                         className={this.props.classes.media}
-                        image={this.props.image || '/Images/lizard.jpg'}
+                        image={this.props.image || '/Images/defaultnotebook.jpg'}
                         title={this.props.name}
                     />
                     <CardContent>

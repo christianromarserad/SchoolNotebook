@@ -56,7 +56,7 @@ class NotebookSearch extends Component {
                             variant="outlined"
                             value={this.props.searchKey}
                             margin="normal"
-                            label="Search"
+                            label="Search Notebooks"
                             fullWidth
                             name='searchKey'
                             onChange={this.props.updateTextFieldsActionCreator}
@@ -88,7 +88,7 @@ class NotebookSearch extends Component {
                                                             <Card className={this.props.classes.thumbnail}>
                                                                 <CardMedia
                                                                     className={this.props.classes.thumbnail}
-                                                                    image={item.image || '/Images/lizard.jpg'}
+                                                                    image={item.image || '/Images/defaultnotebook.jpg'}
                                                                 />
                                                             </Card>
                                                         </div>
