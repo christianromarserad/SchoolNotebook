@@ -99,7 +99,7 @@ class NotebookHomePage extends Component {
         return (
             notebooks.map((item) => {
                 return (
-                    <NotebookItem id={item.id} image={item.image} name={item.name} userName={item.userName} averageRate={item.averageRate} numberOfRates={item.numberOfRates} openMenuActionCreator={this.props.openMenuActionCreator} />
+                    <NotebookItem id={item.id} image={item.image} name={item.name} userName={item.userName} ownerUser={item.user} currentUser={this.props.email} averageRate={item.averageRate} numberOfRates={item.numberOfRates} openMenuActionCreator={this.props.openMenuActionCreator} />
                 );
             })
         );
@@ -166,7 +166,8 @@ function mapStateToProps(state) {
         name: state.homePage.notebook.notebookForm.name,
         public: state.homePage.notebook.notebookForm.public,
         imageFileName: state.homePage.notebook.notebookForm.imageFileName,
-        error: state.homePage.notebook.notebookForm.error
+        error: state.homePage.notebook.notebookForm.error,
+        email: state.user.email
     };
 }
 

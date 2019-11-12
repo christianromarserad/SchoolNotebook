@@ -108,9 +108,13 @@ class NotebookItem extends Component {
                                         </Typography>
                             </Grid>
                             <Grid item l={2} m={2} s={2} xs={2}>
-                                <IconButton onClick={this.openMenu.bind(this, this.props.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-                                    <MoreVertIcon style={{ backgroundColor: 'transparent' }} fontSize="small" aria-haspopup="true" />
-                                </IconButton>
+                                {
+                                    this.props.ownerUser == this.props.currentUser ?
+                                        <IconButton onClick={this.openMenu.bind(this, this.props.id)} aria-label="More" aria-controls="long-menu" aria-haspopup="true">
+                                            <MoreVertIcon style={{ backgroundColor: 'transparent' }} fontSize="small" aria-haspopup="true" />
+                                        </IconButton> :
+                                        null
+                                }
                             </Grid>
                         </Grid>
                     </CardContent>
