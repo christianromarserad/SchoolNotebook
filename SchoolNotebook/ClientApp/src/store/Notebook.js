@@ -222,6 +222,7 @@ export function updateNotebookActionCreator(id) {
             }
         }).then(function (res) {
             dispatch(closeEditModalActionCreator());
+            dispatch(closeMenuActionCreator());
             dispatch(getNotebooksActionCreator());
         }).catch(error => {
                 if (error.response.status == 400) {

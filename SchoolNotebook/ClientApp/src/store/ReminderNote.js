@@ -176,6 +176,7 @@ export function updateReminderNoteActionCreator(id) {
         let reminderNoteFormData = getState().homePage.reminderNote.reminderNoteForm;
         axios.put('api/ReminderNote/' + id, reminderNoteFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
+            dispatch(closeMenuActionCreator());
             dispatch(getReminderNotesActionCreator());
         })
         .catch(error => {

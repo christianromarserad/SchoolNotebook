@@ -184,6 +184,7 @@ export function updateBookmarkActionCreator(id) {
         let bookmarkFormData = getState().homePage.bookmark.bookmarkForm;
         axios.put('api/Bookmark/' + id, bookmarkFormData).then(function (res) {
             dispatch(closeEditModalActionCreator());
+            dispatch(closeMenuActionCreator());
             dispatch(getBookmarksActionCreator());
         })
         .catch(error => {
