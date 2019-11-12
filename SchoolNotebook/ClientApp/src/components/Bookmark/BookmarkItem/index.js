@@ -60,21 +60,45 @@ const styles = {
 
 class BookmarkItem extends Component {
 
+    constructor(props) {
+        super(props);
+        this.getUrlIcon = this.getUrlIcon.bind(this);
+
+        this.state = {
+            urlIcon: null
+        }
+    }
+
+    componentDidMount() {
+        this.getUrlIcon(this.props.url);
+    }
+
     openBookmark(url) {
         window.open(url, '_blank');
     }
 
     getUrlIcon(url) {
+        var image = new Image();
+
         var urlObject = new URL(url);
         var urlIcon = urlObject.protocol + '//' + urlObject.hostname + '/apple-touch-icon.png';
-        return urlIcon;
+
+        image.onload = function () {
+            this.setState({ urlIcon: urlIcon })
+        }.bind(this);
+
+        image.onerror = function () {
+            this.setState({ urlIcon: urlObject.protocol + '//' + urlObject.hostname + '/favicon.ico' });
+        }.bind(this);
+
+        image.src = urlIcon;
     }
 
     render() {
         return (
             <Toolbar className={this.props.classes.bookmark}>
                 <ButtonBase onClick={this.openBookmark.bind(this, this.props.url)}>
-                    <img src={this.getUrlIcon(this.props.url)} className={this.props.classes.bookmarkImage} />
+                    <img src={this.state.urlIcon} className={this.props.classes.bookmarkImage} />
                     <Typography variant="caption" display="inline" className={this.props.classes.bookmarkTitle}>
                         {this.props.name}
                     </Typography>
