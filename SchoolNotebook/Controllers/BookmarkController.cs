@@ -33,7 +33,9 @@ namespace SchoolNotebook.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Bookmark.ToList());
+            var currentUser = User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+
+            return Ok(_context.Bookmark.Where(b => b.User == currentUser).ToList());
         }
 
         /// <summary>
