@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import TitleIcon from '@material-ui/icons/Title';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 import { Editor } from 'draft-js';
 import { withStyles } from '@material-ui/styles';
 
@@ -32,6 +33,10 @@ const styles = {
     },
     toolbarButtons: {
         textAlign: 'center'
+    },
+    title: {
+        textAlign: 'center',
+        marginTop: '10px'
     }
 };
 
@@ -41,12 +46,21 @@ class NotebookEditor extends Component {
         return (
             <div className={this.props.classes.container}>
                 <Grid container alignItems="center" className={this.props.classes.toolbar}>
-                    <Grid item lg={6}>
-                        <TextField variant="outlined" margin="normal" label="Title" value={this.props.title} onChange={this.props.onChangeTitle} fullWidth name='title' />
-                    </Grid>
-                    <Grid item lg={6} className={this.props.classes.toolbarButtons}>
-                        {
-                            this.props.userCanEdit ?
+                    {
+                        this.props.userCanEdit ?
+                            <Grid item lg={6}>
+                                <TextField variant="outlined" margin="normal" label="Title" value={this.props.title} onChange={this.props.onChangeTitle} fullWidth name='title' />
+                            </Grid> :
+                            <Grid item lg={12}>
+                                <Typography variant="h5" gutterBottom className={this.props.classes.title}>
+                                    {this.props.title}
+                                </Typography>
+                            </Grid>
+                    }
+
+                    {
+                        this.props.userCanEdit ?
+                            <Grid item lg={6} className={this.props.classes.toolbarButtons}>
                                 <Grid item>
                                     <IconButton onMouseDown={this.props.toggleInlineStyle.bind(this, 'BOLD', this.props.editorState)}>
                                         {
@@ -65,7 +79,7 @@ class NotebookEditor extends Component {
                                     <IconButton onMouseDown={this.props.toggleInlineStyle.bind(this, 'UNDERLINE', this.props.editorState)}>
                                         {
                                             this.props.styles.underline ?
-                                                <FormatUnderlinedIcon color="primary"/> :
+                                                <FormatUnderlinedIcon color="primary" /> :
                                                 <FormatUnderlinedIcon />
                                         }
                                     </IconButton>
@@ -104,13 +118,13 @@ class NotebookEditor extends Component {
                                                 <TitleIcon />
                                         }
                                     </IconButton>
-                                </Grid> :
-                                null
-                        }
-                    </Grid>
+                                </Grid>
+                            </Grid> :
+                            null
+                    }
                 </Grid>
                 <Divider />
-        
+
                 {
                     this.props.userCanEdit ?
                         <Editor editorState={this.props.editorState} onChange={this.props.onChangeEditorState} /> :
