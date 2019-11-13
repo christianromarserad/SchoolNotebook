@@ -1,3 +1,5 @@
+// This file is used to configure all stores of the application
+
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';

@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the state of the notebook comment page
+
+import axios from 'axios';
 
 const getNotebookCommentsType = 'GET_NOTEBOOK_COMMENTS';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_COMMENT_TEXTFIELDS';

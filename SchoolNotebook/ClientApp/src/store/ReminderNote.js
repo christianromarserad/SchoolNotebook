@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the state of the reminder note item
+
+import axios from 'axios';
 
 const getReminderNotesType = 'GET_REMINDER_NOTES';
 const updateTextFieldsType = 'UPDATE_REMINDER_NOTES_TEXTFIELDS';

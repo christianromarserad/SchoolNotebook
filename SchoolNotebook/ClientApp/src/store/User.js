@@ -1,4 +1,6 @@
-﻿import setHttpAuthorizationToken from '../utils/setHttpAuthorizationToken';
+﻿// This is used to manage the state of the user session information
+
+import setHttpAuthorizationToken from '../utils/setHttpAuthorizationToken';
 import jwt_decode from 'jwt-decode';
 
 const loginType = 'LOGIN';

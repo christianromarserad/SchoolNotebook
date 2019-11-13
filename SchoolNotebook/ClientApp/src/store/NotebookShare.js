@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the state of the notebook share page
+
+import axios from 'axios';
 
 const getNotebookPermissionsType = 'GET_NOTEBOOK_PERMISSIONS';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_SHARE_TEXTFIELDS';

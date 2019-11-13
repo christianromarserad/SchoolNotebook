@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the permission state of user for a selected notebook
+
+import axios from 'axios';
 
 const getUserNotebookPermissionType = 'GET_USER_NOTEBOOK_PERMISSION';
 

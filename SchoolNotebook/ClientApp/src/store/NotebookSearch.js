@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the state of the notebook search page
+
+import axios from 'axios';
 
 const searchNotebooksType = 'SEARCH_NOTEBOOKS';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_SEARCH_TEXTFIELDS';

@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the state of notebook items
+
+import axios from 'axios';
 
 const getNotebooksType = 'GET_NOTEBOOKS';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_TEXTFIELDS';

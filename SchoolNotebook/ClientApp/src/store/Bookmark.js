@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the state for bookmark item
+
+import axios from 'axios';
 
 const getBookmarksType = 'GET_BOOKMARKS';
 const updateTextFieldsType = 'UPDATE_BOOKMARK_TEXTFIELDS';

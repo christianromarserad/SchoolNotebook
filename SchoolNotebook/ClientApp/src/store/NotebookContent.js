@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the state of the notebook content page
+
+import axios from 'axios';
 import {
     EditorState,
     RichUtils,

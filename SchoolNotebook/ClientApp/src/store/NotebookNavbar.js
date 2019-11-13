@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This is used to manage the layout state of main notebook page
+
+import axios from 'axios';
 import { updateNotebookSettingsType } from './NotebookSettings';
 
 const getNotebookNameType = 'GET_NOTEBOOK_NAME';
