@@ -1,6 +1,7 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to render the notes editor for the notebook
+
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -11,7 +12,6 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import CodeIcon from '@material-ui/icons/Code';
 import TextField from '@material-ui/core/TextField';
 import TitleIcon from '@material-ui/icons/Title';
-import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { Editor } from 'draft-js';

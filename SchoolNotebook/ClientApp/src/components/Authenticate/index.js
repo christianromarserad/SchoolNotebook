@@ -1,4 +1,6 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to check if the user is already authenticated, before it access the application
+
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router'
 

@@ -1,4 +1,6 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to render the settings section of the notebook main page
+
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';

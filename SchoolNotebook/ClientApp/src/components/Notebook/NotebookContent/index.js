@@ -1,4 +1,6 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to render the notes content of the notebook
+
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -12,10 +14,8 @@ import NotebookEditor from '../NotebookEditor';
 import NotebookPageDeleteDialog from '../NotebookPageDeleteDialog';
 import AddIcon from '@material-ui/icons/Add';
 import Snackbar from '@material-ui/core/Snackbar';
-import Paper from '@material-ui/core/Paper';
 import { RichUtils } from 'draft-js';
 import { withStyles } from '@material-ui/styles';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {

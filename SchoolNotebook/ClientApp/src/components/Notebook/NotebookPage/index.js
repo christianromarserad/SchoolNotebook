@@ -1,4 +1,6 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to render the main layout of the notebook main page
+
+import React, { Component } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
@@ -16,7 +18,6 @@ import NotebookContent from '../NotebookContent';
 import NotebookComments from '../NotebookComments';
 import NotebookShare from '../NotebookShare';
 import NotebookSettings from '../NotebookSettings';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/styles';
 import { Route } from 'react-router';

@@ -1,4 +1,6 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to display the confirmation dialog that is used to delete a reminder note
+
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';

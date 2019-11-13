@@ -1,51 +1,22 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to render the notebook section of the homepage
+
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Toolbar from '@material-ui/core/Toolbar';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import Switch from '@material-ui/core/Switch';
-import Ratings from 'react-ratings-declarative';
 import NotebookItem from '../NotebookItem';
 import NotebookCreateDialog from '../NotebookCreateDialog';
 import NotebookEditDialog from '../NotebookEditDialog';
 import NotebookDeleteDialog from '../NotebookDeleteDialog';
 import NotebookItemMenu from '../NotebookItemMenu';
-
-import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
-//import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import ItemsCarousel from 'react-items-carousel';
-import range from 'lodash/range';
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import { withStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';

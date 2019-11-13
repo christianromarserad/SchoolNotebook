@@ -1,9 +1,10 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to render the home page
+
+import React, { Component } from 'react';
 import BookmarkHomePage from '../Bookmark/BookmarkHomePage';
 import ReminderNoteHomePage from '../ReminderNote/ReminderNoteHomePage';
 import NotebookHomePage from '../Notebook/NotebookHomePage';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/styles';
 
 const styles = {

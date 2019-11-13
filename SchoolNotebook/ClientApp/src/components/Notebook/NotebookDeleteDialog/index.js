@@ -1,12 +1,11 @@
-﻿import React, { Component } from 'react';
+﻿// This component is used to display the confirmation dialog that is used to delete a notebook
+
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { withStyles } from '@material-ui/styles';
 
 

@@ -1,4 +1,6 @@
-﻿import axios from 'axios';
+﻿// This file is used to remove or set the jwt token
+
+import axios from 'axios';
 
 function setHttpAuthorizationToken(token) {
     if (token) {

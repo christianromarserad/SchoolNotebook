@@ -1,3 +1,5 @@
+// This is the root component of the application
+
 import React from 'react';
 import { Route } from 'react-router';
 import Layout from './components/Layout';
