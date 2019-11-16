@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loginActionCreator } from '../../store/User';
@@ -33,33 +35,73 @@ class LoginPage extends Component {
 
     constructor(props) {
         super(props);
-        this.googleResponse = this.googleResponse.bind(this);
+        this.googleSuccessResponse = this.googleSuccessResponse.bind(this);
+        this.googleFailureResponse = this.googleFailureResponse.bind(this);
+        this.closeSnackBar = this.closeSnackBar.bind(this);
+
+        this.state = {
+            isLoading: false,
+            isSnackbarOpen: false
+        }
     }
 
-    googleResponse = (response) => {
+    closeSnackBar = () => {
+        this.setState({ isLoading: false, isSnackbarOpen: false })
+    }
+
+    googleSuccessResponse = (response) => {
         let props = this.props;
+        this.setState({ isLoading: true, isSnackbarOpen: false })
         axios.post(config.GOOGLE_AUTH_CALLBACK_URL, { tokenId: response.tokenId }).then(function (res) {
             props.login(res.data.token);
-        })
+        }).catch(error => {
+            this.setState({ isLoading: false, isSnackbarOpen: true})
+        });
+    };
+
+    googleFailureResponse = (response) => {
+        this.setState({ isLoading: false, isSnackbarOpen: true })
     };
 
     render() {
         return (
             <div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.isSnackbarOpen}
+                    onClose={this.closeSnackbar}
+                    autoHideDuration={2000}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">Notebook Saved</span>}
+                />
+
                 <Typography variant="h2" gutterBottom className={this.props.classes.title}>
                     School Notebook
                 </Typography>
                 <Paper className={this.props.classes.card}>
                     {this.props.isAuthenticated ? <Redirect to='/' /> : null}
                     <Typography variant="h5" gutterBottom className={this.props.classes.cardTitle}>
-                        Please Login
+                        {
+                            this.state.isLoading ?
+                                <span>Logging in</span> :
+                                <span>Please Login</span>
+                        }
                     </Typography>
-                    <GoogleLogin
-                        clientId={config.GOOGLE_CLIENT_ID}
-                        buttonText="Google Login"
-                        onSuccess={this.googleResponse}
-                        onFailure={this.googleResponse}
-                    />
+                    {
+                        this.state.isLoading ?
+                            <CircularProgress /> :
+                            <GoogleLogin
+                                clientId={config.GOOGLE_CLIENT_ID}
+                                buttonText="Google Login"
+                                onSuccess={this.googleSuccessResponse}
+                                onFailure={this.googleFailureResponse}
+                            />
+                    }
                 </Paper>
             </div>
         );
