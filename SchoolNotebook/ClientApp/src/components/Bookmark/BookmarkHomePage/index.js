@@ -63,7 +63,7 @@ class BookmarkHomePage extends Component {
         return (
             bookmarks.map((item) => {
                 return (
-                    <BookmarkItem name={item.name} url={item.url} id={item.id} openMenuActionCreator={this.props.openMenuActionCreator} />
+                    <BookmarkItem key={item.id + item.url + item.name} name={item.name} url={item.url} id={item.id} openMenuActionCreator={this.props.openMenuActionCreator} />
                 )
             })
         );
