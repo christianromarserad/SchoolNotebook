@@ -97,7 +97,7 @@ class LoginPage extends Component {
                             <CircularProgress /> :
                             <GoogleLogin
                                 clientId={config.GOOGLE_CLIENT_ID}
-                                buttonText="Google Login"
+                                buttonText="Login with Google"
                                 onSuccess={this.googleSuccessResponse}
                                 onFailure={this.googleFailureResponse}
                             />
