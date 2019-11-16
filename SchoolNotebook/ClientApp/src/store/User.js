@@ -14,7 +14,7 @@ const initialState = {
 };
 
 export function loginActionCreator(token) {
-    localStorage.setItem('jwtToken', token);
+    sessionStorage.setItem('jwtToken', token);
     setHttpAuthorizationToken(token);
     let jwtDecoded = jwt_decode(token);
 
@@ -30,7 +30,7 @@ export function loginActionCreator(token) {
 }
 
 export function logoutActionCreator() {
-    localStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('jwtToken');
     setHttpAuthorizationToken(false);
 
     return {

@@ -35,8 +35,8 @@ axios.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
-if (localStorage.jwtToken) {
-    store.dispatch(loginActionCreator(localStorage.jwtToken));
+if (sessionStorage.jwtToken) {
+    store.dispatch(loginActionCreator(sessionStorage.jwtToken));
 }
 
 ReactDOM.render(
