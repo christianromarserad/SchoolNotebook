@@ -72,12 +72,12 @@ class LoginPage extends Component {
                         horizontal: 'left',
                     }}
                     open={this.state.isSnackbarOpen}
-                    onClose={this.closeSnackbar}
+                    onClose={this.closeSnackBar}
                     autoHideDuration={2000}
                     ContentProps={{
                         'aria-describedby': 'message-id',
                     }}
-                    message={<span id="message-id">Notebook Saved</span>}
+                    message={<span id="message-id">Login Failed</span>}
                 />
 
                 <Typography variant="h2" gutterBottom className={this.props.classes.title}>
