@@ -17,7 +17,8 @@ import config from '../../config.json';
 const styles = {
     title: {
         textAlign: 'center',
-        margin: '40px 0px 100px 0px'
+        margin: '40px 0px 100px 0px',
+        fontFamily: 'Brush Script MT'
     },
     card: {
         height: '300px',
@@ -80,7 +81,7 @@ class LoginPage extends Component {
                     message={<span id="message-id">Login Failed</span>}
                 />
 
-                <Typography variant="h2" gutterBottom className={this.props.classes.title}>
+                <Typography variant="h1" gutterBottom className={this.props.classes.title}>
                     School Notebook
                 </Typography>
                 <Paper className={this.props.classes.card}>
