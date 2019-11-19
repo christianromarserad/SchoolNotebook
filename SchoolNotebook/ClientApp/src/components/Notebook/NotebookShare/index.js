@@ -121,8 +121,8 @@ class NotebookShare extends Component {
                     <DialogContent>
                         {
                             this.props.error == null ?
-                                <TextField variant="outlined" margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' /> :
-                                <TextField error helperText={this.props.error} variant="outlined" margin="normal" label="User" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' />
+                                <TextField variant="outlined" margin="normal" label="Email" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' /> :
+                                <TextField error helperText={this.props.error} variant="outlined" margin="normal" label="Email" value={this.props.user} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='user' />
                         }
                         <FormControlLabel control={<Switch color="primary" checked={this.props.canEdit} onChange={this.props.updateSwitchFieldsActionCreator.bind(this, 'canEdit')} />} label="Can Edit" />
                     </DialogContent>
