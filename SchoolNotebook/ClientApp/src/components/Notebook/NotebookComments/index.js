@@ -53,7 +53,9 @@ class NotebookComment extends Component {
                                     <Avatar src={this.props.userPicture} />
                                 }
                                 title={
-                                    <TextField variant="outlined" margin="normal" label="Comment" value={this.props.comment} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='comment' multiline />
+                                    this.props.error.Comment == null ?
+                                        <TextField variant="outlined" margin="normal" label="Comment" value={this.props.comment} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='comment' multiline /> :
+                                        <TextField error helperText={this.props.error.Comment[0]} variant="outlined" margin="normal" label="Comment" value={this.props.comment} onChange={this.props.updateTextFieldsActionCreator} fullWidth name='comment' multiline />
                                 }
                                 subheader={
                                     <Button style={{ margin: '5px' }} variant="contained" color="primary" onClick={this.props.createNotebookCommentActionCreator.bind(this, this.props.match.params.id)}>Comment</Button>
@@ -96,6 +98,7 @@ function mapStateToProps(state) {
     return {
         comment: state.notebookPage.notebookComment.comment,
         notebookComments: state.notebookPage.notebookComment.notebookComments,
+        error: state.notebookPage.notebookComment.error,
         userPicture: state.user.picture
     };
 }

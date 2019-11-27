@@ -3,12 +3,17 @@
 import axios from 'axios';
 
 const getNotebookCommentsType = 'GET_NOTEBOOK_COMMENTS';
+const createNotebookCommentType = 'CREATE_NOTEBOOK_COMMENT';
 const updateTextFieldsType = 'UPDATE_NOTEBOOK_COMMENT_TEXTFIELDS';
+const errorFormType = 'ERROR_FORM_COMMENT';
 
 
 const initialState = {
     notebookComments: [],
-    comment: ''
+    comment: '',
+    error: {
+        Comment: null
+    }
 };
 
 export function updateTextFieldsActionCreator(event) {
@@ -39,7 +44,25 @@ export function createNotebookCommentActionCreator(notebookId) {
             comment: state.notebookPage.notebookComment.comment
         };
         axios.post('api/NotebookComment', notebookCommentFormData).then(function (res) {
+            dispatch({
+                type: createNotebookCommentType,
+                payload: {
+                    comment: '',
+                    error: {
+                        Comment: null
+                    }
+                }
+            });
             dispatch(getNotebookCommentsActionCreator(notebookId));
+        }).catch(error => {
+            if (error.response.status == 400) {
+                dispatch({
+                    type: errorFormType,
+                    payload: {
+                        ...error.response.data.errors
+                    }
+                });
+            }
         });
     }
 }
@@ -51,10 +74,25 @@ export const reducer = (state = initialState, action) => {
             ...action.payload
         }
     }
+    else if (action.type === createNotebookCommentType) {
+        return {
+            ...state,
+            ...action.payload
+        }
+    }
     else if (action.type === updateTextFieldsType) {
         return {
             ...state,
             ...action.payload
+        }
+    }
+    else if (action.type === errorFormType) {
+        return {
+            ...state,
+            error: {
+                ...state.error,
+                ...action.payload
+            }
         }
     }
 
