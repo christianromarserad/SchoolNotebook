@@ -74,6 +74,8 @@ class NotebookContent extends Component {
         this.saveNotebookPage = this.saveNotebookPage.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.openDeleteDialog = this.openDeleteDialog.bind(this);
+        this.getNotebookPage = this.getNotebookPage.bind(this);
+        this.createNotebookPage = this.createNotebookPage.bind(this);
 
         this.state = {
             timeout: null,
@@ -93,6 +95,22 @@ class NotebookContent extends Component {
         else {
             this.props.getDefaultNotebookPageActionCreator(this.props.match.params.id);
         }
+    }
+
+    getNotebookPage(notebookId, pageNumber) {
+        if (this.props.notebookPage.pageNumber != null && this.props.userCanEdit) {
+            this.saveNotebookPage();
+        }
+
+        this.props.getNotebookPageActionCreator(notebookId, pageNumber);
+    }
+
+    createNotebookPage() {
+        if (this.props.notebookPage.pageNumber != null && this.props.userCanEdit) {
+            this.saveNotebookPage();
+        }
+
+        this.props.createNotebookPageActionCreator(this.props.match.params.id);
     }
 
     openDeleteDialog(notebookId, pageNumber, event) {
@@ -156,7 +174,7 @@ class NotebookContent extends Component {
                             <Grid item lg={12}>
                                 {
                                     this.props.userCanEdit ?
-                                        <Button style={{ margin: '5px' }} color="primary" onClick={this.props.createNotebookPageActionCreator.bind(this, this.props.match.params.id)}>
+                                        <Button style={{ margin: '5px' }} color="primary" onClick={this.createNotebookPage}>
                                             Add Page
                                             <AddIcon className={this.props.classes.smallMarginLeft} />
                                         </Button> :
@@ -174,7 +192,7 @@ class NotebookContent extends Component {
                                                 {
                                                     this.props.notebookPage.pageNumber == item.pageNumber ?
                                                         <Card style={{ margin: '5px' }} className={this.props.classes.activePage}>
-                                                            <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
+                                                            <CardActionArea onClick={this.getNotebookPage.bind(this, item.notebookId, item.pageNumber)}>
                                                                 <Toolbar>
                                                                     <Typography style={{ flexGrow: 1 }}>
                                                                         {item.title}
@@ -190,7 +208,7 @@ class NotebookContent extends Component {
                                                             </CardActionArea>
                                                         </Card> :
                                                         <Card style={{ margin: '5px' }}>
-                                                            <CardActionArea onClick={this.props.getNotebookPageActionCreator.bind(this, item.notebookId, item.pageNumber)}>
+                                                            <CardActionArea onClick={this.getNotebookPage.bind(this, item.notebookId, item.pageNumber)}>
                                                                 <Toolbar>
                                                                     <Typography style={{ flexGrow: 1 }}>
                                                                         {item.title}
